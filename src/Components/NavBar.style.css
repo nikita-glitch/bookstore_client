@@ -1,0 +1,49 @@
+@media only screen and (min-width: 835px) {
+  .Navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 80px;
+  }
+  
+  #loginButton {
+    background-color: #344966;
+    border-radius: 16px;
+    width: 230px;
+    height: 44px;
+    margin-left: 98px;
+  }
+  
+  .search{
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  #catalogButton{
+    width: 66px;
+    height: 24px;
+    background-color: #fff;
+    color: #000;
+    margin: 0 0 0 128px;
+  }
+  #searchIcon{
+    padding: 20px;
+    color: #B9BAC3;
+    background-color: #F0F4EF;
+  }
+  #searchInput{
+    height: 64px;
+    background-color: #F0F4EF;
+    color: #B9BAC3;
+    padding: 0 509px 0 16px;
+  }
+}
+@media only screen and (min-width: 321px) and (max-width: 834px) {
+
+  
+}
+@media only screen and (max-width: 320px) {
+
+  
+}
