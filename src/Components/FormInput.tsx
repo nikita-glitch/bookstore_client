@@ -3,13 +3,14 @@ import hidePass from "../Logos/Hide.svg";
 import viewPass from "../Logos/View.svg";
 import Mail from "../Logos/Mail.svg";
 import styled from "styled-components";
-import { InputLabel } from "@mui/material";
+import { Input, InputLabel, TextField } from "@mui/material";
 
 const FormInput = (props: {
   labelText: string;
   helperText: string;
   inputStyle: string;
   inputName: string;
+  disabled: true | false;
 }) => {
   const [hiddenPass, setHiddenPass] = React.useState<boolean>(true);
 
@@ -42,12 +43,15 @@ const FormInput = (props: {
         alt=""
         onClick={handlePassHide}
       ></CustomImg>
-      <CustomTextField
+      <CustomInputField
         placeholder={props.labelText}
         type={setType}
         value={input}
         onChange={handleChange}
         name={props.inputName}
+        disabled={props.disabled}
+        disableUnderline={true}
+        
       />
       
     </CustomDiv>
@@ -55,7 +59,7 @@ const FormInput = (props: {
     </>
   );
 };
-const CustomTextField = styled.input`
+const CustomInputField = styled(Input)`
   width: 365px;
   height: 66px;
   border: none;
