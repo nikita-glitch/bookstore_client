@@ -1,18 +1,15 @@
 import * as React from "react";
 import userPhoto from "../Logos/User photo.png";
 import photoLogo from "../Logos/button_photo.svg";
-import {
-  Box,
-  Link,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Link, TextField, Typography } from "@mui/material";
 import FormButton from "../Components/FormButton";
 import styled from "styled-components";
 import { useFormik } from "formik";
-import {passwordChangeSchema, nameChangeSchema} from "../validationSchemas/profileChangeSchema";
+import {
+  passwordChangeSchema,
+  nameChangeSchema,
+} from "../validationSchemas/profileChangeSchema";
 import { signUp } from "../API/authAPI";
-
 
 const ProfilePage = () => {
   const [changePass, setChangePass] = React.useState<boolean>(false);
@@ -58,20 +55,13 @@ const ProfilePage = () => {
       newPassword: "",
       passwordToCompare: "",
     },
-    //validationSchema: passwordChangeSchema,
-    onSubmit: async(values, { setSubmitting }) => {
-      const isEqual = values.newPassword.localeCompare(
-        values.passwordToCompare
-      );
-      if (isEqual === 0) {
-        await signUp(JSON.stringify(values))
-        //alert(JSON.stringify(values));
-        setSubmitting(false);
-      } else {
-        alert("Passwords must be equal");
-      }
+    validationSchema: passwordChangeSchema,
+    onSubmit: async (values, { setSubmitting }) => {
+      //await signUp(JSON.stringify(values));
+      setSubmitting(false);
     },
   });
+  console.log("passwordChange", passwordChange);
   return (
     <CustomProfileDiv>
       <div>
@@ -104,7 +94,6 @@ const ProfilePage = () => {
               disabled={true}
             />
           </CustomInputDiv>
-          
         </Box>
         <CustomTextDiv>
           <Typography>Password</Typography>
@@ -164,7 +153,9 @@ const ProfilePage = () => {
                 </CustomInputDiv>
               </>
             )}
-            {(changeName || changePass) && <FormButton buttonText="Confirm" buttonType="submit" />}
+            {(changeName || changePass) && (
+              <FormButton buttonText="Confirm" buttonType="submit" />
+            )}
           </Box>
         </CustomInputDiv>
       </div>

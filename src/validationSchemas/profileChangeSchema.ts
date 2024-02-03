@@ -24,6 +24,7 @@ export const passwordChangeSchema: yup.ObjectSchema<PasswordChangeInterface> = y
   passwordToCompare: yup
     .string()
     .required("Password is required")
-    .min(5, "Password must be at least 5 characters long")
-    .max(12, "Password shouldn`t be more than 12 characters long"),
+    .test('password-match', 'Passwords do not match', function() {
+      return this.parent.newPassword === this.parent.passwordToCompare;
+    })
 });

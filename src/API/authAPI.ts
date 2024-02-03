@@ -2,9 +2,7 @@ import * as axios from 'axios'
 import { publicRoute } from '.'
 
 export const signUp = async (values: string) => {
-  try {
-    console.log(values);
-    
+  try {    
     const response = await publicRoute.post('/auth/sign-up', values)
     return response;
   } catch (error) {
@@ -14,11 +12,12 @@ export const signUp = async (values: string) => {
 
 export const signIn = async (email: string, password: string) => {
   try {
-    const response = await publicRoute.post('/auth/sign-in', {
+    const data = await publicRoute.post('/auth/sign-in', {
       email: email,
       password: password,
     })
-    return response;
+    // const token = data.()
+    // localStorage.setItem('token', )
   } catch (error) {
     alert(error);
   }

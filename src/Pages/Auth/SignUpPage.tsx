@@ -9,37 +9,25 @@ import { signUpSchema } from "../../validationSchemas/authSchemas";
 import { signUp } from "../../API/authAPI";
 
 const SignUpPage = () => {
+
   const signUpForm = useFormik({
     initialValues: {
       email: "",
       password: "",
       passwordToCompare: "",
     },
-    //validationSchema: signUpSchema,
+    validationSchema: signUpSchema,
     onSubmit: async (values, { setSubmitting }) => {
       const isEqual = values.password.localeCompare(values.passwordToCompare);
       if (isEqual === 0) {
-        console.log(JSON.stringify(values));
-
         await signUp(JSON.stringify(values));
-        // alert(JSON.stringify(values, null, 2));
         setSubmitting(false);
       } else {
         alert("Passwords must be equal");
       }
     },
   });
-  console.log(signUpForm.getFieldMeta("email"));
-
-  // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //     passwordToCompare: data.get('passwordToCompare')
-  //   });
-  // };
+ 
   return (
     <CustomPageDiv>
       <CustomImg src={logo} alt="" className="picture" />
@@ -56,6 +44,9 @@ const SignUpPage = () => {
                   inputStyle="email"
                   inputName="email"
                   disabled={false}
+                  changeHandler={signUpForm.handleChange}
+                  fieldValue={signUpForm.values.email}
+                  {...signUpForm.getFieldMeta("email")}
                 />
                 {signUpForm.touched.email && signUpForm.errors.email ? (
                   <CustomErrorMessage>
@@ -68,6 +59,8 @@ const SignUpPage = () => {
                   inputStyle="password"
                   inputName="password"
                   disabled={false}
+                  changeHandler={signUpForm.handleChange}
+                  fieldValue={signUpForm.values.password}
                   {...signUpForm.getFieldProps("password")}
                 />
                 {signUpForm.touched.password && signUpForm.errors.password ? (
@@ -81,6 +74,8 @@ const SignUpPage = () => {
                   inputStyle="password"
                   inputName="passwordToCompare"
                   disabled={false}
+                  changeHandler={signUpForm.handleChange}
+                  fieldValue={signUpForm.values.passwordToCompare}
                   {...signUpForm.getFieldProps("passwordToCompare")}
                 />
                 {signUpForm.touched.passwordToCompare &&

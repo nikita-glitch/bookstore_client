@@ -11,10 +11,10 @@ const FormInput = (props: {
   inputStyle: string;
   inputName: string;
   disabled: true | false;
+  changeHandler?: (e: React.ChangeEvent<any>) => void;
+  fieldValue?: string
 }) => {
   const [hiddenPass, setHiddenPass] = React.useState<boolean>(true);
-
-  const [input, setInput] = React.useState<string>("");
 
   const handlePassHide = () => {
     setHiddenPass(!hiddenPass);
@@ -23,11 +23,6 @@ const FormInput = (props: {
   const setType =
     props.inputStyle === "email" ? "text" : hiddenPass ? "password" : "text";
 
-  const handleChange = (
-    ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setInput(ev.target.value);
-  };
   return (
     <>
     <CustomDiv>
@@ -46,9 +41,9 @@ const FormInput = (props: {
       <CustomInputField
         placeholder={props.labelText}
         type={setType}
-        value={input}
-        onChange={handleChange}
-        name={props.inputName}
+        value={props.fieldValue}
+        onChange={props.changeHandler}
+        id={props.inputName}
         disabled={props.disabled}
         disableUnderline={true}
         
