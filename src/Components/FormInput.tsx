@@ -3,15 +3,16 @@ import hidePass from "../Logos/Hide.svg";
 import viewPass from "../Logos/View.svg";
 import Mail from "../Logos/Mail.svg";
 import styled from "styled-components";
-import { Input, InputLabel, TextField } from "@mui/material";
+import { Input, InputLabel } from "@mui/material";
 
 const FormInput = (props: {
   labelText: string;
   helperText: string;
   inputStyle: string;
   inputName: string;
-  disabled: true | false;
+  disabled?: true | false;
   changeHandler?: (e: React.ChangeEvent<any>) => void;
+  blurHandler?: (e: React.ChangeEvent<any>) => void;
   fieldValue?: string
 }) => {
   const [hiddenPass, setHiddenPass] = React.useState<boolean>(true);
@@ -43,6 +44,7 @@ const FormInput = (props: {
         type={setType}
         value={props.fieldValue}
         onChange={props.changeHandler}
+        onBlur={props.blurHandler}
         id={props.inputName}
         disabled={props.disabled}
         disableUnderline={true}

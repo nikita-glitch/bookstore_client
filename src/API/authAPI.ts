@@ -1,24 +1,30 @@
-import * as axios from 'axios'
-import { publicRoute } from '.'
+import { publicRoute } from ".";
 
-export const signUp = async (values: string) => {
-  try {    
-    const response = await publicRoute.post('/auth/sign-up', values)
-    return response;
-  } catch (error) {
-    alert(error);
-  }
-}
+export const signUp = async (values: {
+  email: string;
+  password: string;
+  passwordToCompare: string;
+}) => {
+  console.log(values);
 
-export const signIn = async (email: string, password: string) => {
-  try {
-    const data = await publicRoute.post('/auth/sign-in', {
-      email: email,
-      password: password,
+  publicRoute
+    .post("/auth/sign-up", values)
+    .then((response) => {
+      return response.data.message;
     })
-    // const token = data.()
-    // localStorage.setItem('token', )
-  } catch (error) {
-    alert(error);
-  }
-}
+    .catch((error) => {
+      alert(error.response.data.message);
+    });
+};
+
+export const signIn = async (values: { email: string; password: string }) => {
+  publicRoute
+    .post("/auth/sign-in", values)
+    .then((response) => {
+      const token = response.data;
+      localStorage.setItem("token", token);
+    })
+    .catch((error) => {
+      alert(error.response.data.message);
+    });
+};

@@ -1,11 +1,11 @@
-import React from "react";
 import logo from "../../Logos/person1.svg";
 import FormInput from "../../Components/FormInput";
-import { Typography, Grid, Paper, Box, Button } from "@mui/material";
-import { Formik, useFormik } from "formik";
+import { Typography, Grid, Paper, Box } from "@mui/material";
+import { useFormik } from "formik";
 import styled from "styled-components";
 import FormButton from "../../Components/FormButton";
 import { signInSchema } from "../../validationSchemas/authSchemas";
+import { signIn } from "../../API/authAPI";
 
 const SignInPage = () => {
   const signInForm = useFormik({
@@ -14,8 +14,9 @@ const SignInPage = () => {
       password: "",
     },
     validationSchema: signInSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values, { setSubmitting }) => {
+      await signIn(values);
+      setSubmitting(false);
     },
   });
   return (
@@ -32,23 +33,31 @@ const SignInPage = () => {
                   helperText="Enter your email"
                   inputStyle="email"
                   inputName="email"
-                  disabled={false}
+                  changeHandler={signInForm.handleChange}
+                  blurHandler={signInForm.handleBlur}
+                  fieldValue={signInForm.values.email}
                   {...signInForm.getFieldProps("email")}
                 />
                 {signInForm.touched.email && signInForm.errors.email ? (
-              <CustomErrorMessage>{signInForm.errors.email}</CustomErrorMessage>
-            ) : null}
+                  <CustomErrorMessage>
+                    {signInForm.errors.email}
+                  </CustomErrorMessage>
+                ) : null}
                 <FormInput
                   labelText="Password"
                   helperText="Enter your password"
                   inputStyle="password"
                   inputName="password"
-                  disabled={false}
+                  changeHandler={signInForm.handleChange}
+                  blurHandler={signInForm.handleBlur}
+                  fieldValue={signInForm.values.password}
                   {...signInForm.getFieldProps("password")}
                 />
                 {signInForm.touched.password && signInForm.errors.password ? (
-              <CustomErrorMessage>{signInForm.errors.password}</CustomErrorMessage>
-            ) : null}
+                  <CustomErrorMessage>
+                    {signInForm.errors.password}
+                  </CustomErrorMessage>
+                ) : null}
                 <FormButton buttonType="submit" buttonText="Sign In" />
               </Box>
             </Box>

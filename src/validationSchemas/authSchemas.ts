@@ -14,7 +14,6 @@ export const signInSchema = yup.object({
 });
 
 export const signUpSchema = yup.object({
-  name: yup.string().required("Name is required").trim(),
   email: yup
     .string()
     .required("Email is required")

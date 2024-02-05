@@ -9,7 +9,6 @@ import {
   passwordChangeSchema,
   nameChangeSchema,
 } from "../validationSchemas/profileChangeSchema";
-import { signUp } from "../API/authAPI";
 
 const ProfilePage = () => {
   const [changePass, setChangePass] = React.useState<boolean>(false);

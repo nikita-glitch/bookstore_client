@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "./rootReducer";
+import { thunk } from "redux-thunk";
+import userSlice from "./userSlice";
 
 
 export default configureStore({
   reducer: {
-    root: rootReducer
+    user: userSlice,
   }
+  
 })

@@ -58,10 +58,10 @@ const CustomText = styled(Typography)`
   line-height: 30px;
 `;
 
-const CustomMenu = styled.div`
-  background-color: #0d1821;
-  height: 341px;
-`;
+// const CustomMenu = styled.div`
+//   background-color: #0d1821;
+//   height: 341px;
+// `;
 const CustomMenuItem = styled(MenuItem)`
   color: #fff;
   font-size: 20px;
