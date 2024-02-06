@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { thunk } from "redux-thunk";
 import userSlice from "./userSlice";
+import { TypedUseSelectorHook, useSelector } from "react-redux";
+import { thunk } from "redux-thunk";
 
-
-export default configureStore({
+export const store = configureStore({
   reducer: {
-    user: userSlice,
-  }
-  
-})
+    users: userSlice,
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({thunk: true}),
+});
+
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;

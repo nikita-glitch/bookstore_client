@@ -5,14 +5,19 @@ import { Box, Link, TextField, Typography } from "@mui/material";
 import FormButton from "../Components/FormButton";
 import styled from "styled-components";
 import { useFormik } from "formik";
-import {
-  passwordChangeSchema,
-  nameChangeSchema,
-} from "../validationSchemas/profileChangeSchema";
+import { passwordChangeSchema, nameChangeSchema } from "../validationSchemas/profileChangeSchema";
+import { useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
+import { useDispatch } from "react-redux";
+import { changeUserName, getUser } from "../store/userSlice";
+import { changePassword } from "../API/userAPI";
 
 const ProfilePage = () => {
   const [changePass, setChangePass] = React.useState<boolean>(false);
   const [changeName, setChangeName] = React.useState<boolean>(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => state.users.user);
+  // React.useEffect(() => {dispatch(getUser())}, [dispatch])
 
   const handleAddAvatar = (
     ev: React.MouseEvent<HTMLImageElement, MouseEvent>
@@ -22,6 +27,7 @@ const ProfilePage = () => {
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     setChangePass(!changePass);
+    setChangeName(false);
     passwordChange.errors.oldPassword = "";
     passwordChange.touched.oldPassword = false;
     passwordChange.errors.newPassword = "";
@@ -34,17 +40,21 @@ const ProfilePage = () => {
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     setChangeName(!changeName);
-    nameChange.errors.name = "";
-    nameChange.touched.name = false;
+    setChangePass(false);
+    nameChange.errors.userName = "";
+    nameChange.touched.userName = false;
   };
 
   const nameChange = useFormik({
     initialValues: {
-      name: "",
+      userName: user.name,
     },
-    validationSchema: nameChangeSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values));
+    //validationSchema: nameChangeSchema,
+    onSubmit: async (values, { setSubmitting }) => {
+      console.log(values);
+      
+      await dispatch(changeUserName(values.userName));
+      setSubmitting(false);
     },
   });
 
@@ -54,13 +64,14 @@ const ProfilePage = () => {
       newPassword: "",
       passwordToCompare: "",
     },
-    validationSchema: passwordChangeSchema,
+    //validationSchema: passwordChangeSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      //await signUp(JSON.stringify(values));
+      console.log(values);
+      
+      await changePassword(values);
       setSubmitting(false);
     },
   });
-  console.log("passwordChange", passwordChange);
   return (
     <CustomProfileDiv>
       <div>
@@ -70,7 +81,7 @@ const ProfilePage = () => {
       <div>
         <CustomTextDiv>
           <Typography>Personal information</Typography>
-          <Link component="button" onClick={handleNameChange}>
+          <Link component="button" onClick={handleNameChange} color='#8D9F4F'>
             Change information
           </Link>
         </CustomTextDiv>
@@ -78,25 +89,27 @@ const ProfilePage = () => {
           <CustomInputDiv>
             <CustomTextField
               label="Your name"
-              placeholder=""
-              id="name"
-              {...nameChange.getFieldProps("name")}
+              placeholder={user.name}
               disabled={!changeName}
+              id="userName"
+              {...nameChange.getFieldProps("userName")}
             />
-            {nameChange.touched.name && nameChange.errors.name && changeName ? (
-              <CustomErrorMessage>{nameChange.errors.name}</CustomErrorMessage>
+            {nameChange.touched.userName &&
+            nameChange.errors.userName &&
+            changeName ? (
+              <CustomErrorMessage>
+                {nameChange.errors.userName}
+              </CustomErrorMessage>
             ) : null}
-            <CustomTextField
-              label="Your email"
-              placeholder=""
-              name="email"
-              disabled={true}
-            />
+            <CustomTextField  label='Your email' name="email" disabled={true} />
           </CustomInputDiv>
+          {(changeName) && (
+              <FormButton buttonText="Confirm" buttonType="submit" />
+            )}
         </Box>
         <CustomTextDiv>
           <Typography>Password</Typography>
-          <Link component="button" onClick={handlePasswordChange}>
+          <Link component="button" onClick={handlePasswordChange} color='#8D9F4F'>
             Change password
           </Link>
         </CustomTextDiv>
@@ -123,8 +136,8 @@ const ProfilePage = () => {
                 <CustomInputDiv>
                   <CustomTextField
                     label="New password"
-                    placeholder=""
                     id="newPassword"
+                    type="password"
                     helperText="Enter your password"
                     {...passwordChange.getFieldProps("newPassword")}
                   />
@@ -150,13 +163,12 @@ const ProfilePage = () => {
                     </CustomErrorMessage>
                   ) : null}
                 </CustomInputDiv>
+                <FormButton buttonText="Confirm" buttonType="submit" />
               </>
-            )}
-            {(changeName || changePass) && (
-              <FormButton buttonText="Confirm" buttonType="submit" />
             )}
           </Box>
         </CustomInputDiv>
+
       </div>
       <div></div>
     </CustomProfileDiv>

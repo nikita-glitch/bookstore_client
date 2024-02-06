@@ -6,8 +6,16 @@ import styled from "styled-components";
 import FormButton from "../../Components/FormButton";
 import { signInSchema } from "../../validationSchemas/authSchemas";
 import { signIn } from "../../API/authAPI";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getUser } from "../../store/userSlice";
+import { AppDispatch } from "../../store/store";
+import React from "react";
 
 const SignInPage = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>()
+  // React.useEffect(() => {dispatch(getUser())}, [dispatch])
   const signInForm = useFormik({
     initialValues: {
       email: "",
@@ -15,8 +23,10 @@ const SignInPage = () => {
     },
     validationSchema: signInSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      await signIn(values);
+      await signIn(values);      
+      // dispatch(getUser()).unwrap()
       setSubmitting(false);
+      navigate('/profile')
     },
   });
   return (

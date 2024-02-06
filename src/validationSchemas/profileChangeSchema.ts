@@ -6,8 +6,8 @@ interface PasswordChangeInterface {
   passwordToCompare: string
 }
 
-export const nameChangeSchema = yup.object({
-  name: yup.string().required("Name is required").trim(),
+export const nameChangeSchema = yup.object().shape({
+  userName: yup.string().required("Name is required"),
 });
 
 export const passwordChangeSchema: yup.ObjectSchema<PasswordChangeInterface> = yup.object({

@@ -15,7 +15,7 @@ const Custombutton = styled(Button)`
   background-color: #344966;
   border-radius: 16px;
   color: #fff;
-  
+  margin-bottom: 10px;
   &.MuiButton-root:hover {
     background-color: #344966;
   }
