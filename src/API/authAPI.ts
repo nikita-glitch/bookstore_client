@@ -12,7 +12,6 @@ export const signUp = async (values: {
   publicRoute
     .post("/auth/sign-up", values)
     .then((response) => {
-      //dispatch(getUser())
       return response.data.message;
       
     })
@@ -29,6 +28,9 @@ export const signIn = async (values: { email: string; password: string }) => {
       localStorage.setItem("token", token);
     })
     .catch((error) => {
-      alert(error.response.data.message);
+      // return error
+     throw new Error(error.response.data.message)
     });
 };
+
+export default { signUp, signIn }

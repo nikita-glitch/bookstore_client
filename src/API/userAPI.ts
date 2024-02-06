@@ -1,8 +1,10 @@
 import { privateRoute } from ".";
 
 const getUser = async () => {
-  const response = await privateRoute.get("/users/profile");
-  return response;
+  
+    const response = await privateRoute.get("/users/profile");
+    return response;
+  
 };
 
 export const changePassword = async (values: {
@@ -26,6 +28,13 @@ const changeName = async (name: string) => {
 const uploadAvatar = async (file: any) => {
   privateRoute
     .put("/users/profile")
+    .then((response) => alert(response.data.message))
+    .catch((error) => alert(error.response.data.message));
+};
+
+const getAvatar = async (file: any) => {
+  privateRoute
+    .get("/users/profile")
     .then((response) => alert(response.data.message))
     .catch((error) => alert(error.response.data.message));
 };

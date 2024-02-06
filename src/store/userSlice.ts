@@ -1,19 +1,28 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userAPI from "../API/userAPI";
-import { RootState } from "./store";
-import { UserInterface } from "../interfaces/interfaces";
+import authAPI from "../API/authAPI";
 
 export const getUser = createAsyncThunk("user/get", async () => {
   const response = await userAPI.getUser();
-  return response.data;
+  return response.data
 });
 
+// export const signIn = createAsyncThunk("user/sign-in", async (values: { email: string; password: string }, thunkAPI ) => {
+//    authAPI.signIn(values)
+//    .then()
+//    .catch((error) => {
+//     if (!error.response) {
+//       throw error
+//     }
+//     console.log(error);
+    
+//     return thunkAPI.rejectWithValue(error.response.data)
+//    })
+  
+// });
+
 export const changeUserName = createAsyncThunk("name/patch", async (name: string) => {
-  console.log(name);
-  
-  const response = await userAPI.changeName(name);
-  console.log(response);
-  
+  const response = await userAPI.changeName(name); 
   alert(response.data.message)
   return response.data.name;
 });

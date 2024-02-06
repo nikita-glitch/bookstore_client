@@ -23,10 +23,17 @@ const SignInPage = () => {
     },
     validationSchema: signInSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      await signIn(values);      
-      // dispatch(getUser()).unwrap()
-      setSubmitting(false);
-      navigate('/profile')
+      try {
+        await signIn(values);  
+        
+      } catch (error) {
+        alert(error)
+      }
+         setSubmitting(false);
+        dispatch(getUser())
+        navigate('/profile')
+      //
+     
     },
   });
   return (
