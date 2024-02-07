@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./userSlice";
-import { TypedUseSelectorHook, useSelector } from "react-redux";
-import { thunk } from "redux-thunk";
+import bookSlice from "./bookSlice";
 
 export const store = configureStore({
   reducer: {
     users: userSlice,
+    books: bookSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({thunk: true}),
 });

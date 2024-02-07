@@ -1,11 +1,24 @@
 import { MenuList, MenuItem, Typography } from "@mui/material";
 import logo from "../Logos/LogoWhite.svg";
 import map from "../Logos/map.png";
-
-import * as React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate()
+  const handleHomeItemClick = (ev: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    navigate('/')
+  }
+  const handleCatalogItemClick = (ev: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    navigate('/')
+  }
+  const handleProfileItemClick = (ev: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    navigate('/profile')
+  }
+  const handleCartItemClick = (ev: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    navigate('/cart')
+  }
+
   return (
     <CustomFooterDiv>
       <CustomContactsDiv>
@@ -16,10 +29,10 @@ const Footer = () => {
         </div>
       </CustomContactsDiv>
       <MenuList>
-        <CustomMenuItem>Home page</CustomMenuItem>
-        <CustomMenuItem>Catalog</CustomMenuItem>
-        <CustomMenuItem>My account</CustomMenuItem>
-        <CustomMenuItem>Cart</CustomMenuItem>
+        <CustomMenuItem onClick={handleHomeItemClick}>Home page</CustomMenuItem>
+        <CustomMenuItem onClick={handleCatalogItemClick}>Catalog</CustomMenuItem>
+        <CustomMenuItem onClick={handleProfileItemClick}>My account</CustomMenuItem>
+        <CustomMenuItem onClick={handleCartItemClick}>Cart</CustomMenuItem>
       </MenuList>
       <div>
         <CustomText>6391 Elgin St. Celina, Delaware 10299</CustomText>

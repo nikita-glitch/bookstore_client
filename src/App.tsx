@@ -7,30 +7,55 @@ import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import SignInPage from "./Pages/Auth/SignInPage";
 import ProfilePage from "./Pages/ProfilePage";
 import { useSelector } from "react-redux";
-import { RootState } from "./store/store";
+import { AppDispatch, RootState } from "./store/store";
+import { useDispatch } from "react-redux";
+import { getUser } from "./store/userSlice";
+import CatalogPage from "./Pages/CatalogPage";
 
 const App = () => {
+  const dispatch = useDispatch<AppDispatch>();
 
-  
-  const user = useSelector((state: RootState) => state.users.user) 
+  // useEffect(() => {
+  //   dispatch(getUser()).unwrap()
+  //   .then()
+  //   .catch(() => console.log('aaa')
+  //   )
+  // }, [dispatch])
+
+  const user = useSelector((state: RootState) => state.users.user);
   console.log(user);
-  
-  const ProtectedRoute = ({user, children}: {user: any, children?: JSX.Element}) => {
-    if (Object.keys(user).length === 0 || user?.id === '') {
-      return <Navigate to='/' replace/>
+
+  const ProtectedRoute = ({
+    user,
+    children,
+  }: {
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      role: string;
+      cart: string;
+      favorite: string;
+      avatarId: string;
+  };
+    children?: JSX.Element;
+  }) => {
+    if (Object.keys(user).length === 0 || user?.id === "") {
+      return <Navigate to="/" replace />;
     }
-    return children ? children : <Outlet/>
-  }
+    return children ? children : <Outlet />;
+  };
   return (
     <div className="App">
       <NavBar />
       <Routes>
-          <Route path="/sign-up" element={<SignUpPage />} />
-          <Route path="/sign-in" element={<SignInPage />} />
-          <Route element={<ProtectedRoute user={user}/>}>
-            <Route path="/profile" element={<ProfilePage/>}/>
-            <Route path="/cart" element={<ProfilePage/>}/>
-            <Route path="/favorite" element={<ProfilePage/>}/>
+        <Route path="/" element={<CatalogPage />} />
+        <Route path="/sign-up" element={<SignUpPage />} />
+        <Route path="/sign-in" element={<SignInPage />} />
+        <Route element={<ProtectedRoute user={user} />}>
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/cart" element={<ProfilePage />} />
+          <Route path="/favorite" element={<ProfilePage />} />
         </Route>
       </Routes>
       <Footer />

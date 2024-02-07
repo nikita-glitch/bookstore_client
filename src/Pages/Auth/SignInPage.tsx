@@ -8,13 +8,13 @@ import { signInSchema } from "../../validationSchemas/authSchemas";
 import { signIn } from "../../API/authAPI";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getUser } from "../../store/userSlice";
+import { getUser, getUserCart, getUserFavorite } from "../../store/userSlice";
 import { AppDispatch } from "../../store/store";
 import React from "react";
 
 const SignInPage = () => {
-  const navigate = useNavigate()
-  const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   // React.useEffect(() => {dispatch(getUser())}, [dispatch])
   const signInForm = useFormik({
     initialValues: {
@@ -23,17 +23,15 @@ const SignInPage = () => {
     },
     validationSchema: signInSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      try {
-        await signIn(values);  
-        
-      } catch (error) {
-        alert(error)
-      }
-         setSubmitting(false);
-        dispatch(getUser())
-        navigate('/profile')
-      //
-     
+      signIn(values)
+        .then(async () => {
+          await dispatch(getUser());
+          await dispatch(getUserCart());
+          await dispatch(getUserFavorite());
+          setSubmitting(false);
+          navigate("/profile");
+        })
+        .catch((error) => alert(error));
     },
   });
   return (

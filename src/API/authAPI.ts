@@ -7,7 +7,7 @@ export const signUp = async (values: {
   email: string;
   password: string;
   passwordToCompare: string;
-}) => (dispatch: Dispatch) => {
+}) => {
   
   publicRoute
     .post("/auth/sign-up", values)
@@ -17,6 +17,7 @@ export const signUp = async (values: {
     })
     .catch((error) => {
       alert(error.response.data.message);
+      
     });
 };
 
@@ -25,12 +26,12 @@ export const signIn = async (values: { email: string; password: string }) => {
     .post("/auth/sign-in", values)
     .then((response) => {     
       const token = response.data;
-      localStorage.setItem("token", token);
+      localStorage.setItem('token', token)
     })
     .catch((error) => {
-      // return error
-     throw new Error(error.response.data.message)
+      alert(error.response.data.message);
     });
+    
 };
 
 export default { signUp, signIn }

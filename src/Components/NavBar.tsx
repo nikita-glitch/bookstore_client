@@ -10,7 +10,7 @@ const NavBar = () => {
   return (
     <CustomDivNavbar>
       <img src={logo} alt="logo" />
-      <NavLink to="/catalog ">
+      <NavLink to="/ ">
         <CustomCatalogButton>Catalog</CustomCatalogButton>
       </NavLink>
       <SearchBar />

@@ -1,10 +1,8 @@
 import { privateRoute } from ".";
 
 const getUser = async () => {
-  
-    const response = await privateRoute.get("/users/profile");
-    return response;
-  
+  const response = privateRoute.get("/users/profile");  
+  return response;
 };
 
 export const changePassword = async (values: {
@@ -28,15 +26,45 @@ const changeName = async (name: string) => {
 const uploadAvatar = async (file: any) => {
   privateRoute
     .put("/users/profile")
-    .then((response) => alert(response.data.message))
+    .then((response) =>{return response.data})
     .catch((error) => alert(error.response.data.message));
 };
 
-const getAvatar = async (file: any) => {
+const getAvatar = async () => {
   privateRoute
     .get("/users/profile")
     .then((response) => alert(response.data.message))
     .catch((error) => alert(error.response.data.message));
 };
 
-export default { getUser, changeName, changePassword };
+const addToCart = async (bookId: string) => {
+
+}
+
+const addToFavorite = async (bookId: string) => {
+  
+}
+
+const getCart = async () => {
+  try {
+    const response = privateRoute.get('cart');
+    return response
+  } catch (error) {
+    
+  }
+}
+
+const addComment = async (bookId: string) => {
+
+}
+
+const getFavorite = async () => {
+  try {
+    const response = privateRoute.get('favorites')
+    return response
+  } catch (error) {
+    
+  }
+}
+
+export default { getUser, changeName, changePassword, uploadAvatar, getCart, getFavorite };

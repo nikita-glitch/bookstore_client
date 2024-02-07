@@ -9,7 +9,7 @@ import { passwordChangeSchema, nameChangeSchema } from "../validationSchemas/pro
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { useDispatch } from "react-redux";
-import { changeUserName, getUser } from "../store/userSlice";
+import { changeUserName, getUser, getUserCart, getUserFavorite } from "../store/userSlice";
 import { changePassword } from "../API/userAPI";
 
 const ProfilePage = () => {
@@ -54,6 +54,7 @@ const ProfilePage = () => {
       console.log(values);
       
       await dispatch(changeUserName(values.userName));
+      
       setSubmitting(false);
     },
   });
