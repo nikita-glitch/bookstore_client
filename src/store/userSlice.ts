@@ -1,25 +1,59 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userAPI from "../API/userAPI";
 import authAPI from "../API/authAPI";
+import { string } from "yup";
+import { AxiosError } from "axios";
 
 export const getUser = createAsyncThunk("user/get", async () => {
   const response = await userAPI.getUser();
   return response.data;
 });
 
-export const getUserCart = createAsyncThunk("cart/get", async () => {
-  const response = await userAPI.getCart();
-  if (response) {
-    return response.data;
-  }
-});
+// export const getUserCart = createAsyncThunk("cart/get", async (_, {dispatch, getState}) => {
+//   const response = await userAPI.getCart();
+//   if (response) {
+//     return response.data;
+//   }
+// });
 
-export const getUserFavorite = createAsyncThunk("favorite/get", async () => {
-  const response = await userAPI.getFavorite();
-  if (response) {
-    return response.data;
+// export const getUserFavorite = createAsyncThunk("favorite/get", async () => {
+//   const response = await userAPI.getFavorite();
+//   if (response) {
+//     return response.data;
+//   }
+// });
+
+export const signIn = createAsyncThunk(
+  "user/sign-in",
+  async (values: { email: string; password: string }) => {
+    try {
+      const response = await authAPI.signIn(values);
+      return response;
+    } catch (error) {
+      console.log("signinthunk>", error);
+    }
   }
-});
+);
+
+export const signUp = createAsyncThunk(
+  "user/sign-up",
+  async (values: {
+    email: string;
+    password: string;
+    passwordToCompare: string;
+  }) => {
+    try {
+      const response = await authAPI.signUp(values);
+      alert(response.data.message)
+      console.log(response);
+      console.log(response instanceof AxiosError);
+      
+      return response;
+    } catch (error) {
+      console.log("signupthunk>", error);
+    }
+  }
+);
 
 export const changeUserName = createAsyncThunk(
   "name/patch",
@@ -56,7 +90,6 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    
     builder.addCase(getUser.pending, (state) => {
       state.isLoading = true;
       state.error = "";
@@ -68,6 +101,40 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(getUser.rejected, (state, action) => {
+      if (action.payload) {
+        state.error = action.payload;
+      }
+      state.isLoading = false;
+    });
+
+    builder.addCase(signIn.pending, (state) => {
+      state.isLoading = true;
+      state.error = "";
+    });
+
+    builder.addCase(signIn.fulfilled, (state, action) => {
+      state.user = action.payload;
+      state.isLoading = false;
+    });
+
+    builder.addCase(signIn.rejected, (state, action) => {
+      if (action.payload) {
+        state.error = action.payload;
+      }
+      state.isLoading = false;
+    });
+
+    builder.addCase(signUp.pending, (state) => {
+      state.isLoading = true;
+      state.error = "";
+    });
+
+    builder.addCase(signUp.fulfilled, (state, action) => {
+      state.user = action.payload;
+      state.isLoading = false;
+    });
+
+    builder.addCase(signUp.rejected, (state, action) => {
       if (action.payload) {
         state.error = action.payload;
       }
@@ -105,16 +172,6 @@ export const userSlice = createSlice({
       if (action.payload) {
         state.error = action.payload;
       }
-      state.isLoading = false;
-    });
-
-    builder.addCase(getUserCart.fulfilled, (state, action) => {
-      state.user.cart = action.payload;
-      state.isLoading = false;
-    });
-
-    builder.addCase(getUserFavorite.fulfilled, (state, action) => {
-      state.user.favorite = action.payload;
       state.isLoading = false;
     });
   },

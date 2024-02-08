@@ -1,4 +1,4 @@
-import { privateRoute, publicRoute } from "./index";
+import { privateRoute } from "./index";
 
 const getBookAuthor = async (bookId: string) => {
 

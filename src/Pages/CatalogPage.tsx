@@ -3,21 +3,45 @@ import BookCard from "./Book/BookCard";
 import signInBanner from "../Logos/sing in banner.svg";
 import { useNavigate } from "react-router-dom";
 import bookBanner from "../Logos/banner.svg";
-import { Pagination, PaginationItem, Typography } from "@mui/material";
+import { Pagination, PaginationItem, Skeleton, Typography } from "@mui/material";
 import ArrowBackIcon from "../Logos/Back.svg";
 import ArrowForwardIcon from "../Logos/Forward.svg";
-import { useEffect } from "react";
 import Filters from "../Components/Filters";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
+import { useEffect } from "react";
+import { getBook } from "../store/bookSlice";
 
 const CatalogPage = () => {
-  useEffect(() => {}, []);
+  const dispatch = useDispatch<AppDispatch>()
+   useEffect(() => {
+    let ignore = false;
+    if (!ignore) {
+      dispatch(getBook())
+    }
+    //.then(response => {
+      
+    //})
+
+    return () =>{
+      ignore = true;
+    }
+
+  }, [])
+
+  const { book, isLoading, error } = useSelector((state: RootState) => state.books);
+  
+
   const navigate = useNavigate();
+
   const handleAuthBannerClick = () => {
     navigate("/sign-in");
   };
+  
   const handleBookBannerClick = () => {
     // scrollTo()
   };
+  
   return (
     <CustomCatalogDiv>
       <CustomIcon src={bookBanner} alt="" onClick={handleBookBannerClick} />
@@ -25,7 +49,21 @@ const CatalogPage = () => {
         <CustomText>Catalog</CustomText>
         <Filters />
       </CustomFilterDiv>
-      <BookCard></BookCard>
+      <CustomCardsDiv>
+        {isLoading ? 
+          <Skeleton>
+            
+          </Skeleton>
+          :
+          <>
+            {book.map((bookItem) =>
+              <BookCard key={bookItem.id} {...bookItem}/>
+            )}
+          </>
+        }
+      </CustomCardsDiv>
+      
+     
       <CustomPagination
         count={1}
         renderItem={(item) => (
@@ -93,4 +131,18 @@ const CustomPagination = styled(Pagination)`
   @media only screen and (max-width: 320px) {
   }
 `;
+
+const CustomCardsDiv = styled.div`
+  @media only screen and (min-width: 835px) {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 60px;
+    column-gap: 20px;
+  }
+  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  }
+  @media only screen and (max-width: 320px) {
+  }
+`
+
 export default CatalogPage;

@@ -54,7 +54,7 @@ const BookPage = () => {
         </>
       )}
       <RecomendationsDiv>
-        <BookCard/>
+        {/* <BookCard/> */}
       </RecomendationsDiv>
     </>
   );

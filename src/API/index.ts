@@ -1,10 +1,5 @@
 import axios from 'axios';
 
-const publicRoute = axios.create({
-  // baseURL: process.env.BASE_URL,
-  baseURL: 'http://localhost:5000/api/v1',
-})
-
 const privateRoute = axios.create({
   // baseURL: process.env.BASE_URL,
   baseURL: 'http://localhost:5000/api/v1'
@@ -18,4 +13,4 @@ privateRoute.interceptors.request.use((config) => {
   }
   return config;
 })
-export { publicRoute, privateRoute }
+export {  privateRoute }

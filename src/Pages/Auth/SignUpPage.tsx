@@ -5,9 +5,14 @@ import FormInput from "../../Components/FormInput";
 import FormButton from "../../Components/FormButton";
 import styled from "styled-components";
 import { signUpSchema } from "../../validationSchemas/authSchemas";
-import { signUp } from "../../API/authAPI";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import { signUp } from "../../store/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const signUpForm = useFormik({
     initialValues: {
       email: "",
@@ -16,8 +21,9 @@ const SignUpPage = () => {
     },
     validationSchema: signUpSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      await signUp(values);
+      await dispatch(signUp(values));
       setSubmitting(false);
+      navigate('/profile')
     },
   });
 

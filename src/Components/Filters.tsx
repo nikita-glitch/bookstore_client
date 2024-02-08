@@ -1,14 +1,22 @@
 import {
   FormControl,
   InputLabel,
-  Select,
   MenuItem,
   Box,
   Slider,
   Typography,
 } from "@mui/material";
-import * as React from "react";
+import React, { FC, useState } from "react";
 import styled from "styled-components";
+import { getAllGenres } from "../API/genreAPI";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store/store";
+
+export interface Genre {
+  id: string;
+  genre_name: string;
+}
 
 function valuetext(value: number) {
   return `${value}$`;
@@ -27,11 +35,39 @@ const marks = [
   },
 ];
 
-const Filters = () => {
-  const [value, setValue] = React.useState<number[]>([20, 37]);
+const Filters: FC = () => {
+  const [value, setValue] = useState<number[]>([15, 25]);
+  const [genres, setGenres] = useState<Genre[]>([]);
+  const [sortBy, setSortBy] = useState<string>("");
+  const [genreFilter, setGenreFilter] = useState<Genre[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
+  React.useEffect(() => {
+    let ignore = false;
+    setGenres([]);
+    getAllGenres()
+      .then((response) => {if (!ignore) {
+        setGenres(response?.data);
+      }})
+      .catch((error) => console.log(error));
+      return () => {
+        ignore = true;
+      }
+  }, []);
+
+  const handleSortByChange = (event: SelectChangeEvent<any>) => {
+    setSortBy(event.target.value);
+    // dispatch()
+  };
+
+  const handleGenreChange = (event: SelectChangeEvent<any>) => {
+    setGenreFilter(event.target.value);
+    // dispatch()
+  };
+
+  const handlePriceChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
+    // dispatch()
   };
   return (
     <FltersDiv>
@@ -41,13 +77,19 @@ const Filters = () => {
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            // value={age}
+            value={genreFilter}
             label="Genre"
-            // onChange={handleChange}
+            onChange={handleGenreChange}
           >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {genres &&
+              genres.map((genre: Genre) => (
+                <MenuItem key={genre.id} value={genre.genre_name}>
+                  {genre.genre_name}
+                </MenuItem>
+              ))}
           </CustomSelect>
         </FormControl>
       </CustomDiv>
@@ -61,7 +103,7 @@ const Filters = () => {
             <CustomSlider
               getAriaLabel={() => "Price"}
               value={value}
-              onChange={handleChange}
+              onChange={handlePriceChange}
               valueLabelDisplay="auto"
               getAriaValueText={valuetext}
             />
@@ -82,13 +124,14 @@ const Filters = () => {
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            // value={age}
-            label="Genre"
-            // onChange={handleChange}
+            value={sortBy}
+            label="Age"
+            onChange={handleSortByChange}
           >
+            <MenuItem value="price">Price</MenuItem>
             <MenuItem value="Name">Name</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
+            <MenuItem value="authorName">Author name</MenuItem>
+            <MenuItem value="Rating">Rating</MenuItem>
           </CustomSelect>
         </FormControl>
       </CustomDiv>

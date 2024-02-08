@@ -1,5 +1,4 @@
 import { Button } from "@mui/material";
-import "./NavBar.style.css";
 import logo from "../Logos/Group 1.svg";
 import SearchBar from "./SearchBar";
 import ActionPanel from "./ActionPanel";

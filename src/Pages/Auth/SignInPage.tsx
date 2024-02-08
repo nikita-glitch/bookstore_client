@@ -5,17 +5,14 @@ import { useFormik } from "formik";
 import styled from "styled-components";
 import FormButton from "../../Components/FormButton";
 import { signInSchema } from "../../validationSchemas/authSchemas";
-import { signIn } from "../../API/authAPI";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getUser, getUserCart, getUserFavorite } from "../../store/userSlice";
+import { signIn } from "../../store/userSlice";
 import { AppDispatch } from "../../store/store";
-import React from "react";
 
 const SignInPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  // React.useEffect(() => {dispatch(getUser())}, [dispatch])
   const signInForm = useFormik({
     initialValues: {
       email: "",
@@ -23,15 +20,9 @@ const SignInPage = () => {
     },
     validationSchema: signInSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      signIn(values)
-        .then(async () => {
-          await dispatch(getUser());
-          await dispatch(getUserCart());
-          await dispatch(getUserFavorite());
-          setSubmitting(false);
-          navigate("/profile");
-        })
-        .catch((error) => alert(error));
+      await dispatch(signIn(values));
+      setSubmitting(false);
+      navigate("/profile");
     },
   });
   return (

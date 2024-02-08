@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import NavBar from "./Components/NavBar";
 import Footer from "./Components/Footer";
 import SignUpPage from "./Pages/Auth/SignUpPage";
-import { Navigate, Outlet, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import SignInPage from "./Pages/Auth/SignInPage";
 import ProfilePage from "./Pages/ProfilePage";
 import { useSelector } from "react-redux";
@@ -11,54 +11,50 @@ import { AppDispatch, RootState } from "./store/store";
 import { useDispatch } from "react-redux";
 import { getUser } from "./store/userSlice";
 import CatalogPage from "./Pages/CatalogPage";
+import ProtectedRoute from "./ProtectedRoute";
+import { Skeleton } from "@mui/material";
 
 const App = () => {
+  const [init, setInit] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
-
-  // useEffect(() => {
-  //   dispatch(getUser()).unwrap()
-  //   .then()
-  //   .catch(() => console.log('aaa')
-  //   )
-  // }, [dispatch])
-
-  const user = useSelector((state: RootState) => state.users.user);
-  console.log(user);
-
-  const ProtectedRoute = ({
-    user,
-    children,
-  }: {
-    user: {
-      id: string;
-      name: string;
-      email: string;
-      role: string;
-      cart: string;
-      favorite: string;
-      avatarId: string;
-  };
-    children?: JSX.Element;
-  }) => {
-    if (Object.keys(user).length === 0 || user?.id === "") {
-      return <Navigate to="/" replace />;
+  const { user, isLoading, error } = useSelector(
+    (state: RootState) => state.users
+  );
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(getUser());
+      setInit(true);
+    } else {
+      setInit(true);
     }
-    return children ? children : <Outlet />;
-  };
+  }, []);
   return (
     <div className="App">
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<CatalogPage />} />
-        <Route path="/sign-up" element={<SignUpPage />} />
-        <Route path="/sign-in" element={<SignInPage />} />
-        <Route element={<ProtectedRoute user={user} />}>
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/cart" element={<ProfilePage />} />
-          <Route path="/favorite" element={<ProfilePage />} />
-        </Route>
-      </Routes>
-      <Footer />
+      {isLoading ? (
+        <Skeleton>
+          <NavBar />
+          <Footer />
+        </Skeleton>
+      ) : (
+        <>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<CatalogPage />} />
+            <Route path="/sign-up" element={<SignUpPage />} />
+            <Route path="/sign-in" element={<SignInPage />} />
+            {init && (
+              <Route element={<ProtectedRoute user={user} />}>
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/cart" element={<ProfilePage />} />
+                <Route path="/favorite" element={<ProfilePage />} />
+              </Route>
+            )}
+            {/* <Route path="*" element={<CatalogPage />} /> */}
+          </Routes>
+          <Footer />
+        </>
+      )}
     </div>
   );
 };

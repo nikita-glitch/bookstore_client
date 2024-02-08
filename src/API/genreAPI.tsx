@@ -1,9 +1,10 @@
-import { privateRoute, publicRoute } from "./index";
+import { privateRoute } from "./index";
 
-const getAllGenres = async () => {
-
-}
-
-const getBookGenre = async (bookId: string) => {
-  
+export const getAllGenres = async () => {
+  try {
+    const response = await privateRoute.get('books-genre')
+    return response
+  } catch (error) {
+    
+  }
 }
