@@ -1,7 +1,7 @@
 import { privateRoute } from ".";
 
 const getUser = async () => {
-  const response = privateRoute.get("/users/profile");  
+  const response = privateRoute.get("/users/profile");
   return response;
 };
 
@@ -23,48 +23,53 @@ const changeName = async (name: string) => {
   return response;
 };
 
-const uploadAvatar = async (file: any) => {
-  privateRoute
-    .put("/users/profile")
-    .then((response) =>{return response.data})
-    .catch((error) => alert(error.response.data.message));
+export const uploadAvatar = async (file: FormData) => {
+  try {
+    console.log(file);
+    
+    const response = await privateRoute.put("/users/profile", file);
+    alert(response.data.message);
+  } catch (error) {
+    console.log(file);
+    
+    console.log(error);
+    
+    return error
+  }
 };
 
 const getAvatar = async () => {
-  privateRoute
-    .get("/users/profile")
-    .then((response) => alert(response.data.message))
-    .catch((error) => alert(error.response.data.message));
+  try {
+    const response = privateRoute.get("/user/profile/avatar");
+    return response;
+  } catch (error) {}
 };
 
-const addToCart = async (bookId: string) => {
+const addToCart = async (bookId: string) => {};
 
-}
-
-const addToFavorite = async (bookId: string) => {
-  
-}
+const addToFavorite = async (bookId: string) => {};
 
 const getCart = async () => {
   try {
-    const response = privateRoute.get('cart');
-    return response
-  } catch (error) {
-    
-  }
-}
+    const response = privateRoute.get("cart");
+    return response;
+  } catch (error) {}
+};
 
-const addComment = async (bookId: string) => {
-
-}
+const addComment = async (bookId: string) => {};
 
 const getFavorite = async () => {
   try {
-    const response = privateRoute.get('favorites')
-    return response
-  } catch (error) {
-    
-  }
-}
+    const response = privateRoute.get("favorites");
+    return response;
+  } catch (error) {}
+};
 
-export default { getUser, changeName, changePassword, uploadAvatar, getCart, getFavorite };
+export default {
+  getUser,
+  changeName,
+  changePassword,
+  getAvatar,
+  getCart,
+  getFavorite,
+};

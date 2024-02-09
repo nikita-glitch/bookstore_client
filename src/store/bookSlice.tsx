@@ -13,7 +13,10 @@ const initialState = {
     description: "",
     price: 0,
     rating: 0,
-    authorId: "",
+    author: {
+      id: "", 
+      author_name: "",
+    },
     genreId: "",
     comments: "",
     photo: "",

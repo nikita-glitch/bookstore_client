@@ -13,30 +13,38 @@ import { getUser } from "./store/userSlice";
 import CatalogPage from "./Pages/CatalogPage";
 import ProtectedRoute from "./ProtectedRoute";
 import { Skeleton } from "@mui/material";
+import CartPage from "./Pages/CartPage";
+import FavoritePage from "./Pages/FavoritePage";
 
 const App = () => {
   const [init, setInit] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    let ignore = false;
+    if (!ignore) {
+      const token = localStorage.getItem("token");
+      if (token ) {
+        dispatch(getUser());
+      }
+      setInit(true)
+    }
+    return () => {
+      ignore = true;
+    };
+  }, [dispatch]);
+
   const { user, isLoading, error } = useSelector(
     (state: RootState) => state.users
   );
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      dispatch(getUser());
-      setInit(true);
-    } else {
-      setInit(true);
-    }
-  }, []);
+
   return (
     <div className="App">
-      {isLoading ? (
+      {/* {isLoading ? (
         <Skeleton>
           <NavBar />
           <Footer />
         </Skeleton>
-      ) : (
+      ) : ( */}
         <>
           <NavBar />
           <Routes>
@@ -44,17 +52,18 @@ const App = () => {
             <Route path="/sign-up" element={<SignUpPage />} />
             <Route path="/sign-in" element={<SignInPage />} />
             {init && (
+              
               <Route element={<ProtectedRoute user={user} />}>
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/cart" element={<ProfilePage />} />
-                <Route path="/favorite" element={<ProfilePage />} />
+                <Route path="/cart" element={<CartPage />} />
+                <Route path="/favorite" element={<FavoritePage />} />
               </Route>
             )}
             {/* <Route path="*" element={<CatalogPage />} /> */}
           </Routes>
           <Footer />
         </>
-      )}
+      {/* )} */}
     </div>
   );
 };

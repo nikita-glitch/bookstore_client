@@ -1,34 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userAPI from "../API/userAPI";
 import authAPI from "../API/authAPI";
-import { string } from "yup";
 import { AxiosError } from "axios";
 
 export const getUser = createAsyncThunk("user/get", async () => {
   const response = await userAPI.getUser();
   return response.data;
+  
 });
-
-// export const getUserCart = createAsyncThunk("cart/get", async (_, {dispatch, getState}) => {
-//   const response = await userAPI.getCart();
-//   if (response) {
-//     return response.data;
-//   }
-// });
-
-// export const getUserFavorite = createAsyncThunk("favorite/get", async () => {
-//   const response = await userAPI.getFavorite();
-//   if (response) {
-//     return response.data;
-//   }
-// });
 
 export const signIn = createAsyncThunk(
   "user/sign-in",
   async (values: { email: string; password: string }) => {
     try {
       const response = await authAPI.signIn(values);
-      return response;
+      return response;      
     } catch (error) {
       console.log("signinthunk>", error);
     }
@@ -64,10 +50,11 @@ export const changeUserName = createAsyncThunk(
   }
 );
 
-export const changeUserAvatar = createAsyncThunk(
-  "avatar/put",
-  async (file: any) => {
-    const response = await userAPI.uploadAvatar(file);
+export const getUserAvatar = createAsyncThunk(
+  "avatar/get",
+  async () => {
+    const response = await userAPI.getAvatar();
+    return response?.data
   }
 );
 
@@ -79,7 +66,7 @@ const initialState = {
     role: "",
     cart: "",
     favorite: "",
-    avatarId: "",
+    avatar: "",
   },
   isLoading: false,
   error: {},
@@ -158,17 +145,17 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
 
-    builder.addCase(changeUserAvatar.pending, (state) => {
+    builder.addCase(getUserAvatar.pending, (state) => {
       state.isLoading = true;
       state.error = "";
     });
 
-    builder.addCase(changeUserAvatar.fulfilled, (state, action) => {
-      // state.user.avatarId = action.payload;
+    builder.addCase(getUserAvatar.fulfilled, (state, action) => {
+      state.user.avatar = action.payload;
       state.isLoading = false;
     });
 
-    builder.addCase(changeUserAvatar.rejected, (state, action) => {
+    builder.addCase(getUserAvatar.rejected, (state, action) => {
       if (action.payload) {
         state.error = action.payload;
       }

@@ -11,7 +11,10 @@ export interface Book {
   description: string;
   price: number;
   rating: number;
-  authorId: string;
+  author: {
+    id: string, 
+    author_name: string,
+  };
   genreId: string;
   comments: string;
   photo: string;

@@ -128,6 +128,9 @@ const Filters: FC = () => {
             label="Age"
             onChange={handleSortByChange}
           >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
             <MenuItem value="price">Price</MenuItem>
             <MenuItem value="Name">Name</MenuItem>
             <MenuItem value="authorName">Author name</MenuItem>

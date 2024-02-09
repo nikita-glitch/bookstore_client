@@ -3,45 +3,51 @@ import BookCard from "./Book/BookCard";
 import signInBanner from "../Logos/sing in banner.svg";
 import { useNavigate } from "react-router-dom";
 import bookBanner from "../Logos/banner.svg";
-import { Pagination, PaginationItem, Skeleton, Typography } from "@mui/material";
+import {
+  Pagination,
+  PaginationItem,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 import ArrowBackIcon from "../Logos/Back.svg";
 import ArrowForwardIcon from "../Logos/Forward.svg";
 import Filters from "../Components/Filters";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { getBook } from "../store/bookSlice";
 
 const CatalogPage = () => {
-  const dispatch = useDispatch<AppDispatch>()
-   useEffect(() => {
+  const dispatch = useDispatch<AppDispatch>();
+  const catalog = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
     let ignore = false;
     if (!ignore) {
-      dispatch(getBook())
+      dispatch(getBook());
     }
-    //.then(response => {
-      
-    //})
-
-    return () =>{
+    return () => {
       ignore = true;
-    }
+    };
+  }, [dispatch]);
 
-  }, [])
-
-  const { book, isLoading, error } = useSelector((state: RootState) => state.books);
-  
+  const { book, isLoading, error } = useSelector(
+    (state: RootState) => state.books
+  );
 
   const navigate = useNavigate();
 
   const handleAuthBannerClick = () => {
     navigate("/sign-in");
   };
-  
+
   const handleBookBannerClick = () => {
-    // scrollTo()
+    catalog.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
   };
-  
+
   return (
     <CustomCatalogDiv>
       <CustomIcon src={bookBanner} alt="" onClick={handleBookBannerClick} />
@@ -49,21 +55,18 @@ const CatalogPage = () => {
         <CustomText>Catalog</CustomText>
         <Filters />
       </CustomFilterDiv>
-      <CustomCardsDiv>
-        {isLoading ? 
-          <Skeleton>
-            
-          </Skeleton>
-          :
+      <CustomCardsDiv ref={catalog}>
+        {isLoading ? (
+          <Skeleton></Skeleton>
+        ) : (
           <>
-            {book.map((bookItem) =>
-              <BookCard key={bookItem.id} {...bookItem}/>
-            )}
+            {book.map((bookItem) => (
+              <BookCard key={bookItem.id} {...bookItem} />
+            ))}
           </>
-        }
+        )}
       </CustomCardsDiv>
-      
-     
+
       <CustomPagination
         count={1}
         renderItem={(item) => (
@@ -143,6 +146,6 @@ const CustomCardsDiv = styled.div`
   }
   @media only screen and (max-width: 320px) {
   }
-`
+`;
 
 export default CatalogPage;

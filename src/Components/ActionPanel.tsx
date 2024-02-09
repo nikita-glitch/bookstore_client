@@ -12,7 +12,6 @@ const ActionPanel = () => {
   const [route, setRoute] = React.useState<string>("sign-in");
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.users.user);
-  //console.log("panel>", user.id);
 
   const handleLoginButtonClick = (
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -40,13 +39,13 @@ const ActionPanel = () => {
   };
   return (
     <>
-      {/* {user.id !== undefined && user.id !== ""  ? (
+      {user.id !== undefined && user.id !== ""  ? (
         <>
           <img src={cartLogo} alt="" onClick={handleCartClick} />
           <img src={favoriteLogo} alt="" onClick={handleFavoriteClick} />
           <img src={profileLogo} alt="" onClick={handleProfileClick} />
         </>
-      ) : ( */}
+      ) : (
         <>
           <NavLink to={route}>
             <CustomLoginButton
@@ -57,7 +56,7 @@ const ActionPanel = () => {
             </CustomLoginButton>
           </NavLink>
         </>
-      {/* )} */}
+       )} 
     </>
   );
 };

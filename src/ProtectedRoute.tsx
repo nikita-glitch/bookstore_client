@@ -11,13 +11,11 @@ const ProtectedRoute = ({
     role: string;
     cart: string;
     favorite: string;
-    avatarId: string;
+    avatar: string;
   };
   children?: JSX.Element;
 }) => {
-  console.log(user);
-  
-  if (user.id === "" && user.id === undefined) {
+  if (user.id === "" || user.id === undefined) {
     return <Navigate to="/" replace />;
   }
   return children ? children : <Outlet />;

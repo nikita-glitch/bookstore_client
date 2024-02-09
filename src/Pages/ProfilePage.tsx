@@ -1,27 +1,47 @@
 import * as React from "react";
 import userPhoto from "../Logos/User photo.png";
 import photoLogo from "../Logos/button_photo.svg";
-import { Box, Link, TextField, Typography } from "@mui/material";
+import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import FormButton from "../Components/FormButton";
 import styled from "styled-components";
 import { useFormik } from "formik";
-import { passwordChangeSchema, nameChangeSchema } from "../validationSchemas/profileChangeSchema";
+import {
+  passwordChangeSchema,
+  nameChangeSchema,
+} from "../validationSchemas/profileChangeSchema";
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { useDispatch } from "react-redux";
-import { changeUserName, getUser } from "../store/userSlice";
-import { changePassword } from "../API/userAPI";
+import { getUserAvatar, changeUserName, getUser } from "../store/userSlice";
+import { changePassword, uploadAvatar } from "../API/userAPI";
 
 const ProfilePage = () => {
   const [changePass, setChangePass] = React.useState<boolean>(false);
   const [changeName, setChangeName] = React.useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.users.user);
-  // React.useEffect(() => {dispatch(getUser())}, [dispatch])
 
-  const handleAddAvatar = (
-    ev: React.MouseEvent<HTMLImageElement, MouseEvent>
-  ) => {};
+  React.useEffect(() => {    
+    let ignore = false;
+    if (!ignore) {
+      //dispatch(changeUserAvatar('asd'));
+    }
+    return () => {
+      ignore = true;
+    };
+  }, [dispatch]);
+
+  const handleAddAvatar = async (ev: React.ChangeEvent<HTMLInputElement>) => {
+    if (!ev.target.files) {
+      return;
+    }
+    const file = new FormData();
+    const avatar = ev.target.files[0];
+    file.append("avatar", avatar);
+    console.log(avatar);
+    
+    //await uploadAvatar(file)    
+  };
 
   const handlePasswordChange = (
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -72,12 +92,15 @@ const ProfilePage = () => {
     <CustomProfileDiv>
       <div>
         <CustomAvatar src={userPhoto} alt="" />
-        <CustomLogo src={photoLogo} alt="" onClick={handleAddAvatar} />
+        <label>
+          <CustomLogo src={photoLogo} alt="" />
+          <VisuallyHiddenInput type="file" onChange={handleAddAvatar} />
+        </label>
       </div>
       <div>
         <CustomTextDiv>
           <Typography>Personal information</Typography>
-          <Link component="button" onClick={handleNameChange} color='#8D9F4F'>
+          <Link component="button" onClick={handleNameChange} color="#8D9F4F">
             Change information
           </Link>
         </CustomTextDiv>
@@ -97,15 +120,19 @@ const ProfilePage = () => {
                 {nameChange.errors.userName}
               </CustomErrorMessage>
             ) : null}
-            <CustomTextField  label='Your email' name="email" disabled={true} />
+            <CustomTextField label="Your email" name="email" disabled={true} />
           </CustomInputDiv>
-          {(changeName) && (
-              <FormButton buttonText="Confirm" buttonType="submit" />
-            )}
+          {changeName && (
+            <FormButton buttonText="Confirm" buttonType="submit" />
+          )}
         </Box>
         <CustomTextDiv>
           <Typography>Password</Typography>
-          <Link component="button" onClick={handlePasswordChange} color='#8D9F4F'>
+          <Link
+            component="button"
+            onClick={handlePasswordChange}
+            color="#8D9F4F"
+          >
             Change password
           </Link>
         </CustomTextDiv>
@@ -164,12 +191,15 @@ const ProfilePage = () => {
             )}
           </Box>
         </CustomInputDiv>
-
       </div>
       <div></div>
     </CustomProfileDiv>
   );
 };
+
+const VisuallyHiddenInput = styled.input`
+  visibility: hidden;
+`;
 
 const CustomProfileDiv = styled.div`
   display: flex;
