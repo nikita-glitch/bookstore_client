@@ -2,12 +2,16 @@ import { InputBase } from "@mui/material";
 import * as React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { settedSearchString } from '../store/bookSlice'
 
 const SearchBar = () => {
   const [input, setInput] = React.useState<string>("");
+  const dispatch = useDispatch();
   const handleSearchInput = (
     ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
+    dispatch(settedSearchString(ev.target.value))
     setInput(ev.target.value);
   };
 

@@ -1,15 +1,27 @@
+import { SortOptionsInterface } from "../interfaces/interfaces";
 import { privateRoute } from "./index";
 
-const getBooks = async () => {
- 
-   const response = await privateRoute.get('/books')
-   return response
+const getBooks = async (
+  paginationOffset: number,
+  searchString?: string,
+  sortOptions?: SortOptionsInterface
+) => {
+  const response = await privateRoute.get("/books", {
+    params: {
+      paginationOffset: paginationOffset,
+      searchString: searchString,
+      sortOptions: sortOptions,
+    },
+  });
+  return response;
+};
 
-}
-
-const getBookById = async (bookId: string) => {
-  privateRoute.get('')
-}
+export const getBookById = async (bookId: string) => {
+  console.log(bookId);
+  
+  const response = privateRoute.get("/books/" + bookId);
+  return response
+};
 
 // const getBookRating = async (bookId: string) => {
 //   publicRoute.get('')
@@ -32,4 +44,4 @@ const getBookById = async (bookId: string) => {
 //   return response
 // }
 
-export default { getBooks }
+export default { getBooks };

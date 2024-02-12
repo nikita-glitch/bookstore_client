@@ -6,9 +6,11 @@ import Rating from "@mui/material/Rating";
 import favIco from "../../Logos/button_save.svg";
 import { FC, useState } from "react";
 import { Book } from "../../interfaces/interfaces";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const BookCard: FC<Book> = (book: Book) => {
   const [rating, setRating] = useState<number | null>(0);
+  const navigate = useNavigate()
   const handleRatingSet = (ev: React.SyntheticEvent<Element, Event>) => {
     // setRating(ev.currentTarget.val)
   };
@@ -23,22 +25,23 @@ const BookCard: FC<Book> = (book: Book) => {
           <CustomTitle>{book.title}</CustomTitle>
           <CustomAuthor>{book.author.author_name}</CustomAuthor>
           <RatingDiv>
-          <CustomRating
-            id='rating'
-            name="simple-controlled"
-            value={book.rating | 0}
-            onChange={(event, newValue) => {
-              setRating(newValue);
-            }}
-            size="large"
-            disabled
-          />
-          <Box >{book.rating | 0}</Box>
+            <CustomRating
+              id="rating"
+              name="simple-controlled"
+              value={book.rating | 0}
+              onChange={(event, newValue) => {
+                setRating(newValue);
+              }}
+              size="large"
+              disabled
+            />
+            <Box>{book.rating | 0}</Box>
           </RatingDiv>
-          
         </CustomCardContent>
         <CardActions>
-          <CustomButton>{book.price}</CustomButton>
+          
+            <CustomButton onClick={() => navigate('/books/' + book.id)}>{book.price}</CustomButton>
+
         </CardActions>
       </CustomCard>
     </>
@@ -48,7 +51,7 @@ const BookCard: FC<Book> = (book: Book) => {
 const CustomRating = styled(Rating)`
   @media only screen and (min-width: 835px) {
     color: #bfcc94;
-    .MuiRating-root{
+    .MuiRating-root {
       display: flex;
       justify-content: space-between;
     }
@@ -64,7 +67,7 @@ const RatingDiv = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: #B9BAC3;
+    color: #b9bac3;
     font-size: 20px;
     font-weight: 500;
     line-height: 24px;
@@ -112,10 +115,9 @@ const CustomAuthor = styled(Typography)`
 
 const CustomButton = styled(Button)`
   @media only screen and (min-width: 835px) {
-    width: 420px;
     background: #344966;
     border-radius: 16px;
-    padding: 10px 50px;
+    padding: 10px 180px;
     color: #f0f4ef;
     font-size: 20px;
     font-weight: 500;

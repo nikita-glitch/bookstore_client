@@ -3,37 +3,60 @@ import styled from "styled-components";
 import CommentsList from "./Comments/BookCommentsList";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import signInBanner from "../Logos/sing in banner.svg";
-import { useNavigate } from "react-router-dom";
+//import signInBanner from "../Logos/sing in banner.svg";
+import { useNavigate, useParams } from "react-router-dom";
 import BookCard from "./BookCard";
+import { useEffect, useState } from "react";
+import { getBookById } from "../../API/booksAPI";
+import { Book } from "../../interfaces/interfaces";
 
 const BookPage = () => {
   const user = useSelector((state: RootState) => state.users.user);
+  const [book, setBook] = useState<Book>()
+  const { id }  = useParams()
   const navigate = useNavigate();
+  console.log(id);
+  
+  useEffect(() => {
+    let ignore = false;
+    if (!ignore) {
+      if (id) {
+      getBookById(id)
+      .then(response =>{
+        setBook(response.data)
+      })
+      }
+    }
+    return () => {
+      ignore = true;
+    };
+  } , [])
+  console.log(book);
+  
   const handleBannerClick = () => {
     navigate("/sign-in");
   };
   return (
     <>
       <Bookimg src="" alt=""/>
-      <BookTitle>{}</BookTitle>
-      <BookAuthor>{}</BookAuthor>
+      <BookTitle>{book?.title}</BookTitle>
+      <BookAuthor>{book?.author.author_name}</BookAuthor>
       <Rating
         name="simple-controlled"
-        value={null}
+        value={book?.rating}
         // onChange={(event, newValue) => {
         // setValue(newValue);
         // }}
       />
       <CustomDescriptionDiv>
         Description
-        <DescriptionText>{}</DescriptionText>
+        <DescriptionText>{book?.description}</DescriptionText>
       </CustomDescriptionDiv>
       <div>
         PaperBack
         <CustomButton disabled >Not available</CustomButton>
         HardCover
-        <CustomButton></CustomButton>
+        <CustomButton>Buy</CustomButton>
       </div>
       <div>
         <CommentsList />
@@ -50,7 +73,7 @@ const BookPage = () => {
           <CustomButton>Post a comment</CustomButton>
         </TextAreaDiv>) : (
         <>
-          <CustomIcon src={signInBanner} alt="" onClick={handleBannerClick} />
+          <CustomIcon src='' alt="" onClick={handleBannerClick} />
         </>
       )}
       <RecomendationsDiv>

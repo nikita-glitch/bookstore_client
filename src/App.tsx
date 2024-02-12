@@ -15,6 +15,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import { Skeleton } from "@mui/material";
 import CartPage from "./Pages/CartPage";
 import FavoritePage from "./Pages/FavoritePage";
+import BookPage from "./Pages/Book/BookPage";
 
 const App = () => {
   const [init, setInit] = useState<boolean>(false);
@@ -23,10 +24,10 @@ const App = () => {
     let ignore = false;
     if (!ignore) {
       const token = localStorage.getItem("token");
-      if (token ) {
+      if (token) {
         dispatch(getUser());
       }
-      setInit(true)
+      setInit(true);
     }
     return () => {
       ignore = true;
@@ -45,24 +46,28 @@ const App = () => {
           <Footer />
         </Skeleton>
       ) : ( */}
-        <>
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<CatalogPage />} />
-            <Route path="/sign-up" element={<SignUpPage />} />
-            <Route path="/sign-in" element={<SignInPage />} />
-            {init && (
-              
-              <Route element={<ProtectedRoute user={user} />}>
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/favorite" element={<FavoritePage />} />
-              </Route>
-            )}
-            {/* <Route path="*" element={<CatalogPage />} /> */}
-          </Routes>
-          <Footer />
-        </>
+      <>
+        <NavBar />
+        <Routes>
+          <Route
+            path="/books"
+            
+            element={<CatalogPage />}
+          />
+          <Route path="/sign-up" element={<SignUpPage />} />
+          <Route path="/sign-in" element={<SignInPage />} />
+          <Route path="/books/:id" element={<BookPage />} />
+          {init && (
+            <Route element={<ProtectedRoute user={user} />}>
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/favorite" element={<FavoritePage />} />
+            </Route>
+          )}
+          {/* <Route path="*" element={<CatalogPage />} /> */}
+        </Routes>
+        <Footer />
+      </>
       {/* )} */}
     </div>
   );

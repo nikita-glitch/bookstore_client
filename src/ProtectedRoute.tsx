@@ -16,7 +16,7 @@ const ProtectedRoute = ({
   children?: JSX.Element;
 }) => {
   if (user.id === "" || user.id === undefined) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/books" replace />;
   }
   return children ? children : <Outlet />;
 };

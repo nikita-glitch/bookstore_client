@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import BookCard from "./Book/BookCard";
 import signInBanner from "../Logos/sing in banner.svg";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import bookBanner from "../Logos/banner.svg";
 import {
   Pagination,
@@ -14,12 +14,14 @@ import ArrowForwardIcon from "../Logos/Forward.svg";
 import Filters from "../Components/Filters";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getBook } from "../store/bookSlice";
 
 const CatalogPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const catalog = useRef<HTMLDivElement | null>(null);
+  const books = useSelector((state: RootState) => state.books);
+
   useEffect(() => {
     let ignore = false;
     if (!ignore) {
@@ -28,7 +30,13 @@ const CatalogPage = () => {
     return () => {
       ignore = true;
     };
-  }, [dispatch]);
+  }, [
+    books.genreFilter,
+    books.priceFilter,
+    books.searchString,
+    books.sortBy,
+    books.offset,
+  ]);
 
   const { book, isLoading, error } = useSelector(
     (state: RootState) => state.books
@@ -56,19 +64,21 @@ const CatalogPage = () => {
         <Filters />
       </CustomFilterDiv>
       <CustomCardsDiv ref={catalog}>
-        {isLoading ? (
+        {/* {isLoading ? (
           <Skeleton></Skeleton>
-        ) : (
-          <>
-            {book.map((bookItem) => (
+        ) : ( */}
+        <>
+          {book.map((bookItem) => (
+            <>
               <BookCard key={bookItem.id} {...bookItem} />
-            ))}
-          </>
-        )}
+            </>
+          ))}
+        </>
+        {/* )} */}
       </CustomCardsDiv>
 
       <CustomPagination
-        count={1}
+        count={Math.ceil(books.total / 12)}
         renderItem={(item) => (
           <PaginationItem
             // slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}

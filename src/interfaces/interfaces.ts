@@ -19,3 +19,8 @@ export interface Book {
   comments: string;
   photo: string;
 }
+export interface SortOptionsInterface {
+  genreId?: string;
+  priceRange?: number[];
+  sort?: string;
+}
