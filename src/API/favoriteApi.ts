@@ -1,0 +1,1 @@
+import { privateRoute } from "./index";

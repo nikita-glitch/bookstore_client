@@ -12,7 +12,8 @@ const ActionPanel = () => {
   const [route, setRoute] = React.useState<string>("sign-in");
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.users.user);
-
+  console.log(user);
+  
   const handleLoginButtonClick = (
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {

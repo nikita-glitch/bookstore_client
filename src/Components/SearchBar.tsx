@@ -3,16 +3,18 @@ import * as React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
-import { settedSearchString } from '../store/bookSlice'
+import { useSearchParams } from "react-router-dom";
 
 const SearchBar = () => {
   const [input, setInput] = React.useState<string>("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const dispatch = useDispatch();
   const handleSearchInput = (
     ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {
-    dispatch(settedSearchString(ev.target.value))
-    setInput(ev.target.value);
+    searchParams.set('searchString', ev.target.value)
+    setSearchParams(searchParams)
   };
 
   return (
@@ -21,7 +23,7 @@ const SearchBar = () => {
       <CustomInputBase
         placeholder="Search"
         onChange={handleSearchInput}
-        value={input}
+        value={searchParams.get('searchString')}
       ></CustomInputBase>
     </CustomSearchDiv>
   );

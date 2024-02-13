@@ -5,19 +5,26 @@ import { RootState } from "./store";
 
 export const getBook = createAsyncThunk(
   "books/get",
-  async (_, thunkApi) => {
-    const { books } = thunkApi.getState() as RootState
-    
-    const sortOptions = {
-      genreId: books.genreFilter,
-      priceRange: books.priceFilter,
-      sort: books.sortBy
+  async (
+    params: {
+      priceFilter: number[];
+      searchString: string;
+      genreFilter: string;
+      sortBy: string;
+      offset: number;
     }
+  ) => {   
+    const sortOptions = {
+      genreId: params.genreFilter,
+      priceRange: params.priceFilter,
+      sort: params.sortBy,
+    };
 
-    const response = await bookApi.getBooks( books.offset,
-      books.searchString,
-      sortOptions);      
-
+    const response = await bookApi.getBooks(
+      params.offset,
+      params.searchString,
+      sortOptions
+    );
     return response.data;
   }
 );
@@ -39,13 +46,7 @@ const initialState = {
       photo: "",
     },
   ],
-  searchString: '',
-  genreFilter: "",
-  priceFilter: [0, 100],
-  sortBy: "",
-  limit: 12,
   total: 0,
-  offset: 1,
   isLoading: false,
   error: {},
 };
@@ -53,23 +54,7 @@ const initialState = {
 const bookSlice = createSlice({
   name: "books",
   initialState,
-  reducers: {
-    settedSortBy (state, action) {
-      state.sortBy = action.payload; 
-    },
-    settedPriseFilter (state, action) {
-      state.priceFilter = action.payload;
-    },
-    settedGenreFilter (state, action) {
-      state.genreFilter = action.payload; 
-    },
-    settedSearchString (state, action) {
-      state.searchString = action.payload; 
-    },
-    settedOffset (state, action) {
-      state.offset = action.payload;
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getBook.pending, (state) => {
       state.isLoading = true;
@@ -79,7 +64,7 @@ const bookSlice = createSlice({
     builder.addCase(getBook.fulfilled, (state, action) => {
       const { result, total } = action.payload;
       state.book = result;
-      state.total = total
+      state.total = total;
       state.isLoading = false;
     });
 
@@ -93,5 +78,3 @@ const bookSlice = createSlice({
 });
 
 export default bookSlice.reducer;
-
-export const { settedGenreFilter, settedOffset, settedPriseFilter, settedSearchString, settedSortBy  } = bookSlice.actions

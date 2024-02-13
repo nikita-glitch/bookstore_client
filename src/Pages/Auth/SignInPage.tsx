@@ -8,25 +8,59 @@ import { signInSchema } from "../../validationSchemas/authSchemas";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { signIn } from "../../store/userSlice";
-import { AppDispatch } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
+import { useSelector } from "react-redux";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const SignInPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const { user, isLoading, error} = useSelector((state: RootState) => state.users)
+  
+  const notify = (message: string) => toast.error(message, {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,
+    });;
+  
   const signInForm = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
+    
     validationSchema: signInSchema,
     onSubmit: async (values, { setSubmitting }) => {
       await dispatch(signIn(values));
       setSubmitting(false);
-      navigate("/profile");
+      if (error.response.data) {        
+        notify(error.response.data)
+      } else {
+        navigate("/profile");
+      }
     },
   });
   return (
     <CustomPageDiv>
+     <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <CustomImg src={logo} alt="" className="picture" />
       <CustomFormDiv>
         <CustomTitle>Sign In</CustomTitle>

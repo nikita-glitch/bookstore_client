@@ -17,9 +17,8 @@ const getBooks = async (
 };
 
 export const getBookById = async (bookId: string) => {
-  console.log(bookId);
-  
-  const response = privateRoute.get("/books/" + bookId);
+
+  const response = privateRoute.get("/books/" + bookId);  
   return response
 };
 
@@ -32,16 +31,6 @@ export const getBookById = async (bookId: string) => {
 // }
 
 // const getBookComments = async (bookId: string) => {
-
-// }
-
-// const getBookGenre = async (bookId: string) => {
-
-// }
-
-// const getBookAuthor = async (authorId: string) => {
-//   const response = privateRoute.get('/book-author/author')
-//   return response
 // }
 
 export default { getBooks };

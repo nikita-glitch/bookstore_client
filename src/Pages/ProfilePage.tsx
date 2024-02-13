@@ -14,12 +14,26 @@ import { AppDispatch, RootState } from "../store/store";
 import { useDispatch } from "react-redux";
 import { getUserAvatar, changeUserName, getUser } from "../store/userSlice";
 import { changePassword, uploadAvatar } from "../API/userAPI";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProfilePage = () => {
   const [changePass, setChangePass] = React.useState<boolean>(false);
   const [changeName, setChangeName] = React.useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
-  const user = useSelector((state: RootState) => state.users.user);
+  const {user, isLoading, error} = useSelector((state: RootState) => state.users);
+
+  const notify = (message: string) => toast.error(message, {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,
+    });;
 
   React.useEffect(() => {    
     let ignore = false;
@@ -29,7 +43,7 @@ const ProfilePage = () => {
     return () => {
       ignore = true;
     };
-  }, [dispatch]);
+  }, []);
 
   const handleAddAvatar = async (ev: React.ChangeEvent<HTMLInputElement>) => {
     if (!ev.target.files) {
@@ -73,6 +87,11 @@ const ProfilePage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       await dispatch(changeUserName(values.userName));
       setSubmitting(false);
+      if (error.response.data) {        
+        notify(error.response.data)
+      } else {
+        //notify(.data.message)
+      }
     },
   });
 
@@ -84,12 +103,29 @@ const ProfilePage = () => {
     },
     //validationSchema: passwordChangeSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      await changePassword(values);
+      const response = await changePassword(values);
       setSubmitting(false);
+      if (error.response.data) {        
+        notify(error.response.data)
+      } else {
+        notify(response.data.message)
+      }
     },
   });
   return (
     <CustomProfileDiv>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div>
         <CustomAvatar src={userPhoto} alt="" />
         <label>

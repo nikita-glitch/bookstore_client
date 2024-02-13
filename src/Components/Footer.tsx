@@ -10,7 +10,7 @@ const Footer = () => {
     navigate('/')
   }
   const handleCatalogItemClick = (ev: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-    navigate('/')
+    navigate("/books")
   }
   const handleProfileItemClick = (ev: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
     navigate('/profile')

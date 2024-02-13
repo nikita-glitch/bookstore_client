@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import BookCard from "./Book/BookCard";
 import signInBanner from "../Logos/sing in banner.svg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import bookBanner from "../Logos/banner.svg";
 import {
   Pagination,
@@ -21,22 +21,46 @@ const CatalogPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const catalog = useRef<HTMLDivElement | null>(null);
   const books = useSelector((state: RootState) => state.books);
+  const user = useSelector((state: RootState) => state.users);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     let ignore = false;
     if (!ignore) {
-      dispatch(getBook());
+      let genreFilter = "";
+      let priceFilter = [0, 100];
+      let searchString = "";
+      let sortBy = "";
+      let offset = 1;
+      searchParams.forEach((value, key) => {
+        switch (key) {
+          case "genreId":
+            genreFilter = value;
+            break;
+          case "sort":
+            sortBy = value;
+            break;
+          case "priceRange":
+            const firstElem = parseInt(value.split(',')[0]);
+            const secondElem = parseInt(value.split(',')[1]);           
+            priceFilter = [firstElem, secondElem];
+            console.log(priceFilter);
+            break;
+          case "searchString":
+            searchString = value;
+            break;
+          case "offset":
+            offset = parseInt(value);
+            break;
+        }
+      });
+      const params = {priceFilter, searchString, genreFilter, sortBy, offset}
+      dispatch(getBook(params));
     }
     return () => {
       ignore = true;
     };
-  }, [
-    books.genreFilter,
-    books.priceFilter,
-    books.searchString,
-    books.sortBy,
-    books.offset,
-  ]);
+  }, [searchParams]);
 
   const { book, isLoading, error } = useSelector(
     (state: RootState) => state.books
@@ -67,13 +91,13 @@ const CatalogPage = () => {
         {/* {isLoading ? (
           <Skeleton></Skeleton>
         ) : ( */}
-        <>
-          {book.map((bookItem) => (
-            <>
-              <BookCard key={bookItem.id} {...bookItem} />
-            </>
-          ))}
-        </>
+
+        {book.map((bookItem) => (
+          <>
+            <BookCard key={bookItem.id} {...bookItem} />
+          </>
+        ))}
+
         {/* )} */}
       </CustomCardsDiv>
 
@@ -81,17 +105,20 @@ const CatalogPage = () => {
         count={Math.ceil(books.total / 12)}
         renderItem={(item) => (
           <PaginationItem
-            // slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+            //slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
             {...item}
           />
         )}
       />
-      <CustomIcon src={signInBanner} alt="" onClick={handleAuthBannerClick} />
+      {!user && (
+        <CustomIcon src={signInBanner} alt="" onClick={handleAuthBannerClick} />
+      )}
     </CustomCatalogDiv>
   );
 };
 const CustomIcon = styled.img`
   @media only screen and (min-width: 835px) {
+    margin-bottom: 80px;
   }
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
@@ -103,7 +130,7 @@ const CustomCatalogDiv = styled.div`
   @media only screen and (min-width: 835px) {
     display: flex;
     flex-direction: column;
-    padding: 0 80px 150px 80px;
+    padding: 0 80px;
   }
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }

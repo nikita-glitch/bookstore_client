@@ -10,10 +10,8 @@ export const changePassword = async (values: {
   newPassword: string;
   passwordToCompare: string;
 }) => {
-  privateRoute
-    .patch("/users/profile/password-change", values)
-    .then((response) => alert(response.data.message))
-    .catch((error) => alert(error.response.data.message));
+  return await privateRoute.patch("/users/profile/password-change", values)
+    
 };
 
 const changeName = async (name: string) => {

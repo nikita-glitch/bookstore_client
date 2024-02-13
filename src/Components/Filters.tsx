@@ -12,7 +12,6 @@ import { getAllGenres } from "../API/genreAPI";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
-import { settedGenreFilter, settedPriseFilter, settedSortBy } from "../store/bookSlice";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 export interface Genre {
@@ -33,9 +32,10 @@ const Filters: FC = () => {
   const [genres, setGenres] = useState<Genre[]>([]);
   const [sortBy, setSortBy] = useState<string>("");
   const [genreFilter, setGenreFilter] = useState<Genre[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate()
-  let [searchParams, setSearchParams] = useSearchParams();
+
   React.useEffect(() => {
     let ignore = false;
     setGenres([]);
@@ -50,34 +50,22 @@ const Filters: FC = () => {
       }
   }, []);
 
-  // searchParams.set( 'paginationOffset', '1');
-  //       searchParams.set( 'sortOptions', `${{
-  //         'searchString': '', //searchbar
-  //         'priceRange': [0, 100],
-  //         'sortBy': ''
-  //       }}`);
-  //       setSearchParams(searchParams)
+
   const handleSortByChange = (event: SelectChangeEvent<any>) => {
-    // searchParams.set( 'sort', event.target.value);
-    // setSearchParams(searchParams)
-    setSortBy(event.target.value);
-    dispatch(settedSortBy(event.target.value))
+    searchParams.set('sort', event.target.value)
+    setSearchParams(searchParams)
   };
 
   const handleGenreChange = (event: SelectChangeEvent<any>) => {
-    // searchParams.set( 'genreId', event.target.value);
-    // setSearchParams(searchParams)
-    setGenreFilter(event.target.value);
-    dispatch(settedGenreFilter(event.target.value))
+    searchParams.set('genreId', event.target.value)
+    setSearchParams(searchParams)
   };
 
   const handlePriceChange = (event: Event, newValue: number | number[]) => {
-    console.log(newValue);
-
-    // searchParams.set( 'price', `${newValue}`);
-    // setSearchParams(searchParams)
+    searchParams.set('priceRange', `${newValue}`)
+    setSearchParams(searchParams)
     setValue(newValue as number[]);
-    dispatch(settedPriseFilter(newValue as number[]))
+    // dispatch(settedPriseFilter(newValue as number[]))
   };
   return (
     <FltersDiv>
@@ -87,7 +75,7 @@ const Filters: FC = () => {
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={genreFilter}
+            value={searchParams.get('genreId')}
             label="Genre"
             onChange={handleGenreChange}
           >
@@ -134,7 +122,7 @@ const Filters: FC = () => {
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={sortBy}
+            value={searchParams.get('sort')}
             label="Age"
             onChange={handleSortByChange}
           >
@@ -142,8 +130,8 @@ const Filters: FC = () => {
               <em>None</em>
             </MenuItem>
             <MenuItem value="price">Price</MenuItem>
-            <MenuItem value="name">Name</MenuItem>
-            <MenuItem value="authorName">Author name</MenuItem>
+            <MenuItem value="title">Name</MenuItem>
+            <MenuItem value="author.author_name">Author name</MenuItem>
             <MenuItem value="rating">Rating</MenuItem>
           </CustomSelect>
         </FormControl>

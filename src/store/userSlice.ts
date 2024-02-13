@@ -1,22 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userAPI from "../API/userAPI";
 import authAPI from "../API/authAPI";
-import { AxiosError } from "axios";
 
 export const getUser = createAsyncThunk("user/get", async () => {
   const response = await userAPI.getUser();
   return response.data;
-  
 });
 
 export const signIn = createAsyncThunk(
   "user/sign-in",
-  async (values: { email: string; password: string }) => {
+  async (values: { email: string; password: string }, thunkApi) => {
     try {
       const response = await authAPI.signIn(values);
-      return response;      
+      console.log(response);
+      return response;
     } catch (error) {
-      console.log("signinthunk>", error);
+      return thunkApi.rejectWithValue(error);
     }
   }
 );
@@ -28,16 +27,9 @@ export const signUp = createAsyncThunk(
     password: string;
     passwordToCompare: string;
   }) => {
-    try {
-      const response = await authAPI.signUp(values);
-      alert(response.data.message)
-      console.log(response);
-      console.log(response instanceof AxiosError);
-      
-      return response;
-    } catch (error) {
-      console.log("signupthunk>", error);
-    }
+    const response = await authAPI.signUp(values);
+    alert(response.data.message);
+    return response;
   }
 );
 
@@ -50,13 +42,10 @@ export const changeUserName = createAsyncThunk(
   }
 );
 
-export const getUserAvatar = createAsyncThunk(
-  "avatar/get",
-  async () => {
-    const response = await userAPI.getAvatar();
-    return response?.data
-  }
-);
+export const getUserAvatar = createAsyncThunk("avatar/get", async () => {
+  const response = await userAPI.getAvatar();
+  return response?.data;
+});
 
 const initialState = {
   user: {
@@ -69,7 +58,13 @@ const initialState = {
     avatar: "",
   },
   isLoading: false,
-  error: {},
+  error: {
+    response: {
+      data: "",
+      status: "",
+    },
+  },
+  message: "",
 };
 
 export const userSlice = createSlice({
@@ -79,7 +74,10 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getUser.pending, (state) => {
       state.isLoading = true;
-      state.error = "";
+      state.error.response = {
+        data: "",
+        status: "",
+      };
     });
 
     builder.addCase(getUser.fulfilled, (state, action) => {
@@ -89,48 +87,66 @@ export const userSlice = createSlice({
 
     builder.addCase(getUser.rejected, (state, action) => {
       if (action.payload) {
-        state.error = action.payload;
+        state.error.response = {
+          data: "",
+          status: "",
+        };
       }
       state.isLoading = false;
     });
-
+    
     builder.addCase(signIn.pending, (state) => {
       state.isLoading = true;
-      state.error = "";
+      state.error.response = {
+        data: "",
+        status: "",
+      };
     });
 
-    builder.addCase(signIn.fulfilled, (state, action) => {
-      state.user = action.payload;
+    builder.addCase(signIn.fulfilled, (state, action: {payload: any }) => {
+      const { token, user } = action.payload.data;
+      localStorage.setItem('token', token)
+      state.user = user
+      state.error.response = {
+        data: "",
+        status: "",
+      };
       state.isLoading = false;
     });
 
-    builder.addCase(signIn.rejected, (state, action) => {
-      if (action.payload) {
-        state.error = action.payload;
-      }
+    builder.addCase(signIn.rejected, (state, action: {payload: any }) => {
+      state.error.response = action.payload?.response;
       state.isLoading = false;
     });
 
     builder.addCase(signUp.pending, (state) => {
       state.isLoading = true;
-      state.error = "";
+      state.error.response = {
+        data: "",
+        status: "",
+      };
     });
 
     builder.addCase(signUp.fulfilled, (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload?.data;
+      state.error.response = {
+        data: "",
+        status: "",
+      };
       state.isLoading = false;
     });
 
     builder.addCase(signUp.rejected, (state, action) => {
-      if (action.payload) {
-        state.error = action.payload;
-      }
+      /////
       state.isLoading = false;
     });
 
     builder.addCase(changeUserName.pending, (state) => {
       state.isLoading = true;
-      state.error = "";
+      state.error.response = {
+        data: "",
+        status: "",
+      };
     });
 
     builder.addCase(changeUserName.fulfilled, (state, action) => {
@@ -139,15 +155,16 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(changeUserName.rejected, (state, action) => {
-      if (action.payload) {
-        state.error = action.payload;
-      }
+      ///
       state.isLoading = false;
     });
 
     builder.addCase(getUserAvatar.pending, (state) => {
       state.isLoading = true;
-      state.error = "";
+      state.error.response = {
+        data: "",
+        status: "",
+      };
     });
 
     builder.addCase(getUserAvatar.fulfilled, (state, action) => {
@@ -156,9 +173,7 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(getUserAvatar.rejected, (state, action) => {
-      if (action.payload) {
-        state.error = action.payload;
-      }
+      //////
       state.isLoading = false;
     });
   },
