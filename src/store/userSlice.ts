@@ -64,7 +64,7 @@ const initialState = {
       status: "",
     },
   },
-  message: "",
+  message: {},
 };
 
 export const userSlice = createSlice({
@@ -85,13 +85,8 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
 
-    builder.addCase(getUser.rejected, (state, action) => {
-      if (action.payload) {
-        state.error.response = {
-          data: "",
-          status: "",
-        };
-      }
+    builder.addCase(getUser.rejected, (state, action: any) => {
+      state.error.response = action.payload?.response;
       state.isLoading = false;
     });
     
@@ -103,7 +98,7 @@ export const userSlice = createSlice({
       };
     });
 
-    builder.addCase(signIn.fulfilled, (state, action: {payload: any }) => {
+    builder.addCase(signIn.fulfilled, (state, action: any) => {
       const { token, user } = action.payload.data;
       localStorage.setItem('token', token)
       state.user = user
@@ -114,7 +109,7 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
 
-    builder.addCase(signIn.rejected, (state, action: {payload: any }) => {
+    builder.addCase(signIn.rejected, (state, action: any) => {
       state.error.response = action.payload?.response;
       state.isLoading = false;
     });
@@ -136,8 +131,8 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
 
-    builder.addCase(signUp.rejected, (state, action) => {
-      /////
+    builder.addCase(signUp.rejected, (state, action: any) => {
+      state.error.response = action.payload?.response;
       state.isLoading = false;
     });
 
@@ -154,8 +149,8 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
 
-    builder.addCase(changeUserName.rejected, (state, action) => {
-      ///
+    builder.addCase(changeUserName.rejected, (state, action: any) => {
+      state.error.response = action.payload?.response;
       state.isLoading = false;
     });
 
@@ -172,8 +167,8 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
 
-    builder.addCase(getUserAvatar.rejected, (state, action) => {
-      //////
+    builder.addCase(getUserAvatar.rejected, (state, action: any) => {
+      state.error.response = action.payload?.response;
       state.isLoading = false;
     });
   },

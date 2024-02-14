@@ -5,6 +5,7 @@ import {
   Box,
   Slider,
   Typography,
+  Checkbox,
 } from "@mui/material";
 import React, { FC, useState } from "react";
 import styled from "styled-components";
@@ -12,7 +13,11 @@ import { getAllGenres } from "../API/genreAPI";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  createSearchParams,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 
 export interface Genre {
   id: string;
@@ -26,46 +31,83 @@ function valuetext(value: number) {
 const MAX = 100;
 const MIN = 0;
 
-
 const Filters: FC = () => {
   const [value, setValue] = useState<number[]>([0, 100]);
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [sortBy, setSortBy] = useState<string>("");
-  const [genreFilter, setGenreFilter] = useState<Genre[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate()
 
   React.useEffect(() => {
     let ignore = false;
     setGenres([]);
     getAllGenres()
-      .then((response) => {if (!ignore) {
-        setGenres(response?.data);
-      }})
+      .then((response) => {
+        if (!ignore) {
+          setGenres(response?.data);
+        }
+      })
       .catch((error) => console.log(error));
-      return () => {
-        
-        ignore = true;
-      }
+    return () => {
+      ignore = true;
+    };
   }, []);
 
-
   const handleSortByChange = (event: SelectChangeEvent<any>) => {
-    searchParams.set('sort', event.target.value)
-    setSearchParams(searchParams)
+    searchParams.set("sort", event.target.value);
+    setSearchParams(searchParams);
   };
-
+  /**
+ * forEach((value, key) => {
+      if (key === "genreId" && value === event.target.value) {
+        console.log('asdasd');
+        
+        searchParams.delete(key)
+        searchParams.
+        handleChecked(event.target.value, true)
+      }
+    })
+ */
   const handleGenreChange = (event: SelectChangeEvent<any>) => {
-    searchParams.set('genreId', event.target.value)
-    setSearchParams(searchParams)
+    if (event.target.value === "") {
+      searchParams.forEach((value, key) => {
+        if (key === "genreId") {
+          searchParams.delete(key);
+          setSearchParams(searchParams);
+        }
+      });
+    } else {
+    let params = searchParams.getAll("genreId"); 
+    params.push(event.target.value);
+    if (
+      params.indexOf(event.target.value) !== -1 &&
+      params.lastIndexOf(event.target.value) !== -1 &&
+      params.indexOf(event.target.value) !==
+        params.lastIndexOf(event.target.value)
+    ) {
+      params = params.filter((param) => param !== event.target.value);      
+      params.push(event.target.value);
+    }
+    setSearchParams(createSearchParams({ genreId: params }));
+    }
   };
 
   const handlePriceChange = (event: Event, newValue: number | number[]) => {
-    searchParams.set('priceRange', `${newValue}`)
-    setSearchParams(searchParams)
+    searchParams.set("priceRange", `${newValue}`);
+    setSearchParams(searchParams);
     setValue(newValue as number[]);
-    // dispatch(settedPriseFilter(newValue as number[]))
+  };
+
+  const handleChecked = (id?: string, setCheckFalse?: boolean): boolean => {
+    if (setCheckFalse) {
+      return false;
+    }
+    let res = false;
+    searchParams.forEach((value, key) => {
+      if (value === id) {
+        res = true;
+        return;
+      }
+    });
+    return res;
   };
   return (
     <FltersDiv>
@@ -75,7 +117,7 @@ const Filters: FC = () => {
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={searchParams.get('genreId')}
+            value={searchParams.get("genreId")}
             label="Genre"
             onChange={handleGenreChange}
           >
@@ -84,7 +126,8 @@ const Filters: FC = () => {
             </MenuItem>
             {genres &&
               genres.map((genre: Genre) => (
-                <MenuItem key={genre.id} value={genre.id} >
+                <MenuItem key={genre.id} value={genre.id}>
+                  <Checkbox checked={handleChecked(genre.id, false)} />
                   {genre.genre_name}
                 </MenuItem>
               ))}
@@ -122,7 +165,7 @@ const Filters: FC = () => {
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={searchParams.get('sort')}
+            value={searchParams.get("sort")}
             label="Age"
             onChange={handleSortByChange}
           >
@@ -164,4 +207,3 @@ const SliderDiv = styled.div`
 `;
 
 export default Filters;
-

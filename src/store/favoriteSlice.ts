@@ -7,7 +7,22 @@ export const getFavoriteBooks = createAsyncThunk("cart/get", async () => {
 export const removeBookFromFavorite = createAsyncThunk("cart/delete", async () => {});
 
 const initialState = {
-  favoriteBooks: [{}],
+  cartBooks: [{
+    book: {
+      id: "",
+      title: "",
+      description: "",
+      price: 0,
+      rating: 0,
+      author: {
+        id: "",
+        author_name: "",
+      },
+      genreId: "",
+      comments: "",
+      photo: "",
+    }, 
+  }],
   isLoading: false,
   error: {
     response: {
@@ -15,7 +30,7 @@ const initialState = {
       status: "",
     },
   },
-  message: "",
+  message: {},
 };
 
 const favoriteSlice = createSlice({

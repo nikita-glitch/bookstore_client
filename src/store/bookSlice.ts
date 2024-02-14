@@ -9,7 +9,7 @@ export const getBook = createAsyncThunk(
     params: {
       priceFilter: number[];
       searchString: string;
-      genreFilter: string;
+      genreFilter: {}[];
       sortBy: string;
       offset: number;
     }

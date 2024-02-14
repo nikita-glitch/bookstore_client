@@ -20,7 +20,14 @@ export interface Book {
   photo: string;
 }
 export interface SortOptionsInterface {
-  genreId?: string;
+  genreId?: {}[];
   priceRange?: number[];
   sort?: string;
+}
+
+export interface CartBooks {
+  has_paid: boolean,
+  is_ordered: boolean,
+  amount: number,
+  book: Book, 
 }

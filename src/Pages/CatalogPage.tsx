@@ -27,15 +27,15 @@ const CatalogPage = () => {
   useEffect(() => {
     let ignore = false;
     if (!ignore) {
-      let genreFilter = "";
+      let genreFilter = [{}];
       let priceFilter = [0, 100];
       let searchString = "";
       let sortBy = "";
       let offset = 1;
-      searchParams.forEach((value, key) => {
+      searchParams.forEach((value, key) => {       
         switch (key) {
           case "genreId":
-            genreFilter = value;
+            genreFilter.push(value);
             break;
           case "sort":
             sortBy = value;
@@ -53,7 +53,7 @@ const CatalogPage = () => {
             offset = parseInt(value);
             break;
         }
-      });
+      });      
       const params = {priceFilter, searchString, genreFilter, sortBy, offset}
       dispatch(getBook(params));
     }
