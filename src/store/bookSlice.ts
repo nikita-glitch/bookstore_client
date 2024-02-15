@@ -25,6 +25,8 @@ export const getBook = createAsyncThunk(
       params.searchString,
       sortOptions
     );
+    console.log(response);
+    
     return response.data;
   }
 );
@@ -42,7 +44,23 @@ const initialState = {
         author_name: "",
       },
       genreId: "",
-      comments: "",
+      comments: [{
+        id: '', 
+        text: '',
+        user: {
+          id: '',
+          name: '',
+          email: '',
+          role: '',
+          avatar: {
+            id: '', 
+            avatarName: '',
+            data: '',
+          }
+        },
+        bookId: '',
+        createdAt: ''
+      }],
       photo: "",
     },
   ],

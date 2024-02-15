@@ -38,13 +38,9 @@ const SignInPage = () => {
     
     validationSchema: signInSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      await dispatch(signIn(values));
-      setSubmitting(false);
-      if (error.response.data) {        
-        notify(error.response.data)
-      } else {
-        navigate("/profile");
-      }
+      dispatch(signIn(values)).unwrap()
+      .catch(() => notify(error.response.data))
+      setSubmitting(false)
     },
   });
   return (

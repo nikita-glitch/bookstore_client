@@ -21,9 +21,9 @@ const ProfilePage = () => {
   const [changePass, setChangePass] = React.useState<boolean>(false);
   const [changeName, setChangeName] = React.useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
-  const {user, isLoading, error} = useSelector((state: RootState) => state.users);
+  const {user, isLoading, message, error} = useSelector((state: RootState) => state.users);
 
-  const notify = (message: string) => toast.error(message, {
+  const notify = (message: string) => toast(message, {
     position: "top-center",
     autoClose: 2000,
     hideProgressBar: true,
@@ -85,13 +85,16 @@ const ProfilePage = () => {
     },
     //validationSchema: nameChangeSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      await dispatch(changeUserName(values.userName));
+      dispatch(changeUserName(values.userName))
+      .unwrap()
+      .then(() => notify(message))
+      .catch(() => notify(error.response.data))
+      // if (error.response.data) {        
+      //   notify(error.response.data)
+      // } else {        
+      //   notify(message)
+      // }
       setSubmitting(false);
-      if (error.response.data) {        
-        notify(error.response.data)
-      } else {
-        //notify(.data.message)
-      }
     },
   });
 

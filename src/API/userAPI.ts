@@ -32,6 +32,23 @@ const getAvatar = async () => {
 
 const addComment = async (bookId: string) => {};
 
+export const addToFavorite = async() => {
+    const response = privateRoute.get("/");
+  return response
+}
+export const addToCart = async() => {
+    const response = privateRoute.get("/");
+  return response
+}
+export const removeFromFavorite = async() => {
+    const response = privateRoute.get("/");
+  return response
+}
+export const removeFromCart = async() => {
+    const response = privateRoute.get("/");
+  return response
+}
+
 export default {
   getUser,
   changeName,

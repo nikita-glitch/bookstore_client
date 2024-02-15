@@ -1,6 +1,5 @@
 import { Button, Rating, TextField, Typography } from "@mui/material";
 import styled from "styled-components";
-import CommentsList from "./Comments/BookCommentsList";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 //import signInBanner from "../Logos/sing in banner.svg";
@@ -9,6 +8,8 @@ import BookCard from "./BookCard";
 import { useEffect, useState } from "react";
 import { getBookById } from "../../API/booksAPI";
 import { Book } from "../../interfaces/interfaces";
+import logo from "../../Logos/Group 2.svg";
+import BookComment from "./Comments/BookComment";
 
 const BookPage = () => {
   const user = useSelector((state: RootState) => state.users.user);
@@ -20,7 +21,8 @@ const BookPage = () => {
     let ignore = false;
     if (!ignore) {
       if (id) {
-        getBookById(id).then((response) => {
+        getBookById(id)
+        .then((response) => {
           setBook(response.data);
         });
       }
@@ -40,14 +42,19 @@ const BookPage = () => {
         <CustomInfoDiv>
           <BookTitle>{book?.title}</BookTitle>
           <BookAuthor>{book?.author.author_name}</BookAuthor>
-          <Rating
-            name="simple-controlled"
-            value={book?.rating}
-            // onChange={(event, newValue) => {
-            // setValue(newValue);
-            // }}
-          />
-          <Typography>Rate this book</Typography>
+          <CustomRatingDiv>
+            <CustomLogo src={logo} alt="" />
+            <Typography>{book?.rating}</Typography>
+            <Rating
+              name="simple-controlled"
+              value={book?.rating}
+              // onChange={(event, newValue) => {
+              // setValue(newValue);
+              // }}
+            />
+            <Typography>Rate this book</Typography>
+          </CustomRatingDiv>
+
           <CustomDescriptionDiv>
             Description
             <DescriptionText>{book?.description}</DescriptionText>
@@ -60,9 +67,12 @@ const BookPage = () => {
           </div>
         </CustomInfoDiv>
       </CustomBookDiv>
-      <div>
-        <CommentsList />
-      </div>
+      <CommentsList>
+        <Typography>Comments</Typography>
+        {book?.comments.map((comment) =>
+        <BookComment {...comment}/>
+        )}
+      </CommentsList>
       {user ? (
         <TextAreaDiv>
           <TextField
@@ -84,9 +94,21 @@ const BookPage = () => {
   );
 };
 
+const CommentsList = styled.div`
+  padding: 0 0 0 80px;
+`
+
+const CustomLogo = styled.img``;
+const CustomRatingDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  width: 504px;
+  justify-content: space-between;
+`;
+
 const CustomIcon = styled.img`
-  @media only screen and (min-width: 835px) {
-  }
+  
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -94,45 +116,40 @@ const CustomIcon = styled.img`
 `;
 
 const Bookimg = styled.img`
-  @media only screen and (min-width: 835px) {
-    width: 522px;
-    height: 779px;
-    border-radius: 16px;
-  }
+  width: 522px;
+  height: 779px;
+  border-radius: 16px;
+
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
   }
 `;
 const BookTitle = styled(Typography)`
-  @media only screen and (min-width: 835px) {
-    font-family: Poppins;
-    font-size: 40px;
-    font-weight: 700;
-    line-height: 60px;
-    
-  }
+  font-family: Poppins;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 60px;
+
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
   }
 `;
 const BookAuthor = styled(Typography)`
-  @media only screen and (min-width: 835px) {
-    font-family: Poppins;
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 36px;
-  }
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 36px;
+  margin-bottom: 30px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
   }
 `;
 const CustomDescriptionDiv = styled.div`
-  @media only screen and (min-width: 835px) {
-    width: 640px;
-  }
+  width: 640px;
+
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -140,11 +157,10 @@ const CustomDescriptionDiv = styled.div`
 `;
 
 const CustomBookDiv = styled.div`
-  @media only screen and (min-width: 835px) {
-    display: flex;
-    gap: 130px;
-    padding: 60px 80px 110px 80px;
-  }
+  display: flex;
+  gap: 130px;
+  padding: 60px 80px 110px 80px;
+
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -152,8 +168,6 @@ const CustomBookDiv = styled.div`
 `;
 
 const Page = styled.div`
-  @media only screen and (min-width: 835px) {
-  }
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -161,10 +175,9 @@ const Page = styled.div`
 `;
 
 const CustomInfoDiv = styled.div`
-  @media only screen and (min-width: 835px) {
-    display: flex;
-    flex-direction: column;
-  }
+  display: flex;
+  flex-direction: column;
+
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -172,37 +185,30 @@ const CustomInfoDiv = styled.div`
 `;
 
 const DescriptionText = styled(Typography)`
-  @media only screen and (min-width: 835px) {
-    font-family: Poppins;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
 
-  }
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
   }
 `;
 const CustomButton = styled(Button)`
-  @media only screen and (min-width: 835px) {
-  }
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
   }
 `;
 const RecomendationsDiv = styled.div`
-  @media only screen and (min-width: 835px) {
-  }
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
   }
 `;
 const TextAreaDiv = styled.div`
-  @media only screen and (min-width: 835px) {
-  }
+   padding: 50px 0 0 80px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {

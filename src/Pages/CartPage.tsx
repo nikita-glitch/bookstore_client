@@ -9,18 +9,10 @@ import { Button, Typography } from "@mui/material";
 
 const CartPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { cartBooks, error, isLoading, message } = useSelector(
-    (state: RootState) => state.cart
+  const { cartBooks } = useSelector(
+    (state: RootState) => state.users.user.cart
   );
-  useEffect(() => {
-    let ignore = false;
-    if (!ignore) {
-      dispatch(getCartBooks());
-    }
-    return () => {
-      ignore = true;
-    };
-  }, []);
+  
 
   return (
     <>
@@ -36,7 +28,7 @@ const CartPage = () => {
           </div>
         </>;
       })}
-      {cartBooks && (
+      {cartBooks.length !== 0 && (
         <>
           <Typography>Total</Typography>
           <></>

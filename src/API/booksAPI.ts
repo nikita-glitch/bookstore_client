@@ -22,15 +22,15 @@ export const getBookById = async (bookId: string) => {
   return response
 };
 
-// const getBookRating = async (bookId: string) => {
-//   publicRoute.get('')
-// }
+const getBookRating = async (bookId: string) => {
+  privateRoute.get('')
+}
 
-// const getBookPhoto = async (bookId: string) => {
-//   publicRoute.get('')
-// }
+const getBookPhoto = async (bookId: string) => {
+  privateRoute.get('')
+}
 
-// const getBookComments = async (bookId: string) => {
-// }
+const getBookComments = async (bookId: string) => {
+}
 
 export default { getBooks };

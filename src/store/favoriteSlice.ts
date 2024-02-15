@@ -1,13 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getAllBooksFromFavorite } from "../API/favoriteApi";
 
 export const getFavoriteBooks = createAsyncThunk("cart/get", async () => {
-  
+  const response = await getAllBooksFromFavorite()
+  return response
 });
 
 export const removeBookFromFavorite = createAsyncThunk("cart/delete", async () => {});
 
 const initialState = {
-  cartBooks: [{
+  favoriteBooks: [{
     book: {
       id: "",
       title: "",
@@ -39,26 +41,21 @@ const favoriteSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getFavoriteBooks.pending, (state) => {
-      // state.isLoading = true;
-      // state.error.response = {
-      //   data: "",
-      //   status: "",
-      // };
+      state.isLoading = true;
+      state.error.response = {
+        data: "",
+        status: "",
+      };
     });
   
     builder.addCase(getFavoriteBooks.fulfilled, (state, action) => {
-      // state.user = action.payload;
-      // state.isLoading = false;
+      state.favoriteBooks = action.payload.data;
+      state.isLoading = false;
     });
   
-    builder.addCase(getFavoriteBooks.rejected, (state, action) => {
-      // if (action.payload) {
-      //   state.error.response = {
-      //     data: "",
-      //     status: "",
-      //   };
-      // }
-      // state.isLoading = false;
+    builder.addCase(getFavoriteBooks.rejected, (state, action: any) => {
+      state.error.response = action.payload?.response;
+      state.isLoading = false;
     });
   
     builder.addCase(removeBookFromFavorite.pending, (state) => {

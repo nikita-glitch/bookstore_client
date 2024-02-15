@@ -6,6 +6,7 @@ import {
   Slider,
   Typography,
   Checkbox,
+  ListItemText,
 } from "@mui/material";
 import React, { FC, useState } from "react";
 import styled from "styled-components";
@@ -55,17 +56,7 @@ const Filters: FC = () => {
     searchParams.set("sort", event.target.value);
     setSearchParams(searchParams);
   };
-  /**
- * forEach((value, key) => {
-      if (key === "genreId" && value === event.target.value) {
-        console.log('asdasd');
-        
-        searchParams.delete(key)
-        searchParams.
-        handleChecked(event.target.value, true)
-      }
-    })
- */
+
   const handleGenreChange = (event: SelectChangeEvent<any>) => {
     if (event.target.value === "") {
       searchParams.forEach((value, key) => {
@@ -84,7 +75,6 @@ const Filters: FC = () => {
         params.lastIndexOf(event.target.value)
     ) {
       params = params.filter((param) => param !== event.target.value);      
-      params.push(event.target.value);
     }
     setSearchParams(createSearchParams({ genreId: params }));
     }
@@ -96,10 +86,7 @@ const Filters: FC = () => {
     setValue(newValue as number[]);
   };
 
-  const handleChecked = (id?: string, setCheckFalse?: boolean): boolean => {
-    if (setCheckFalse) {
-      return false;
-    }
+  const handleChecked = (id: string): boolean => {
     let res = false;
     searchParams.forEach((value, key) => {
       if (value === id) {
@@ -117,7 +104,7 @@ const Filters: FC = () => {
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={searchParams.get("genreId")}
+            value={searchParams.get('genreId')}
             label="Genre"
             onChange={handleGenreChange}
           >
@@ -127,16 +114,18 @@ const Filters: FC = () => {
             {genres &&
               genres.map((genre: Genre) => (
                 <MenuItem key={genre.id} value={genre.id}>
-                  <Checkbox checked={handleChecked(genre.id, false)} />
-                  {genre.genre_name}
+                  <Checkbox checked={handleChecked(genre.id)} />
+                  <ListItemText primary={genre.genre_name} />
                 </MenuItem>
               ))}
           </CustomSelect>
         </FormControl>
       </CustomDiv>
       <CustomDiv>
+      <FormControl>
+      <InputLabel id="label">Price</InputLabel>
         <CustomSelect
-          labelId="demo-simple-select-label"
+          labelId="label"
           id="demo-simple-select"
           label="Price"
         >
@@ -158,6 +147,7 @@ const Filters: FC = () => {
             </Typography>
           </Box>
         </CustomSelect>
+        </FormControl>
       </CustomDiv>
       <CustomDiv>
         <FormControl>
@@ -175,7 +165,7 @@ const Filters: FC = () => {
             <MenuItem value="price">Price</MenuItem>
             <MenuItem value="title">Name</MenuItem>
             <MenuItem value="author.author_name">Author name</MenuItem>
-            <MenuItem value="rating">Rating</MenuItem>
+            <MenuItem value="bookRating">Rating</MenuItem>
           </CustomSelect>
         </FormControl>
       </CustomDiv>

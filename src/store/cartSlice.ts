@@ -1,25 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getAllBooksFromCart, removeFromCart } from "../API/cartApi";
+import { getAllBooksFromCart, changeAmount} from "../API/cartApi";
 
 export const getCartBooks = createAsyncThunk("cart/get", async () => {
   const response = await getAllBooksFromCart();
   return response
 });
 
-export const removeBookFromCart = createAsyncThunk("cart/delete", async (bookId: string) => {
-  const response = await removeFromCart(bookId)
+export const setAmount = createAsyncThunk("cart/patch", async (data: {bookId: string, isIncrement: boolean}) => {
+  const response = await changeAmount(data.bookId, data.isIncrement)
   return response
 });
 
-export const changeAmount = createAsyncThunk("cart/patch", async (bookId: string) => {
-  const response = await removeFromCart(bookId)
-  return response
-});
-
-export const addToCart = createAsyncThunk("cart/delete", async (bookId: string) => {
-  const response = await removeFromCart(bookId)
-  return response
-});
 
 const initialState = {
   cartBooks: [{
@@ -70,24 +61,6 @@ extraReducers: (builder) => {
   });
 
   builder.addCase(getCartBooks.rejected, (state, action: any) => {
-    state.error.response = action.payload?.response;
-    state.isLoading = false;
-  });
-
-  builder.addCase(removeBookFromCart.pending, (state) => {
-    state.isLoading = true;
-    state.error.response = {
-      data: "",
-      status: "",
-    };
-  });
-
-  builder.addCase(removeBookFromCart.fulfilled, (state, action) => {
-    state.message = action.payload.data
-    state.isLoading = false;
-  });
-
-  builder.addCase(removeBookFromCart.rejected, (state, action: any) => {
     state.error.response = action.payload?.response;
     state.isLoading = false;
   });

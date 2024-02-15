@@ -4,6 +4,8 @@ import authAPI from "../API/authAPI";
 
 export const getUser = createAsyncThunk("user/get", async () => {
   const response = await userAPI.getUser();
+  console.log(response.data);
+
   return response.data;
 });
 
@@ -37,8 +39,7 @@ export const changeUserName = createAsyncThunk(
   "name/patch",
   async (name: string) => {
     const response = await userAPI.changeName(name);
-    alert(response.data.message);
-    return response.data.name;
+    return response.data;
   }
 );
 
@@ -53,9 +54,74 @@ const initialState = {
     name: "",
     email: "",
     role: "",
-    cart: "",
-    favorite: "",
-    avatar: "",
+    cart: {
+      cartBooks: [
+        {
+          id: "",
+          amount: 1,
+          cartId: "",
+          bookId: "",
+          book: {
+            id: "",
+            title: "",
+            description: "",
+            price: 0,
+            rating: 0,
+            author: {
+              id: "",
+              author_name: "",
+            },
+            genreId: "",
+            comments: [{
+              id: '', 
+              text: '',
+              userId: '',
+              bookId: '',
+              createdAt: ''
+            }],
+            photo: "",
+          },
+        },
+      ],
+      id: "",
+      is_ordered: false,
+      has_paid: false,
+    },
+    favorite: {
+      favoriteBooks: [
+        {
+          id: "",
+          favoriteId: "",
+          bookId: "",
+          book: {
+            id: "",
+            title: "",
+            description: "",
+            price: 0,
+            rating: 0,
+            author: {
+              id: "",
+              author_name: "",
+            },
+            genreId: "",
+            comments: [{
+              id: '', 
+              text: '',
+              userId: '',
+              bookId: '',
+              createdAt: ''
+            }],
+            photo: "",
+          },
+        },
+      ],
+      id: "",
+    },
+    avatar: {
+      id: '', 
+      avatarName: '',
+      data: '',
+    },
   },
   isLoading: false,
   error: {
@@ -64,7 +130,7 @@ const initialState = {
       status: "",
     },
   },
-  message: {},
+  message: '',
 };
 
 export const userSlice = createSlice({
@@ -89,7 +155,7 @@ export const userSlice = createSlice({
       state.error.response = action.payload?.response;
       state.isLoading = false;
     });
-    
+
     builder.addCase(signIn.pending, (state) => {
       state.isLoading = true;
       state.error.response = {
@@ -100,8 +166,8 @@ export const userSlice = createSlice({
 
     builder.addCase(signIn.fulfilled, (state, action: any) => {
       const { token, user } = action.payload.data;
-      localStorage.setItem('token', token)
-      state.user = user
+      localStorage.setItem("token", token);
+      state.user = user;
       state.error.response = {
         data: "",
         status: "",
@@ -133,6 +199,7 @@ export const userSlice = createSlice({
 
     builder.addCase(signUp.rejected, (state, action: any) => {
       state.error.response = action.payload?.response;
+      state.message = action.payload?.response.message
       state.isLoading = false;
     });
 
@@ -145,7 +212,10 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(changeUserName.fulfilled, (state, action) => {
-      state.user.name = action.payload;
+      state.user.name = action.payload.name;
+      console.log(action.payload);
+      
+      state.message = action.payload.message
       state.isLoading = false;
     });
 

@@ -1,18 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
+import { UserInterface } from "./interfaces/interfaces";
 
 const ProtectedRoute = ({
   user,
   children,
 }: {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-    cart: string;
-    favorite: string;
-    avatar: string;
-  };
+  user: UserInterface;
   children?: JSX.Element;
 }) => {
   if (user.id === "" || user.id === undefined) {
