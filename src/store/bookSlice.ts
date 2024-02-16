@@ -25,7 +25,6 @@ export const getBook = createAsyncThunk(
       params.searchString,
       sortOptions
     );
-    console.log(response);
     
     return response.data;
   }
@@ -38,7 +37,13 @@ const initialState = {
       title: "",
       description: "",
       price: 0,
-      rating: 0,
+      bookRating: 0,
+      rating: [{
+        id: '',
+        value: 0,
+        userId: '',
+        bookId: '',
+      }],
       author: {
         id: "",
         author_name: "",

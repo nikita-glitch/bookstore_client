@@ -3,28 +3,34 @@ export interface UserInterface {
   name: string;
   email: string;
   role: string;
-  cart: {
-    cartBooks: 
+  cart?: {
+    cartBooks?: 
       {
         id: string;
         amount: number;
         cartId: string;
         bookId: string;
-        book: Book;
+        book?: Book;
       }[];
     id: string;
     is_ordered: boolean;
     has_paid: boolean;
   };
-  favorite: {
-    favoriteBooks: {
+  favorite?: {
+    favoriteBooks?: {
       id: string;
       favoriteId: string;
       bookId: string;
-      book: Book
+      book?: Book
     }[];
     id: string;
   };
+  rating: {
+    id: string;
+    value: number;
+    userId: string;
+    bookId: string;
+  }[];
   avatar?: {
     id: string, 
     avatarName: string,
@@ -37,7 +43,13 @@ export interface Book {
   title: string;
   description: string;
   price: number;
-  rating: number;
+  bookRating: number;
+  rating: {
+    id: string;
+    value: number;
+    userId: string;
+    bookId: string;
+  }[];
   author: {
     id: string;
     author_name: string;

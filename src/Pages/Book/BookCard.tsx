@@ -4,16 +4,25 @@ import CardContent from "@mui/material/CardContent";
 import styled from "styled-components";
 import Rating from "@mui/material/Rating";
 import favIco from "../../Logos/button_save.svg";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { Book } from "../../interfaces/interfaces";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { addToFavorite } from "../../API/userAPI";
 
 const BookCard: FC<Book> = (book: Book) => {
-  const [rating, setRating] = useState<number | null>(0);
-  const navigate = useNavigate()
-  const handleRatingSet = (ev: React.SyntheticEvent<Element, Event>) => {
-    // setRating(ev.currentTarget.val)
+  const navigate = useNavigate();
+  const handleButtonClick = (
+    ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    navigate("/books/" + book.id);
   };
+
+  const handleAddToFavorite = async(ev: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    const response = await addToFavorite(book.id)
+    console.log("Favorite>", response);
+    
+  }
+  
   return (
     <>
       <CustomCard>
@@ -21,27 +30,22 @@ const BookCard: FC<Book> = (book: Book) => {
           <BookImg src="" alt="" />
         </CardMedia>
         <CustomCardContent>
-          <CustomIcon src={favIco} alt="" />
+          <CustomIcon src={favIco} alt="" onClick={handleAddToFavorite}/>
           <CustomTitle>{book.title}</CustomTitle>
           <CustomAuthor>{book.author.author_name}</CustomAuthor>
           <RatingDiv>
             <CustomRating
               id="rating"
               name="simple-controlled"
-              value={book.rating | 0}
-              onChange={(event, newValue) => {
-                setRating(newValue);
-              }}
+              value={book.bookRating | 0}
               size="large"
               disabled
             />
-            <Box>{book.rating | 0}</Box>
+            <Box>{book.bookRating | 0}</Box>
           </RatingDiv>
         </CustomCardContent>
         <CardActions>
-          
-            <CustomButton onClick={() => navigate('/books/' + book.id)}>{book.price}</CustomButton>
-
+          <CustomButton onClick={handleButtonClick}>{book.price}</CustomButton>
         </CardActions>
       </CustomCard>
     </>
@@ -49,13 +53,12 @@ const BookCard: FC<Book> = (book: Book) => {
 };
 
 const CustomRating = styled(Rating)`
-  @media only screen and (min-width: 835px) {
-    color: #bfcc94;
-    .MuiRating-root {
-      display: flex;
-      justify-content: space-between;
-    }
+  color: #bfcc94;
+  .MuiRating-root {
+    display: flex;
+    justify-content: space-between;
   }
+
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {

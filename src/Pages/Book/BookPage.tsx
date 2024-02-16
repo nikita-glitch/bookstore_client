@@ -2,7 +2,7 @@ import { Button, Rating, TextField, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-//import signInBanner from "../Logos/sing in banner.svg";
+import signInBanner from "../../Logos/sign_in_banner.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import BookCard from "./BookCard";
 import { useEffect, useState } from "react";
@@ -10,19 +10,21 @@ import { getBookById } from "../../API/booksAPI";
 import { Book } from "../../interfaces/interfaces";
 import logo from "../../Logos/Group 2.svg";
 import BookComment from "./Comments/BookComment";
+import { addComment, addToCart, setRating } from "../../API/userAPI";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 
 const BookPage = () => {
+  const [input, setInput] = useState<string>('')
   const user = useSelector((state: RootState) => state.users.user);
   const [book, setBook] = useState<Book>();
   const { id } = useParams();
   const navigate = useNavigate();
-
+  const books = useSelector((state: RootState) => state.books.book);
   useEffect(() => {
     let ignore = false;
     if (!ignore) {
       if (id) {
-        getBookById(id)
-        .then((response) => {
+        getBookById(id).then((response) => {
           setBook(response.data);
         });
       }
@@ -32,11 +34,71 @@ const BookPage = () => {
     };
   }, [id]);
 
-  const handleBannerClick = () => {
+  const getUserRate = () => {
+    let value = 0;
+    user.rating?.map((rate => {
+      if (rate.userId === user.id && rate.bookId === id) {
+        value = rate.value
+      }
+    }))
+    return value
+  }
+
+  const notify = (message: string) => toast(message, {
+    position: "top-center",
+    autoClose: 2000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,
+    });
+
+  const handleTextInputChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setInput(ev.target.value)
+  }
+
+  const handleCommentPost = async(ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const response = await addComment(input, id)
+    console.log("Comment>", response);
+  }
+
+  const handleRatingChange = async (
+    event: React.SyntheticEvent<Element, Event>,
+    newValue: number | null
+  ) => {    
+    const response = await setRating(newValue, id);
+    console.log("Rating>", response);
+  };
+
+  const handleBannerClick = (ev: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
     navigate("/sign-in");
   };
+
+  const handleCartAddClick = async(ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (user.id === '') {
+      navigate("/sign-in");
+    } else {
+      const respone = await addToCart(id);
+      notify(respone.data.message)
+    }
+  }
   return (
     <Page>
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <CustomBookDiv>
         <Bookimg src={book?.photo} alt="" />
         <CustomInfoDiv>
@@ -44,13 +106,11 @@ const BookPage = () => {
           <BookAuthor>{book?.author.author_name}</BookAuthor>
           <CustomRatingDiv>
             <CustomLogo src={logo} alt="" />
-            <Typography>{book?.rating}</Typography>
+            <Typography>{getUserRate()}</Typography>
             <Rating
               name="simple-controlled"
-              value={book?.rating}
-              // onChange={(event, newValue) => {
-              // setValue(newValue);
-              // }}
+              value={getUserRate()}
+              onChange={handleRatingChange}
             />
             <Typography>Rate this book</Typography>
           </CustomRatingDiv>
@@ -59,44 +119,63 @@ const BookPage = () => {
             Description
             <DescriptionText>{book?.description}</DescriptionText>
           </CustomDescriptionDiv>
-          <div>
-            PaperBack
-            <CustomButton disabled>Not available</CustomButton>
-            HardCover
-            <CustomButton>Buy</CustomButton>
-          </div>
+          <CustomButtonDiv>
+            <div>
+              <Typography>PaperBack</Typography>
+              <CustomButton disabled>Not available</CustomButton>
+            </div>
+            <div>
+              <Typography>HardCover</Typography>
+              <CustomButton onClick={handleCartAddClick}>Buy</CustomButton>
+            </div>
+          </CustomButtonDiv>
         </CustomInfoDiv>
       </CustomBookDiv>
       <CommentsList>
-        <Typography>Comments</Typography>
-        {book?.comments.map((comment) =>
-        <BookComment {...comment}/>
-        )}
+        <Comments>Comments</Comments>
+        {book?.comments.map((comment) => (
+          <BookComment {...comment} />
+        ))}
       </CommentsList>
-      {user ? (
+      {user.id !== "" ? (
         <TextAreaDiv>
           <TextField
             id="outlined-multiline-static"
-            label="Multiline"
+            label="Share a comment"
             multiline
+            value={input}
             rows={4}
-            defaultValue="Default Value"
+            onChange={handleTextInputChange}
           />
-          <CustomButton>Post a comment</CustomButton>
+          <CustomButton onClick={handleCommentPost}>Post a comment</CustomButton>
         </TextAreaDiv>
       ) : (
         <>
-          <CustomIcon src="" alt="" onClick={handleBannerClick} />
+          <CustomIcon src={signInBanner} alt="" onClick={handleBannerClick} />
         </>
       )}
-      <RecomendationsDiv>{/* <BookCard/> */}</RecomendationsDiv>
+      <Recomendations>Recommendations</Recomendations>
+      <RecomendationsDiv>
+        {books.map((bookItem, index) => (
+          <>
+          {index < 4 &&
+            <BookCard key={bookItem.id} {...bookItem} />
+          }</>
+        ))}
+      </RecomendationsDiv>
     </Page>
   );
 };
 
+const CustomButtonDiv = styled.div`
+  display: flex;
+  justify-content: space-around
+  ;
+`
+
 const CommentsList = styled.div`
   padding: 0 0 0 80px;
-`
+`;
 
 const CustomLogo = styled.img``;
 const CustomRatingDiv = styled.div`
@@ -108,7 +187,8 @@ const CustomRatingDiv = styled.div`
 `;
 
 const CustomIcon = styled.img`
-  
+  padding: 68px 80px 110px 80px;
+  width: 1720px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -136,6 +216,32 @@ const BookTitle = styled(Typography)`
   @media only screen and (max-width: 320px) {
   }
 `;
+
+const Recomendations = styled(Typography)`
+  padding: 0 0 0 80px;
+  font-family: Poppins;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 60px;
+
+  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  }
+  @media only screen and (max-width: 320px) {
+  }
+`;
+
+const Comments = styled(Typography)`
+  font-family: Poppins;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 60px;
+
+  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  }
+  @media only screen and (max-width: 320px) {
+  }
+`;
+
 const BookAuthor = styled(Typography)`
   font-family: Poppins;
   font-size: 24px;
@@ -158,7 +264,7 @@ const CustomDescriptionDiv = styled.div`
 
 const CustomBookDiv = styled.div`
   display: flex;
-  gap: 130px;
+  justify-content: space-between;
   padding: 60px 80px 110px 80px;
 
   @media only screen and (min-width: 321px) and (max-width: 834px) {
@@ -202,13 +308,20 @@ const CustomButton = styled(Button)`
   }
 `;
 const RecomendationsDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 50px 80px 150px 80px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
   }
 `;
 const TextAreaDiv = styled.div`
-   padding: 50px 0 0 80px;
+  padding: 50px 0 0 80px;
+  width: 800px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {

@@ -23,7 +23,7 @@ const ProfilePage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const {user, isLoading, message, error} = useSelector((state: RootState) => state.users);
 
-  const notify = (message: string) => toast(message, {
+  const notify = (message: string) => {toast(message, {
     position: "top-center",
     autoClose: 2000,
     hideProgressBar: true,
@@ -33,7 +33,9 @@ const ProfilePage = () => {
     progress: undefined,
     theme: "light",
     transition: Bounce,
-    });;
+    })
+    return  
+  };
 
   React.useEffect(() => {    
     let ignore = false;
@@ -85,16 +87,13 @@ const ProfilePage = () => {
     },
     //validationSchema: nameChangeSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      dispatch(changeUserName(values.userName))
-      .unwrap()
-      .then(() => notify(message))
-      .catch(() => notify(error.response.data))
-      // if (error.response.data) {        
-      //   notify(error.response.data)
-      // } else {        
-      //   notify(message)
-      // }
+      await dispatch(changeUserName(values.userName))
+      // .unwrap()
+      // .then(() => notify(message))
+      // .catch(() => notify(error.response.data))
+
       setSubmitting(false);
+      setChangeName(false)
     },
   });
 
@@ -108,6 +107,7 @@ const ProfilePage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       const response = await changePassword(values);
       setSubmitting(false);
+      setChangePass(false)
       if (error.response.data) {        
         notify(error.response.data)
       } else {

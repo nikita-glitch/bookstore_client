@@ -30,24 +30,43 @@ const getAvatar = async () => {
   return response;
 };
 
-const addComment = async (bookId: string) => {};
+export const addComment = async (commentText: string, bookId?: string) => {
+  const response = privateRoute.post("/users/comment", { commentText, bookId });
+  return response;
+};
 
-export const addToFavorite = async() => {
-    const response = privateRoute.get("/");
-  return response
-}
-export const addToCart = async() => {
-    const response = privateRoute.get("/");
-  return response
-}
-export const removeFromFavorite = async() => {
-    const response = privateRoute.get("/");
-  return response
-}
-export const removeFromCart = async() => {
-    const response = privateRoute.get("/");
-  return response
-}
+export const addToFavorite = async (bookId?: string) => {
+  const response = privateRoute.post("/users/favorite", { bookId });
+  return response;
+};
+export const addToCart = async (bookId?: string) => {
+  const response = await privateRoute.post("/users/cart", { bookId });
+  return response;
+};
+export const removeFromFavorite = async (bookId?: string) => {
+  const response = privateRoute.delete("/users/favorite", {
+    data: {
+      bookId,
+    },
+  });
+  return response;
+};
+export const removeFromCart = async (bookId?: string) => {
+  const response = privateRoute.delete("/users/cart", {
+    data: {
+      bookId,
+    },
+  });
+  return response;
+};
+
+export const setRating = async (
+  ratingValue: number | null,
+  bookId?: string
+) => {
+  const response = privateRoute.put("/users/rating", { bookId, ratingValue });
+  return response;
+};
 
 export default {
   getUser,

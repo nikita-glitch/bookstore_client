@@ -18,7 +18,7 @@ const SignInPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user, isLoading, error} = useSelector((state: RootState) => state.users)
   
-  const notify = (message: string) => toast.error(message, {
+  const notify = (message: string) => {toast.error(message, {
     position: "top-center",
     autoClose: 2000,
     hideProgressBar: true,
@@ -28,7 +28,8 @@ const SignInPage = () => {
     progress: undefined,
     theme: "light",
     transition: Bounce,
-    });;
+    })
+  return};
   
   const signInForm = useFormik({
     initialValues: {
@@ -39,6 +40,7 @@ const SignInPage = () => {
     validationSchema: signInSchema,
     onSubmit: async (values, { setSubmitting }) => {
       dispatch(signIn(values)).unwrap()
+      .then(() => navigate("/profile"))
       .catch(() => notify(error.response.data))
       setSubmitting(false)
     },

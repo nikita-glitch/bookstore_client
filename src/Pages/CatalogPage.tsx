@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import BookCard from "./Book/BookCard";
-import signInBanner from "../Logos/sing in banner.svg";
+import signInBanner from "../Logos/sign_in_banner.svg";
 import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import bookBanner from "../Logos/banner.svg";
 import {
@@ -9,8 +9,7 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import ArrowBackIcon from "../Logos/Back.svg";
-import ArrowForwardIcon from "../Logos/Forward.svg";
+
 import Filters from "../Components/Filters";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
@@ -23,6 +22,7 @@ const CatalogPage = () => {
   const books = useSelector((state: RootState) => state.books);
   const user = useSelector((state: RootState) => state.users);
   const [searchParams, setSearchParams] = useSearchParams();
+console.log(books);
 
   useEffect(() => {
     let ignore = false;
@@ -44,7 +44,6 @@ const CatalogPage = () => {
             const firstElem = parseInt(value.split(',')[0]);
             const secondElem = parseInt(value.split(',')[1]);           
             priceFilter = [firstElem, secondElem];
-            console.log(priceFilter);
             break;
           case "searchString":
             searchString = value;
@@ -65,6 +64,20 @@ const CatalogPage = () => {
   const { book, isLoading, error } = useSelector(
     (state: RootState) => state.books
   );
+
+    const handlePaginationClick = () => {
+      const prevOffset = searchParams.get('offset')
+      let newOffset = 0;
+      if (prevOffset) {
+        if ('') {
+          newOffset = parseInt(prevOffset) + 1
+        } else {
+          newOffset = parseInt(prevOffset) - 1
+        }
+      }
+      searchParams.set('offset', newOffset.toString())
+      setSearchParams()
+    }
 
   const navigate = useNavigate();
 
@@ -105,7 +118,7 @@ const CatalogPage = () => {
         count={Math.ceil(books.total / 12)}
         renderItem={(item) => (
           <PaginationItem
-            //slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+            slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
             {...item}
           />
         )}

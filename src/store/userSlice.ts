@@ -5,7 +5,7 @@ import authAPI from "../API/authAPI";
 export const getUser = createAsyncThunk("user/get", async () => {
   const response = await userAPI.getUser();
   console.log(response.data);
-
+  
   return response.data;
 });
 
@@ -66,7 +66,13 @@ const initialState = {
             title: "",
             description: "",
             price: 0,
-            rating: 0,
+            bookRating: 0,
+            rating: [{
+              id: '',
+              value: 0,
+              userId: '',
+              bookId: '',
+            }],
             author: {
               id: "",
               author_name: "",
@@ -98,7 +104,13 @@ const initialState = {
             title: "",
             description: "",
             price: 0,
-            rating: 0,
+            bookRating: 0,
+            rating: [{
+              id: '',
+              value: 0,
+              userId: '',
+              bookId: '',
+            }],
             author: {
               id: "",
               author_name: "",
@@ -122,6 +134,12 @@ const initialState = {
       avatarName: '',
       data: '',
     },
+    rating: [{
+      id: '',
+      value: 0,
+      userId: '',
+      bookId: '',
+    }],
   },
   isLoading: false,
   error: {
