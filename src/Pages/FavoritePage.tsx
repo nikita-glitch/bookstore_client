@@ -1,30 +1,32 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
 import { Box, Button, Typography } from "@mui/material";
 import styled from "styled-components";
 import FormButton from "../Components/FormButton";
 import logo from "../Logos/unsplash_DgQf1dUKUTM.svg";
 import { useNavigate } from "react-router-dom";
-import { removeFromFavorite } from "../API/userAPI";
+import { removeBookFromFavorite } from "../store/favoriteSlice";
+import { notify } from "../Notify";
 
 const FavoritePage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const { favoriteBooks } = useSelector(
     (state: RootState) => state.users.user.favorite
   );
-  
+
   const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     navigate("/books");
   };
 
-  const handleRemoveFromCart = async(bookId: string) => {
-      const response = await removeFromFavorite(bookId)
-      console.log('remove>', response);
-      
-  }
+  const handleRemoveFromFavorite = async (bookId: string) => {
+    try {
+      await dispatch(removeBookFromFavorite(bookId)).unwrap();
+      //  notify
+    } catch (error) {}
+  };
   return (
     <div>
-     
       {favoriteBooks.length === 0 && (
         <Box component="form" onSubmit={handleSubmit}>
           <EmptyCartDiv>
@@ -38,13 +40,17 @@ const FavoritePage = () => {
         </Box>
       )}
       <div>
-      {favoriteBooks.map((favoriteBook) => 
-        <div key={favoriteBook.id}>
-          <CustomTitle>{favoriteBook.book.title}</CustomTitle>
-          <CustomAuthor>{favoriteBook.book.author.author_name}</CustomAuthor>
-          <Button onClick={() => handleRemoveFromCart(favoriteBook.book.id)}>Remove</Button>
-        </div>
-      )}
+        {favoriteBooks.map((favoriteBook) => (
+          <div key={favoriteBook.id}>
+            <CustomTitle>{favoriteBook.book.title}</CustomTitle>
+            <CustomAuthor>{favoriteBook.book.author.author_name}</CustomAuthor>
+            <Button
+              onClick={() => handleRemoveFromFavorite(favoriteBook.book.id)}
+            >
+              Remove
+            </Button>
+          </div>
+        ))}
       </div>
     </div>
   );

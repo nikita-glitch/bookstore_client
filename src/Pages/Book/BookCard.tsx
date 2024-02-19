@@ -7,9 +7,13 @@ import favIco from "../../Logos/button_save.svg";
 import { FC } from "react";
 import { Book } from "../../interfaces/interfaces";
 import { useNavigate } from "react-router-dom";
-import { addToFavorite } from "../../API/userAPI";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store/store";
+import { addBookToFavorite } from "../../store/favoriteSlice";
+import { notify } from "../../Notify";
 
 const BookCard: FC<Book> = (book: Book) => {
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate();
   const handleButtonClick = (
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -18,16 +22,20 @@ const BookCard: FC<Book> = (book: Book) => {
   };
 
   const handleAddToFavorite = async(ev: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    const response = await addToFavorite(book.id)
-    console.log("Favorite>", response);
-    
+    try {
+      await dispatch(addBookToFavorite(book.id)).unwrap()
+      // notify()
+    } catch (error) {
+      
+    }
   }
   
   return (
     <>
       <CustomCard>
         <CardMedia>
-          <BookImg src="" alt="" />
+          
+          <BookImg src={''} alt="" />
         </CardMedia>
         <CustomCardContent>
           <CustomIcon src={favIco} alt="" onClick={handleAddToFavorite}/>

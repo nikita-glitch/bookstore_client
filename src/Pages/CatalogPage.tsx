@@ -21,8 +21,8 @@ const CatalogPage = () => {
   const catalog = useRef<HTMLDivElement | null>(null);
   const books = useSelector((state: RootState) => state.books);
   const user = useSelector((state: RootState) => state.users);
+  const [offset, SetOffset] = useState<number>(1);
   const [searchParams, setSearchParams] = useSearchParams();
-console.log(books);
 
   useEffect(() => {
     let ignore = false;
@@ -31,7 +31,6 @@ console.log(books);
       let priceFilter = [0, 100];
       let searchString = "";
       let sortBy = "";
-      let offset = 1;
       searchParams.forEach((value, key) => {       
         switch (key) {
           case "genreId":
@@ -48,9 +47,6 @@ console.log(books);
           case "searchString":
             searchString = value;
             break;
-          case "offset":
-            offset = parseInt(value);
-            break;
         }
       });      
       const params = {priceFilter, searchString, genreFilter, sortBy, offset}
@@ -59,24 +55,14 @@ console.log(books);
     return () => {
       ignore = true;
     };
-  }, [searchParams]);
+  }, [searchParams, offset]);
 
-  const { book, isLoading, error } = useSelector(
-    (state: RootState) => state.books
+  const book = useSelector(
+    (state: RootState) => state.books.book
   );
 
-    const handlePaginationClick = () => {
-      const prevOffset = searchParams.get('offset')
-      let newOffset = 0;
-      if (prevOffset) {
-        if ('') {
-          newOffset = parseInt(prevOffset) + 1
-        } else {
-          newOffset = parseInt(prevOffset) - 1
-        }
-      }
-      searchParams.set('offset', newOffset.toString())
-      setSearchParams()
+    const handlePaginationClick = (ev: React.ChangeEvent<unknown>, page: number) => {
+      SetOffset(page)
     }
 
   const navigate = useNavigate();
@@ -116,9 +102,10 @@ console.log(books);
 
       <CustomPagination
         count={Math.ceil(books.total / 12)}
+        onChange={handlePaginationClick}
         renderItem={(item) => (
           <PaginationItem
-            slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+           // slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
             {...item}
           />
         )}

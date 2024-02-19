@@ -14,30 +14,17 @@ import { AppDispatch, RootState } from "../store/store";
 import { useDispatch } from "react-redux";
 import { getUserAvatar, changeUserName, getUser } from "../store/userSlice";
 import { changePassword, uploadAvatar } from "../API/userAPI";
-import { Bounce, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { notify } from "../Notify";
+
 
 const ProfilePage = () => {
   const [changePass, setChangePass] = React.useState<boolean>(false);
   const [changeName, setChangeName] = React.useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
-  const {user, isLoading, message, error} = useSelector((state: RootState) => state.users);
+  const { user, isLoading } = useSelector((state: RootState) => state.users);
 
-  const notify = (message: string) => {toast(message, {
-    position: "top-center",
-    autoClose: 2000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    transition: Bounce,
-    })
-    return  
-  };
 
-  React.useEffect(() => {    
+  React.useEffect(() => {
     let ignore = false;
     if (!ignore) {
       //dispatch(changeUserAvatar('asd'));
@@ -55,8 +42,8 @@ const ProfilePage = () => {
     const avatar = ev.target.files[0];
     file.append("avatar", avatar);
     console.log(avatar);
-    
-    //await uploadAvatar(file)    
+
+    //await uploadAvatar(file)
   };
 
   const handlePasswordChange = (
@@ -87,13 +74,12 @@ const ProfilePage = () => {
     },
     //validationSchema: nameChangeSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      await dispatch(changeUserName(values.userName))
-      // .unwrap()
-      // .then(() => notify(message))
-      // .catch(() => notify(error.response.data))
+      try {
+        await dispatch(changeUserName(values.userName)).unwrap();
+      } catch (error) {}
 
       setSubmitting(false);
-      setChangeName(false)
+      setChangeName(false);
     },
   });
 
@@ -105,30 +91,18 @@ const ProfilePage = () => {
     },
     //validationSchema: passwordChangeSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      const response = await changePassword(values);
-      setSubmitting(false);
-      setChangePass(false)
-      if (error.response.data) {        
-        notify(error.response.data)
-      } else {
-        notify(response.data.message)
+      try {
+        const response = await changePassword(values);
+        //  notify(error.response.data)
+      } catch (error) {
+        //notify(error.response.data)
       }
+      setSubmitting(false);
+      setChangePass(false);
     },
   });
   return (
     <CustomProfileDiv>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
       <div>
         <CustomAvatar src={userPhoto} alt="" />
         <label>

@@ -10,27 +10,13 @@ import { useDispatch } from "react-redux";
 import { signIn } from "../../store/userSlice";
 import { AppDispatch, RootState } from "../../store/store";
 import { useSelector } from "react-redux";
-import { Bounce, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { notify } from "../../Notify";
 
 const SignInPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { user, isLoading, error} = useSelector((state: RootState) => state.users)
-  
-  const notify = (message: string) => {toast.error(message, {
-    position: "top-center",
-    autoClose: 2000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    transition: Bounce,
-    })
-  return};
-  
+  const { user } = useSelector((state: RootState) => state.users)
+
   const signInForm = useFormik({
     initialValues: {
       email: "",
@@ -39,26 +25,23 @@ const SignInPage = () => {
     
     validationSchema: signInSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      dispatch(signIn(values)).unwrap()
-      .then(() => navigate("/profile"))
-      .catch(() => notify(error.response.data))
-      setSubmitting(false)
+      try {
+        const response = await dispatch(signIn(values)).unwrap();
+        notify(response.data.message, "succsess")
+        navigate("/profile");
+      } catch(err) {
+        console.log(err);
+        // notify()
+        //notify(err)
+      } finally {
+        setSubmitting(false)
+      }
+
     },
   });
   return (
     <CustomPageDiv>
-     <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+     
       <CustomImg src={logo} alt="" className="picture" />
       <CustomFormDiv>
         <CustomTitle>Sign In</CustomTitle>
@@ -112,7 +95,7 @@ const CustomErrorMessage = styled.div`
 `;
 
 const CustomPageDiv = styled.div`
-  @media only screen and (min-width: 835px) {
+  @media (min-width: 835px) {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;

@@ -9,26 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import { signUp } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import { Bounce, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { notify } from "../../Notify";
 
 const SignUpPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user, isLoading, error} = useSelector((state: RootState) => state.users)
-
-
-  const notify = (message: string) => toast.error(message, {
-    position: "top-center",
-    autoClose: 2000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    transition: Bounce,
-    });;
+  const { user, isLoading } = useSelector((state: RootState) => state.users);
 
   const signUpForm = useFormik({
     initialValues: {
@@ -38,30 +24,20 @@ const SignUpPage = () => {
     },
     validationSchema: signUpSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      await dispatch(signUp(values));
-      setSubmitting(false);
-      if (error.response.data) {        
-        notify(error.response.data)
-      } else {
+      try {
+        const response = await dispatch(signUp(values)).unwrap();
+        notify(response.data.message, "succsess");
         navigate("/profile");
+      } catch (err) {
+        // notify(err);
+      } finally {
+        setSubmitting(false);
       }
     },
   });
 
   return (
     <CustomPageDiv>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
       <CustomImg src={logo} alt="" className="picture" />
 
       <CustomFormDiv>

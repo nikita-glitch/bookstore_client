@@ -3,9 +3,7 @@ import userAPI from "../API/userAPI";
 import authAPI from "../API/authAPI";
 
 export const getUser = createAsyncThunk("user/get", async () => {
-  const response = await userAPI.getUser();
-  console.log(response.data);
-  
+  const response = await userAPI.getUser();  
   return response.data;
 });
 
@@ -48,6 +46,14 @@ export const getUserAvatar = createAsyncThunk("avatar/get", async () => {
   return response?.data;
 });
 
+export const setBookRating = createAsyncThunk("rating/post", async (data: {ratingValue: number | null, bookId?: string }) => {
+  const response = await userAPI.setRating(data.ratingValue, data.bookId);
+  return response?.data;
+});
+
+
+
+
 const initialState = {
   user: {
     id: "",
@@ -85,7 +91,14 @@ const initialState = {
               bookId: '',
               createdAt: ''
             }],
-            photo: "",
+            photos: {
+              data:{ 
+                data: [], 
+                type: "Buffer"
+              },
+              id: "",
+              photoName: ""
+            },
           },
         },
       ],
@@ -123,7 +136,15 @@ const initialState = {
               bookId: '',
               createdAt: ''
             }],
-            photo: "",
+            photos: {
+              
+              data:{ 
+                data: [], 
+                type: "Buffer"
+              },
+              id: "",
+              photoName: ""
+            },
           },
         },
       ],
@@ -142,13 +163,6 @@ const initialState = {
     }],
   },
   isLoading: false,
-  error: {
-    response: {
-      data: "",
-      status: "",
-    },
-  },
-  message: '',
 };
 
 export const userSlice = createSlice({
@@ -158,10 +172,6 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getUser.pending, (state) => {
       state.isLoading = true;
-      state.error.response = {
-        data: "",
-        status: "",
-      };
     });
 
     builder.addCase(getUser.fulfilled, (state, action) => {
@@ -170,84 +180,52 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(getUser.rejected, (state, action: any) => {
-      state.error.response = action.payload?.response;
       state.isLoading = false;
     });
 
     builder.addCase(signIn.pending, (state) => {
       state.isLoading = true;
-      state.error.response = {
-        data: "",
-        status: "",
-      };
     });
 
     builder.addCase(signIn.fulfilled, (state, action: any) => {
       const { token, user } = action.payload.data;
       localStorage.setItem("token", token);
       state.user = user;
-      state.error.response = {
-        data: "",
-        status: "",
-      };
       state.isLoading = false;
     });
 
     builder.addCase(signIn.rejected, (state, action: any) => {
-      state.error.response = action.payload?.response;
       state.isLoading = false;
     });
 
     builder.addCase(signUp.pending, (state) => {
       state.isLoading = true;
-      state.error.response = {
-        data: "",
-        status: "",
-      };
     });
 
     builder.addCase(signUp.fulfilled, (state, action) => {
       state.user = action.payload?.data;
-      state.error.response = {
-        data: "",
-        status: "",
-      };
       state.isLoading = false;
     });
 
     builder.addCase(signUp.rejected, (state, action: any) => {
-      state.error.response = action.payload?.response;
-      state.message = action.payload?.response.message
       state.isLoading = false;
     });
 
     builder.addCase(changeUserName.pending, (state) => {
       state.isLoading = true;
-      state.error.response = {
-        data: "",
-        status: "",
-      };
     });
 
     builder.addCase(changeUserName.fulfilled, (state, action) => {
       state.user.name = action.payload.name;
-      console.log(action.payload);
-      
-      state.message = action.payload.message
       state.isLoading = false;
     });
 
     builder.addCase(changeUserName.rejected, (state, action: any) => {
-      state.error.response = action.payload?.response;
       state.isLoading = false;
     });
 
     builder.addCase(getUserAvatar.pending, (state) => {
       state.isLoading = true;
-      state.error.response = {
-        data: "",
-        status: "",
-      };
     });
 
     builder.addCase(getUserAvatar.fulfilled, (state, action) => {
@@ -256,9 +234,20 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(getUserAvatar.rejected, (state, action: any) => {
-      state.error.response = action.payload?.response;
       state.isLoading = false;
     });
+
+    builder.addCase(setBookRating.pending, (state, action) => {
+      
+    })
+
+    builder.addCase(setBookRating.fulfilled, (state, action) => {
+      state.user.rating.push(action.payload.userRatingOfBook)
+    })
+
+    builder.addCase(setBookRating.rejected, (state, action) => {
+      
+    })
   },
 });
 

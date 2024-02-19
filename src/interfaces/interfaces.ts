@@ -25,7 +25,7 @@ export interface UserInterface {
     }[];
     id: string;
   };
-  rating: {
+  rating?: {
     id: string;
     value: number;
     userId: string;
@@ -72,7 +72,15 @@ export interface Book {
     bookId: string,
     createdAt: string
   }[];
-  photo: string;
+  photos: {
+        
+      data:{ 
+        data: number[], 
+        type: string
+      },
+      id: string,
+      photoName: string
+      };
 }
 export interface SortOptionsInterface {
   genreId?: {}[];
@@ -81,6 +89,8 @@ export interface SortOptionsInterface {
 }
 
 export interface CartBooks {
+  id: string;
+  bookId: string;
   has_paid: boolean;
   is_ordered: boolean;
   amount: number;

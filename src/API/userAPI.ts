@@ -73,4 +73,10 @@ export default {
   changeName,
   changePassword,
   getAvatar,
+  addToCart, 
+  addToFavorite, 
+  removeFromCart, 
+  removeFromFavorite, 
+  setRating,
+  addComment,
 };

@@ -1,22 +1,26 @@
 import { Button, Rating, TextField, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import signInBanner from "../../Logos/sign_in_banner.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import BookCard from "./BookCard";
 import { useEffect, useState } from "react";
-import { getBookById } from "../../API/booksAPI";
+import { getBookById, getBookPhoto } from "../../API/booksAPI";
 import { Book } from "../../interfaces/interfaces";
 import logo from "../../Logos/Group 2.svg";
 import BookComment from "./Comments/BookComment";
 import { addComment, addToCart, setRating } from "../../API/userAPI";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setBookRating } from "../../store/userSlice";
+import { notify } from "../../Notify";
+import { postComment } from "../../store/bookSlice";
 
 const BookPage = () => {
   const [input, setInput] = useState<string>('')
   const user = useSelector((state: RootState) => state.users.user);
   const [book, setBook] = useState<Book>();
+  const dispatch = useDispatch<AppDispatch>()
   const { id } = useParams();
   const navigate = useNavigate();
   const books = useSelector((state: RootState) => state.books.book);
@@ -26,7 +30,7 @@ const BookPage = () => {
       if (id) {
         getBookById(id).then((response) => {
           setBook(response.data);
-        });
+        })
       }
     }
     return () => {
@@ -36,7 +40,7 @@ const BookPage = () => {
 
   const getUserRate = () => {
     let value = 0;
-    user.rating?.map((rate => {
+    user.rating.map((rate => {
       if (rate.userId === user.id && rate.bookId === id) {
         value = rate.value
       }
@@ -44,33 +48,36 @@ const BookPage = () => {
     return value
   }
 
-  const notify = (message: string) => toast(message, {
-    position: "top-center",
-    autoClose: 2000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    transition: Bounce,
-    });
-
   const handleTextInputChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setInput(ev.target.value)
   }
 
   const handleCommentPost = async(ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const response = await addComment(input, id)
-    console.log("Comment>", response);
+    const data = {
+      commentText: input, 
+      bookId: id
+    }
+      try {
+        await dispatch(postComment(data)).unwrap()
+      } catch (error) {
+        
+      }
   }
 
   const handleRatingChange = async (
     event: React.SyntheticEvent<Element, Event>,
     newValue: number | null
   ) => {    
-    const response = await setRating(newValue, id);
-    console.log("Rating>", response);
+    const data = {
+      ratingValue: newValue, 
+      bookId: id
+    }
+      try {
+        await dispatch(setBookRating(data)).unwrap()
+        //  notify()
+      } catch (error) {
+        
+      }
   };
 
   const handleBannerClick = (ev: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
@@ -78,35 +85,26 @@ const BookPage = () => {
   };
 
   const handleCartAddClick = async(ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    if (user.id === '') {
+    if (!user.id) {
       navigate("/sign-in");
     } else {
       const respone = await addToCart(id);
-      notify(respone.data.message)
-    }
+      // notify(respone.data.message)
+    }    
   }
+
   return (
     <Page>
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
+      
       <CustomBookDiv>
-        <Bookimg src={book?.photo} alt="" />
+      {/* {photo} */}
+        <Bookimg src={""} alt="" />
         <CustomInfoDiv>
           <BookTitle>{book?.title}</BookTitle>
           <BookAuthor>{book?.author.author_name}</BookAuthor>
           <CustomRatingDiv>
             <CustomLogo src={logo} alt="" />
-            <Typography>{getUserRate()}</Typography>
+            <Typography>{book?.bookRating}</Typography>
             <Rating
               name="simple-controlled"
               value={getUserRate()}

@@ -16,6 +16,8 @@ import { Skeleton } from "@mui/material";
 import CartPage from "./Pages/CartPage";
 import FavoritePage from "./Pages/FavoritePage";
 import BookPage from "./Pages/Book/BookPage";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const [init, setInit] = useState<boolean>(false);
@@ -34,7 +36,7 @@ const App = () => {
     };
   }, [dispatch]);
 
-  const { user, isLoading, error } = useSelector(
+  const { user } = useSelector(
     (state: RootState) => state.users
   );
 
@@ -46,7 +48,20 @@ const App = () => {
           <Footer />
         </Skeleton>
       ) : ( */}
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <>
+
         <NavBar />
         <Routes>
           <Route
