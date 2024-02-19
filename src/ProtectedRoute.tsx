@@ -8,7 +8,7 @@ const ProtectedRoute = ({
   user: UserInterface;
   children?: JSX.Element;
 }) => {
-  if (user.id === "" || user.id === undefined) {
+  if (!user.id) {
     return <Navigate to="/books" replace />;
   }
   return children ? children : <Outlet />;

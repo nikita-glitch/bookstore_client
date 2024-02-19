@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userAPI from "../API/userAPI";
 import authAPI from "../API/authAPI";
+import { changeAmount } from "../API/cartApi";
 
 export const getUser = createAsyncThunk("user/get", async () => {
   const response = await userAPI.getUser();  
@@ -51,6 +52,20 @@ export const setBookRating = createAsyncThunk("rating/post", async (data: {ratin
   return response?.data;
 });
 
+export const setAmount = createAsyncThunk("cart/patch", async (data: {bookId: string, isIncrement: boolean}) => {
+  const response = await changeAmount(data.bookId, data.isIncrement)
+  return response
+});
+
+export const addBookToCart = createAsyncThunk("cart/post", async (bookId: string) => {
+  const response = await userAPI.addToCart(bookId);
+  return response.data.cartBook
+});
+
+export const removeBookFromCart = createAsyncThunk("cart/delete", async (bookId: string) => {
+  const response = await userAPI.removeFromCart(bookId);
+  return response
+});
 
 
 
@@ -168,8 +183,40 @@ const initialState = {
 export const userSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    amountIncremented(state, action) {
+      const currentCartBook = state.user.cart.cartBooks.find((elem) => elem.book.id === action.payload)
+      if (currentCartBook) {
+        currentCartBook.amount++
+      }
+    },
+  
+    amountDecremented(state, action) {
+      console.log(action.payload);
+      
+      const currentCartBook = state.user.cart.cartBooks.find((elem) => elem.book.id === action.payload)
+      console.log(currentCartBook);
+      
+      if (currentCartBook) {
+        currentCartBook.amount--
+      }
+    },
+  
+    bookRemovedFromCart(state, action) {
+      state.user.cart.cartBooks = state.user.cart.cartBooks.filter((elem) => elem.book.id !== action.payload)
+    }
+  },
   extraReducers: (builder) => {
+    
+  
+    builder.addCase(addBookToCart.fulfilled, (state, action) => {
+      state.user.cart.cartBooks.push(action.payload.data);
+      state.isLoading = false;
+    });
+  
+    builder.addCase(addBookToCart.rejected, (state, action: any) => {
+      state.isLoading = false;
+    });
     builder.addCase(getUser.pending, (state) => {
       state.isLoading = true;
     });
@@ -250,5 +297,8 @@ export const userSlice = createSlice({
     })
   },
 });
+
+export const { amountIncremented, amountDecremented, bookRemovedFromCart } = userSlice.actions
+
 
 export default userSlice.reducer;

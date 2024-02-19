@@ -5,14 +5,14 @@ import {
   amountDecremented,
   amountIncremented,
   bookRemovedFromCart,
-  removeBookFromCart,
-  setAmount,
-} from "../store/cartSlice";
+
+} from "../store/userSlice";
 import { AppDispatch, RootState } from "../store/store";
 import { useSelector } from "react-redux";
 import { Box, Button, Typography } from "@mui/material";
 import FormButton from "../Components/FormButton";
 import { useNavigate } from "react-router-dom";
+import { removeBookFromCart, setAmount } from "../store/userSlice";
 import { changeAmount } from "../API/cartApi";
 
 const CartPage = () => {
