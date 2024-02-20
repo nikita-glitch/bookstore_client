@@ -5,14 +5,18 @@ import styled from "styled-components";
 
 const BookComment = (comment: Comments) => {
   const resolveCommentTime = () => {
-    //console.log(comment.createdAt);
-    const now = new Date().getTime();
-    //console.log(now);
-
-    const dateDiff = Date.now() - Date.parse(comment.createdAt);
-
-    return <>{dateDiff}</>;
+    const day = Math.floor((parseInt(comment.createdAt) / 24) * 3600 * 1000);
+    if (day <= 1) {
+      return `Left a comment ${day} today`;
+    } else if (day < 30) {
+      return `Left a comment ${day} days ago`;
+    } else if (day >= 30) {
+      return `Left a comment ${Math.ceil(day / 30)} month ago`;
+    } else if (day >= 365) {
+      return `Left a comment ${Math.ceil(day / 240)} year ago`;
+    }
   };
+
   return (
     <CommentDiv>
       <CustomUserInfo>
@@ -21,7 +25,9 @@ const BookComment = (comment: Comments) => {
       <CustomDiv>
         <CustomUserName>{comment.user?.name}</CustomUserName>
         <CustomTimestapm>
-          {resolveCommentTime()} {/*fix time*/}
+          <>
+          {resolveCommentTime()} 
+          </>
         </CustomTimestapm>
         <CustomText>{comment.text}</CustomText>
       </CustomDiv>

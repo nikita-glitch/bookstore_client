@@ -23,8 +23,8 @@ import { postComment } from "../../store/bookSlice";
 const BookPage = () => {
   const [input, setInput] = useState<string>("");
   const user = useSelector((state: RootState) => state.users!.user!);
-  const books = useSelector((state: RootState) => state.books);
-  const [books, setBooks] = useState<Book>();
+  const books = useSelector((state: RootState) => state.books.book);
+  const [book, setBooks] = useState<Book>();
   const [rating, setRatings] = useState<number | undefined>(book?.bookRating);
   const [comments, setComments] = useState<Comments[] >(
     book!.comments
@@ -137,8 +137,8 @@ const BookPage = () => {
         {/* {photo} */}
         <Bookimg src={""} alt="" />
         <CustomInfoDiv>
-          <BookTitle>{books?.title}</BookTitle>
-          <BookAuthor>{books?.author.author_name}</BookAuthor>
+          <BookTitle>{book?.title}</BookTitle>
+          <BookAuthor>{book?.author.author_name}</BookAuthor>
           <CustomRatingDiv>
             <CustomLogo src={logo} alt="" />
             <Typography>{rating ?? 0}</Typography>
@@ -152,7 +152,7 @@ const BookPage = () => {
 
           <CustomDescriptionDiv>
             Description
-            <DescriptionText>{books?.description}</DescriptionText>
+            <DescriptionText>{book?.description}</DescriptionText>
           </CustomDescriptionDiv>
           <CustomButtonDiv>
             <div>
@@ -193,7 +193,7 @@ const BookPage = () => {
       )}
       <Recomendations>Recommendations</Recomendations>
       <RecomendationsDiv>
-        {books!.map((bookItem, index) => (
+        {books!.map((bookItem: Book, index: number) => (
           <div key={bookItem.id}>
             {index < 4 && <BookCard key={bookItem.id} {...bookItem} />}
           </div>

@@ -40,7 +40,7 @@ export const postComment = createAsyncThunk(
   "comment/post",
   async (data: { commentText: string; bookId?: string }) => {
     const response = await userAPI.addComment(data.commentText, data.bookId);
-    return response?.data;
+    return response.data;
   }
 );
 

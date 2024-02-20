@@ -106,7 +106,8 @@ const Filters: FC = () => {
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {genres.map((genre: Genre) => (
+            {genres &&
+            genres.map((genre: Genre) => (
               <MenuItem key={genre.id} value={genre.id}>
                 <Checkbox checked={handleChecked(genre.id)} />
                 <ListItemText primary={genre.genre_name} />
