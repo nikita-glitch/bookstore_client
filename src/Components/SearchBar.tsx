@@ -23,7 +23,7 @@ const SearchBar = () => {
       <CustomInputBase
         placeholder="Search"
         onChange={handleSearchInput}
-        value={searchParams.get('searchString')}
+        value={searchParams.get('searchString') ?? ""}
       ></CustomInputBase>
     </CustomSearchDiv>
   );

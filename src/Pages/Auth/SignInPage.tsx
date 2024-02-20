@@ -11,6 +11,7 @@ import { signIn } from "../../store/userSlice";
 import { AppDispatch, RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import { notify } from "../../Notify";
+import { AxiosError } from "axios";
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -26,13 +27,10 @@ const SignInPage = () => {
     validationSchema: signInSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const response = await dispatch(signIn(values)).unwrap();
-        notify(response.data.message, "succsess")
+        await dispatch(signIn(values)).unwrap();
         navigate("/profile");
-      } catch(err) {
-        console.log(err);
-        // notify()
-        //notify(err)
+      } catch(err: any) {
+        notify(err.response.data, "error")
       } finally {
         setSubmitting(false)
       }

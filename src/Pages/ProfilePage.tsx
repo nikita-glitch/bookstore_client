@@ -70,16 +70,19 @@ const ProfilePage = () => {
 
   const nameChange = useFormik({
     initialValues: {
-      userName: user.name,
+      userName: user!.name,
     },
     //validationSchema: nameChangeSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        await dispatch(changeUserName(values.userName)).unwrap();
-      } catch (error) {}
+        const response = await dispatch(changeUserName(values.userName)).unwrap();        
+        notify(response.message, 'succsess')
+      } catch (error) {
 
-      setSubmitting(false);
-      setChangeName(false);
+      } finally {
+        setSubmitting(false);
+        setChangeName(false);
+      }
     },
   });
 
@@ -93,12 +96,14 @@ const ProfilePage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await changePassword(values);
-        //  notify(error.response.data)
+        notify(response.data.message, 'succsess');
       } catch (error) {
         //notify(error.response.data)
-      }
+      } finally {
       setSubmitting(false);
       setChangePass(false);
+      passwordChange.resetForm()
+      }
     },
   });
   return (
@@ -121,7 +126,7 @@ const ProfilePage = () => {
           <CustomInputDiv>
             <CustomTextField
               label="Your name"
-              placeholder={user.name}
+              placeholder={user!.name}
               disabled={!changeName}
               id="userName"
               {...nameChange.getFieldProps("userName")}
@@ -188,6 +193,7 @@ const ProfilePage = () => {
                     label="Password replay"
                     placeholder=""
                     id="passwordToCompare"
+                    type="password"
                     helperText="Repeat your password without errors"
                     {...passwordChange.getFieldProps("passwordToCompare")}
                   />

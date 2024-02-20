@@ -6,105 +6,142 @@ import signInBanner from "../../Logos/sign_in_banner.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import BookCard from "./BookCard";
 import { useEffect, useState } from "react";
-import { getBookById, getBookPhoto } from "../../API/booksAPI";
-import { Book } from "../../interfaces/interfaces";
+import {
+  getBookById,
+  getBookComments,
+  getBookPhoto,
+  getBookRating,
+} from "../../API/booksAPI";
+import { Book, Comments } from "../../interfaces/interfaces";
 import logo from "../../Logos/Group 2.svg";
 import BookComment from "./Comments/BookComment";
-import { addComment, addToCart, setRating } from "../../API/userAPI";
 import { useDispatch } from "react-redux";
-import { setBookRating } from "../../store/userSlice";
+import { addBookToCart, setBookRating } from "../../store/userSlice";
 import { notify } from "../../Notify";
 import { postComment } from "../../store/bookSlice";
 
 const BookPage = () => {
-  const [input, setInput] = useState<string>('')
-  const user = useSelector((state: RootState) => state.users.user);
-  const [book, setBook] = useState<Book>();
-  const dispatch = useDispatch<AppDispatch>()
+  const [input, setInput] = useState<string>("");
+  const user = useSelector((state: RootState) => state.users!.user!);
+  const books = useSelector((state: RootState) => state.books);
+  const [books, setBooks] = useState<Book>();
+  const [rating, setRatings] = useState<number | undefined>(book?.bookRating);
+  const [comments, setComments] = useState<Comments[] >(
+    book!.comments
+  );
+
+  const dispatch = useDispatch<AppDispatch>();
   const { id } = useParams();
   const navigate = useNavigate();
-  const books = useSelector((state: RootState) => state.books.book);
+
+    useEffect(() => {
+      let ignore = false;
+      if (!ignore) {
+      }
+      return () => {
+        ignore = true;
+      };
+    }, [])
+
+
   useEffect(() => {
     let ignore = false;
     if (!ignore) {
       if (id) {
         getBookById(id).then((response) => {
-          setBook(response.data);
-        })
+          setBooks(response.data);
+        });
+
+        getBookRating(id).then((response) => {
+          console.log("rating", response);
+          setRatings(response.data);
+        });
+
+        getBookComments(id).then((response) => {
+          console.log("comments", response);
+          setComments(response.data);
+        });
       }
     }
     return () => {
       ignore = true;
     };
-  }, [id]);
+  }, [user?.rating]);
 
   const getUserRate = () => {
     let value = 0;
-    user.rating.map((rate => {
-      if (rate.userId === user.id && rate.bookId === id) {
-        value = rate.value
+    user?.rating!.map((rate) => {
+      if (rate.userId === user!.id && rate.bookId === id) {
+        value = rate.value;
       }
-    }))
-    return value
-  }
+    });
+    return value;
+  };
 
-  const handleTextInputChange = (ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setInput(ev.target.value)
-  }
+  const handleTextInputChange = (
+    ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setInput(ev.target.value);
+  };
 
-  const handleCommentPost = async(ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleCommentPost = async (
+    ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     const data = {
-      commentText: input, 
-      bookId: id
-    }
-      try {
-        await dispatch(postComment(data)).unwrap()
-      } catch (error) {
-        
-      }
-  }
+      commentText: input,
+      bookId: id,
+    };
+    try {
+      const response = await dispatch(postComment(data)).unwrap();
+    } catch (error) {}
+  };
 
   const handleRatingChange = async (
     event: React.SyntheticEvent<Element, Event>,
     newValue: number | null
-  ) => {    
+  ) => {
     const data = {
-      ratingValue: newValue, 
-      bookId: id
-    }
-      try {
-        await dispatch(setBookRating(data)).unwrap()
-        //  notify()
-      } catch (error) {
-        
-      }
+      ratingValue: newValue,
+      bookId: id,
+    };
+    try {
+      console.log("value>", newValue);
+
+      //await setRating(newValue, id)
+      await dispatch(setBookRating(data)).unwrap();
+      //  notify()
+    } catch (error) {}
   };
 
-  const handleBannerClick = (ev: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+  const handleBannerClick = (
+    ev: React.MouseEvent<HTMLImageElement, MouseEvent>
+  ) => {
     navigate("/sign-in");
   };
 
-  const handleCartAddClick = async(ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleCartAddClick = async (
+    ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     if (!user.id) {
       navigate("/sign-in");
     } else {
-      const respone = await addToCart(id);
+      const response = await dispatch(addBookToCart(id)).unwrap();
+      notify(response.data.message, "succsess");
       // notify(respone.data.message)
-    }    
-  }
+    }
+  };
 
   return (
     <Page>
-      
       <CustomBookDiv>
-      {/* {photo} */}
+        {/* {photo} */}
         <Bookimg src={""} alt="" />
         <CustomInfoDiv>
-          <BookTitle>{book?.title}</BookTitle>
-          <BookAuthor>{book?.author.author_name}</BookAuthor>
+          <BookTitle>{books?.title}</BookTitle>
+          <BookAuthor>{books?.author.author_name}</BookAuthor>
           <CustomRatingDiv>
             <CustomLogo src={logo} alt="" />
-            <Typography>{book?.bookRating}</Typography>
+            <Typography>{rating ?? 0}</Typography>
             <Rating
               name="simple-controlled"
               value={getUserRate()}
@@ -115,7 +152,7 @@ const BookPage = () => {
 
           <CustomDescriptionDiv>
             Description
-            <DescriptionText>{book?.description}</DescriptionText>
+            <DescriptionText>{books?.description}</DescriptionText>
           </CustomDescriptionDiv>
           <CustomButtonDiv>
             <div>
@@ -130,12 +167,12 @@ const BookPage = () => {
         </CustomInfoDiv>
       </CustomBookDiv>
       <CommentsList>
-        <Comments>Comments</Comments>
-        {book?.comments.map((comment) => (
-          <BookComment {...comment} />
+        <Comment>Comments</Comment>
+        {comments?.map((comment: Comments) => (
+          <BookComment key={comment.id} {...comment} />
         ))}
       </CommentsList>
-      {user.id !== "" ? (
+      {user?.id !== "" ? (
         <TextAreaDiv>
           <TextField
             id="outlined-multiline-static"
@@ -145,7 +182,9 @@ const BookPage = () => {
             rows={4}
             onChange={handleTextInputChange}
           />
-          <CustomButton onClick={handleCommentPost}>Post a comment</CustomButton>
+          <CustomButton onClick={handleCommentPost}>
+            Post a comment
+          </CustomButton>
         </TextAreaDiv>
       ) : (
         <>
@@ -154,11 +193,10 @@ const BookPage = () => {
       )}
       <Recomendations>Recommendations</Recomendations>
       <RecomendationsDiv>
-        {books.map((bookItem, index) => (
-          <>
-          {index < 4 &&
-            <BookCard key={bookItem.id} {...bookItem} />
-          }</>
+        {books!.map((bookItem, index) => (
+          <div key={bookItem.id}>
+            {index < 4 && <BookCard key={bookItem.id} {...bookItem} />}
+          </div>
         ))}
       </RecomendationsDiv>
     </Page>
@@ -167,9 +205,8 @@ const BookPage = () => {
 
 const CustomButtonDiv = styled.div`
   display: flex;
-  justify-content: space-around
-  ;
-`
+  justify-content: space-around;
+`;
 
 const CommentsList = styled.div`
   padding: 0 0 0 80px;
@@ -228,7 +265,7 @@ const Recomendations = styled(Typography)`
   }
 `;
 
-const Comments = styled(Typography)`
+const Comment = styled(Typography)`
   font-family: Poppins;
   font-size: 40px;
   font-weight: 700;

@@ -36,8 +36,8 @@ const App = () => {
     };
   }, [dispatch]);
 
-  const { user } = useSelector(
-    (state: RootState) => state.users
+  const { user, isLoading } = useSelector(
+    (state: RootState) => state.users!
   );
 
   return (
@@ -73,7 +73,7 @@ const App = () => {
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/books/:id" element={<BookPage />} />
           {init && (
-            <Route element={<ProtectedRoute user={user} />}>
+            <Route element={<ProtectedRoute user={user!} />}>
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/favorite" element={<FavoritePage />} />

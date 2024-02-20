@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import bookApi from "../API/booksAPI";
-import { SortOptionsInterface } from "../interfaces/interfaces";
+import { BookStateInterface, SortOptionsInterface } from "../interfaces/interfaces";
 import { RootState } from "./store";
 import userAPI from "../API/userAPI";
 
@@ -9,7 +9,7 @@ export const getBook = createAsyncThunk(
   async (params: {
     priceFilter: number[];
     searchString: string;
-    genreFilter: {}[];
+    genreFilter: {key?: string}[];
     sortBy: string;
     offset: number;
   }) => {
@@ -24,11 +24,17 @@ export const getBook = createAsyncThunk(
       params.searchString,
       sortOptions
     );
-    console.log(response.data);
-
     return response.data;
   }
 );
+
+// export const setBookRating = createAsyncThunk(
+//   "rating/post",
+//   async (data: { ratingValue: number | null; bookId?: string }) => {
+//     const response = await userAPI.setRating(data.ratingValue, data.bookId);
+//     return response?.data;
+//   }
+// );
 
 export const postComment = createAsyncThunk(
   "comment/post",
@@ -39,59 +45,10 @@ export const postComment = createAsyncThunk(
 );
 
 const initialState = {
-  book: [
-    {
-      id: "",
-      title: "",
-      description: "",
-      price: 0,
-      bookRating: 0,
-      rating: [
-        {
-          id: "",
-          value: 0,
-          userId: "",
-          bookId: "",
-        },
-      ],
-      author: {
-        id: "",
-        author_name: "",
-      },
-      genreId: "",
-      comments: [
-        {
-          id: "",
-          text: "",
-          user: {
-            id: "",
-            name: "",
-            email: "",
-            role: "",
-            avatar: {
-              id: "",
-              avatarName: "",
-              data: "",
-            },
-          },
-          bookId: "",
-          createdAt: "",
-        },
-      ],
-      photos: {
-        bookId: "",
-        data: {
-          data: [],
-          type: "Buffer",
-        },
-        id: "",
-        photoName: "",
-      },
-    },
-  ],
+  book: null,
   total: 0,
   isLoading: false,
-};
+} as BookStateInterface;
 
 const bookSlice = createSlice({
   name: "books",
@@ -116,13 +73,32 @@ const bookSlice = createSlice({
     builder.addCase(postComment.pending, (state, action) => {});
 
     builder.addCase(postComment.fulfilled, (state, action) => {
-      const currentBook = state.book.find(
+      const currentBook = state.book!.find(
         (elem) => elem.id === action.payload.bookId
-      );
-      currentBook?.comments.push(action.payload)
+      );      
+      currentBook?.comments?.push(action.payload);
+      console.log(currentBook?.comments);
+      
     });
 
     builder.addCase(postComment.rejected, (state, action) => {});
+
+    // builder.addCase(setBookRating.pending, (state, action) => {});
+
+    // builder.addCase(setBookRating.fulfilled, (state, action) => {
+    //   const { userRatingOfBook, ratingOfBook } = action.payload;
+    //   const currentBook = state.book.find(
+    //     (elem) => elem.id === userRatingOfBook.bookId
+    //   );
+    //   if (currentBook) {
+    //     currentBook.rating.push(userRatingOfBook);
+    //     currentBook.bookRating = ratingOfBook;
+    //   }
+    //   console.log(currentBook?.bookRating);
+      
+    // });
+
+    // builder.addCase(setBookRating.rejected, (state, action) => {});
   },
 });
 

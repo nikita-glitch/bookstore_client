@@ -12,18 +12,13 @@ import React, { FC, useState } from "react";
 import styled from "styled-components";
 import { getAllGenres } from "../API/genreAPI";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/store";
 import {
   createSearchParams,
-  useNavigate,
   useSearchParams,
 } from "react-router-dom";
+import { Genre } from "../interfaces/interfaces";
 
-export interface Genre {
-  id: string;
-  genre_name: string;
-}
+
 
 function valuetext(value: number) {
   return `${value}$`;
@@ -66,17 +61,17 @@ const Filters: FC = () => {
         }
       });
     } else {
-    let params = searchParams.getAll("genreId"); 
-    params.push(event.target.value);
-    if (
-      params.indexOf(event.target.value) !== -1 &&
-      params.lastIndexOf(event.target.value) !== -1 &&
-      params.indexOf(event.target.value) !==
-        params.lastIndexOf(event.target.value)
-    ) {
-      params = params.filter((param) => param !== event.target.value);      
-    }
-    setSearchParams(createSearchParams({ genreId: params }));
+      let params = searchParams.getAll("genreId");
+      params.push(event.target.value);
+      if (
+        params.indexOf(event.target.value) !== -1 &&
+        params.lastIndexOf(event.target.value) !== -1 &&
+        params.indexOf(event.target.value) !==
+          params.lastIndexOf(event.target.value)
+      ) {
+        params = params.filter((param) => param !== event.target.value);
+      }
+      setSearchParams(createSearchParams({ genreId: params }));
     }
   };
 
@@ -104,49 +99,44 @@ const Filters: FC = () => {
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={searchParams.get('genreId')}
+            value={searchParams.get("genreId") }
             label="Genre"
             onChange={handleGenreChange}
           >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {genres &&
-              genres.map((genre: Genre) => (
-                <MenuItem key={genre.id} value={genre.id}>
-                  <Checkbox checked={handleChecked(genre.id)} />
-                  <ListItemText primary={genre.genre_name} />
-                </MenuItem>
-              ))}
+            {genres.map((genre: Genre) => (
+              <MenuItem key={genre.id} value={genre.id}>
+                <Checkbox checked={handleChecked(genre.id)} />
+                <ListItemText primary={genre.genre_name} />
+              </MenuItem>
+            ))}
           </CustomSelect>
         </FormControl>
       </CustomDiv>
       <CustomDiv>
-      <FormControl>
-      <InputLabel id="label">Price</InputLabel>
-        <CustomSelect
-          labelId="label"
-          id="demo-simple-select"
-          label="Price"
-        >
-          <SliderDiv>
-            <CustomSlider
-              getAriaLabel={() => "Price"}
-              value={value}
-              onChange={handlePriceChange}
-              valueLabelDisplay="auto"
-              getAriaValueText={valuetext}
-            />
-          </SliderDiv>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography variant="body2" sx={{ cursor: "pointer" }}>
-              {MIN} $
-            </Typography>
-            <Typography variant="body2" sx={{ cursor: "pointer" }}>
-              {MAX} $
-            </Typography>
-          </Box>
-        </CustomSelect>
+        <FormControl>
+          <InputLabel id="label">Price</InputLabel>
+          <CustomSelect labelId="label" id="demo-simple-select" label="Price">
+            <SliderDiv>
+              <CustomSlider
+                getAriaLabel={() => "Price"}
+                value={value}
+                onChange={handlePriceChange}
+                valueLabelDisplay="auto"
+                getAriaValueText={valuetext}
+              />
+            </SliderDiv>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography variant="body2" sx={{ cursor: "pointer" }}>
+                {MIN} $
+              </Typography>
+              <Typography variant="body2" sx={{ cursor: "pointer" }}>
+                {MAX} $
+              </Typography>
+            </Box>
+          </CustomSelect>
         </FormControl>
       </CustomDiv>
       <CustomDiv>

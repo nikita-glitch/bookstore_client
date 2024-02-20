@@ -5,29 +5,32 @@ import styled from "styled-components";
 import FormButton from "../Components/FormButton";
 import logo from "../Logos/unsplash_DgQf1dUKUTM.svg";
 import { useNavigate } from "react-router-dom";
-import { removeBookFromFavorite } from "../store/favoriteSlice";
+import { bookRemovedFromFavorite, removeBookFromFavorite } from "../store/userSlice";
 import { notify } from "../Notify";
+import { FavoriteBooks } from "../interfaces/interfaces";
 
 const FavoritePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { favoriteBooks } = useSelector(
-    (state: RootState) => state.users.user.favorite
+  const { favoriteBooks, id } = useSelector(
+    (state: RootState) => state.users!.user!.favorite
   );
-
+    console.log(favoriteBooks);
+    
   const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     navigate("/books");
   };
 
   const handleRemoveFromFavorite = async (bookId: string) => {
     try {
-      await dispatch(removeBookFromFavorite(bookId)).unwrap();
-      //  notify
+      const response = await dispatch(removeBookFromFavorite(bookId)).unwrap();
+      dispatch(bookRemovedFromFavorite(bookId))
+      notify(response.data.message, "succsess")
     } catch (error) {}
   };
   return (
     <div>
-      {favoriteBooks.length === 0 && (
+      {favoriteBooks!.length === 0 && (
         <Box component="form" onSubmit={handleSubmit}>
           <EmptyCartDiv>
             <CustomLogo src={logo} alt="" />
@@ -40,7 +43,7 @@ const FavoritePage = () => {
         </Box>
       )}
       <div>
-        {favoriteBooks.map((favoriteBook) => (
+        {favoriteBooks!.map((favoriteBook: FavoriteBooks) => (
           <div key={favoriteBook.id}>
             <CustomTitle>{favoriteBook.book.title}</CustomTitle>
             <CustomAuthor>{favoriteBook.book.author.author_name}</CustomAuthor>

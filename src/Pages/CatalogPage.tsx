@@ -20,7 +20,7 @@ const CatalogPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const catalog = useRef<HTMLDivElement | null>(null);
   const books = useSelector((state: RootState) => state.books);
-  const user = useSelector((state: RootState) => state.users);
+  const user = useSelector((state: RootState) => state.users.user!);
   const [offset, SetOffset] = useState<number>(1);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -58,7 +58,7 @@ const CatalogPage = () => {
   }, [searchParams, offset]);
 
   const book = useSelector(
-    (state: RootState) => state.books.book
+    (state: RootState) => state.books.book!
   );
 
     const handlePaginationClick = (ev: React.ChangeEvent<unknown>, page: number) => {
@@ -87,17 +87,10 @@ const CatalogPage = () => {
         <Filters />
       </CustomFilterDiv>
       <CustomCardsDiv ref={catalog}>
-        {/* {isLoading ? (
-          <Skeleton></Skeleton>
-        ) : ( */}
 
-        {book.map((bookItem) => (
-          <>
+        {book?.map((bookItem) => (  
             <BookCard key={bookItem.id} {...bookItem} />
-          </>
         ))}
-
-        {/* )} */}
       </CustomCardsDiv>
 
       <CustomPagination

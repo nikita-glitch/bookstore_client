@@ -26,5 +26,14 @@ export const getBookPhoto = async (bookId: string) => {
   
 }
 
+export const getBookComments = async (bookId: string) => {
+  const response = privateRoute.get("/books/" + bookId + "/comments");  
+  return response
+}
+
+export const getBookRating = async (bookId: string) => {
+  const response = privateRoute.get("/books/" + bookId + "/rating");  
+  return response
+}
 
 export default { getBooks };

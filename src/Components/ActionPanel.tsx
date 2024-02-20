@@ -39,7 +39,7 @@ const ActionPanel = () => {
   };
   return (
     <>
-      {user.id !== undefined && user.id !== ""  ? (
+      {user?.id ? (
         <>
           <img src={cartLogo} alt="" onClick={handleCartClick} />
           <img src={favoriteLogo} alt="" onClick={handleFavoriteClick} />
