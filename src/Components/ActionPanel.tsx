@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import * as React from "react";
 import profileLogo from "../Logos/button_user profile.svg";
 import cartLogo from "../Logos/button_cart.svg";
-import favoriteLogo from "../Logos/button_save.svg";
+import favoriteLogo from "../Logos//favorite.svg";
 import { useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";

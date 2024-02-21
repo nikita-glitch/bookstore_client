@@ -6,60 +6,42 @@ import signInBanner from "../../Logos/sign_in_banner.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import BookCard from "./BookCard";
 import { useEffect, useState } from "react";
-import {
-  getBookById,
-  getBookComments,
-  getBookPhoto,
-  getBookRating,
-} from "../../API/booksAPI";
+import { getBookRating } from "../../API/booksAPI";
 import { Book, Comments } from "../../interfaces/interfaces";
 import logo from "../../Logos/Group 2.svg";
 import BookComment from "./Comments/BookComment";
 import { useDispatch } from "react-redux";
 import { addBookToCart, setBookRating } from "../../store/userSlice";
 import { notify } from "../../Notify";
-import { postComment } from "../../store/bookSlice";
+import { getBook, postComment } from "../../store/bookSlice";
 
 const BookPage = () => {
   const [input, setInput] = useState<string>("");
+  const [rating, setRatings] = useState<number>();
+  const { id } = useParams();
   const user = useSelector((state: RootState) => state.users!.user!);
   const books = useSelector((state: RootState) => state.books.book);
-  const [book, setBooks] = useState<Book>();
-  const [rating, setRatings] = useState<number | undefined>(book?.bookRating);
-  const [comments, setComments] = useState<Comments[] >(
-    book!.comments
-  );
-
+  const currentBook = useSelector((state: RootState) => state.books.book?.find((elem) => elem.id === id));
   const dispatch = useDispatch<AppDispatch>();
-  const { id } = useParams();
+  
   const navigate = useNavigate();
 
-    useEffect(() => {
-      let ignore = false;
-      if (!ignore) {
-      }
-      return () => {
-        ignore = true;
-      };
-    }, [])
-
+  useEffect(() => {
+    let ignore = false;
+    if (!ignore) {
+      dispatch(getBook())
+    }
+    return () => {
+      ignore = true;
+    };
+  }, [id]);
 
   useEffect(() => {
     let ignore = false;
     if (!ignore) {
       if (id) {
-        getBookById(id).then((response) => {
-          setBooks(response.data);
-        });
-
         getBookRating(id).then((response) => {
-          console.log("rating", response);
           setRatings(response.data);
-        });
-
-        getBookComments(id).then((response) => {
-          console.log("comments", response);
-          setComments(response.data);
         });
       }
     }
@@ -70,12 +52,15 @@ const BookPage = () => {
 
   const getUserRate = () => {
     let value = 0;
-    user?.rating!.map((rate) => {
-      if (rate.userId === user!.id && rate.bookId === id) {
-        value = rate.value;
-      }
-    });
-    return value;
+    if (user) {
+      user?.rating?.map((rate) => {
+        if (rate.userId === user!.id && rate.bookId === id) {
+          value = rate.value;
+        }
+      });
+      return value;
+    }
+    return 0
   };
 
   const handleTextInputChange = (
@@ -93,6 +78,8 @@ const BookPage = () => {
     };
     try {
       const response = await dispatch(postComment(data)).unwrap();
+      notify(response.data.message, "succsess")
+      setInput('')
     } catch (error) {}
   };
 
@@ -100,16 +87,17 @@ const BookPage = () => {
     event: React.SyntheticEvent<Element, Event>,
     newValue: number | null
   ) => {
+    
+    if (!newValue) {
+      return
+    }
     const data = {
       ratingValue: newValue,
       bookId: id,
     };
-    try {
-      console.log("value>", newValue);
-
-      //await setRating(newValue, id)
-      await dispatch(setBookRating(data)).unwrap();
-      //  notify()
+    try {      
+      const response = await dispatch(setBookRating(data)).unwrap();
+      notify(response.data.message, "succsess")
     } catch (error) {}
   };
 
@@ -127,23 +115,23 @@ const BookPage = () => {
     } else {
       const response = await dispatch(addBookToCart(id)).unwrap();
       notify(response.data.message, "succsess");
-      // notify(respone.data.message)
     }
   };
 
   return (
     <Page>
       <CustomBookDiv>
-        {/* {photo} */}
-        <Bookimg src={""} alt="" />
+        <Bookimg src={'http://localhost:5000/' + currentBook?.photos?.photo} alt="" />
         <CustomInfoDiv>
-          <BookTitle>{book?.title}</BookTitle>
-          <BookAuthor>{book?.author.author_name}</BookAuthor>
+          <BookTitle>{currentBook?.title}</BookTitle>
+          <BookAuthor>{currentBook?.author.author_name}</BookAuthor>
           <CustomRatingDiv>
             <CustomLogo src={logo} alt="" />
             <Typography>{rating ?? 0}</Typography>
+            
             <Rating
               name="simple-controlled"
+              disabled={user ? false : true}
               value={getUserRate()}
               onChange={handleRatingChange}
             />
@@ -152,7 +140,7 @@ const BookPage = () => {
 
           <CustomDescriptionDiv>
             Description
-            <DescriptionText>{book?.description}</DescriptionText>
+            <DescriptionText>{currentBook?.description}</DescriptionText>
           </CustomDescriptionDiv>
           <CustomButtonDiv>
             <div>
@@ -168,11 +156,12 @@ const BookPage = () => {
       </CustomBookDiv>
       <CommentsList>
         <Comment>Comments</Comment>
-        {comments?.map((comment: Comments) => (
-          <BookComment key={comment.id} {...comment} />
-        ))}
+        {currentBook?.comments &&
+          currentBook?.comments.map((comment: Comments) => (
+            <BookComment key={comment.id} {...comment} />
+          ))}
       </CommentsList>
-      {user?.id !== "" ? (
+      {user?.id ? (
         <TextAreaDiv>
           <TextField
             id="outlined-multiline-static"
@@ -193,7 +182,7 @@ const BookPage = () => {
       )}
       <Recomendations>Recommendations</Recomendations>
       <RecomendationsDiv>
-        {books!.map((bookItem: Book, index: number) => (
+        {books && books!.map((bookItem: Book, index: number) => (
           <div key={bookItem.id}>
             {index < 4 && <BookCard key={bookItem.id} {...bookItem} />}
           </div>
@@ -202,6 +191,7 @@ const BookPage = () => {
     </Page>
   );
 };
+
 
 const CustomButtonDiv = styled.div`
   display: flex;

@@ -20,18 +20,14 @@ const changeName = async (name: string) => {
   return response;
 };
 
-export const uploadAvatar = async (file: FormData) => {
+export const uploadAvatar = async (file: FormData) => {  
   const response = await privateRoute.put("/users/profile", file);
   return response;
 };
 
-const getAvatar = async () => {
-  const response = privateRoute.get("/user/profile/avatar");
-  return response;
-};
 
 export const addComment = async (commentText: string, bookId?: string) => {
-  const response = privateRoute.post("/users/comment", { commentText, bookId });
+  const response = await privateRoute.post("/users/comment", { commentText, bookId });
   return response;
 };
 
@@ -72,7 +68,6 @@ export default {
   getUser,
   changeName,
   changePassword,
-  getAvatar,
   addToCart, 
   addToFavorite, 
   removeFromCart, 

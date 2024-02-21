@@ -5,7 +5,10 @@ import styled from "styled-components";
 import FormButton from "../Components/FormButton";
 import logo from "../Logos/unsplash_DgQf1dUKUTM.svg";
 import { useNavigate } from "react-router-dom";
-import { bookRemovedFromFavorite, removeBookFromFavorite } from "../store/userSlice";
+import {
+  bookRemovedFromFavorite,
+  removeBookFromFavorite,
+} from "../store/userSlice";
 import { notify } from "../Notify";
 import { FavoriteBooks } from "../interfaces/interfaces";
 
@@ -15,8 +18,7 @@ const FavoritePage = () => {
   const { favoriteBooks, id } = useSelector(
     (state: RootState) => state.users!.user!.favorite
   );
-    console.log(favoriteBooks);
-    
+
   const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     navigate("/books");
   };
@@ -24,8 +26,8 @@ const FavoritePage = () => {
   const handleRemoveFromFavorite = async (bookId: string) => {
     try {
       const response = await dispatch(removeBookFromFavorite(bookId)).unwrap();
-      dispatch(bookRemovedFromFavorite(bookId))
-      notify(response.data.message, "succsess")
+      dispatch(bookRemovedFromFavorite(bookId));
+      notify(response.data.message, "succsess");
     } catch (error) {}
   };
   return (

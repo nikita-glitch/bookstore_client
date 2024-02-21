@@ -10,59 +10,77 @@ import { Book, FavoriteBooks } from "../../interfaces/interfaces";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
-import { addBookToFavorite, bookRemovedFromFavorite, removeBookFromFavorite } from "../../store/userSlice";
+import {
+  addBookToFavorite,
+  bookRemovedFromFavorite,
+  removeBookFromFavorite,
+} from "../../store/userSlice";
 import { notify } from "../../Notify";
 
 const BookCard: FC<Book> = (book: Book) => {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const favoriteBooks = useSelector((state: RootState) => state.users.user?.favorite?.favoriteBooks);
-  
+  const favoriteBooks = useSelector(
+    (state: RootState) => state.users.user?.favorite?.favoriteBooks
+  );
+  const user = useSelector((state: RootState) => state.users.user);
+
   const handleButtonClick = (
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     navigate("/books/" + book.id);
   };
 
-  const handleAddToFavorite = async(ev: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+  const handleAddToFavorite = async (
+    ev: React.MouseEvent<HTMLImageElement, MouseEvent>
+  ) => {
     try {
-      const isInFavorite = setLogo()
-      if (isInFavorite) {
-        const response = await dispatch(removeBookFromFavorite(book.id)).unwrap();
-        dispatch(bookRemovedFromFavorite(book.id))
-        notify(response.data.message, "succsess")
-      } else {
-      const response = await dispatch(addBookToFavorite(book.id)).unwrap()      
-      notify(response.data.message, "succsess")
+      if (user) {
+        const isInFavorite = setLogo();
+        if (isInFavorite) {
+          const response = await dispatch(
+            removeBookFromFavorite(book.id)
+          ).unwrap();
+          dispatch(bookRemovedFromFavorite(book.id));          
+          notify(response.data.message, "succsess");
+        } else {
+        const response = await dispatch(addBookToFavorite(book.id)).unwrap();
+        notify(response.data.message, "succsess");
+      }
+    } else {
+      notify('Only authorized users can add book to favorite', "error");
     }
     } catch (err: any) {
       console.log(err);
-      notify(err.response.data, "error")
+      notify(err.message, "error");
     }
-  }
-  
+  };
+
   const setLogo = () => {
-    let isInFavorite = false
-    
+    let isInFavorite = false;
+
     favoriteBooks?.map((favBook) => {
-      
       if (favBook.book.id === book.id) {
-        isInFavorite = true
-        return
+        isInFavorite = true;
+        return;
       }
-    })
-    return isInFavorite 
-  }
-  
+    });
+    return isInFavorite;
+  };
+
   return (
-    <>
+
       <CustomCard>
         <CardMedia>
-          
-          <BookImg src={''} alt="" />
+          <BookImg src={'http://localhost:5000/' + book.photos?.photo} alt="" />
+          <CustomIcon
+            src={setLogo() ? favIcoClicked : favIco}
+            alt=""
+            onClick={handleAddToFavorite}
+          />
         </CardMedia>
         <CustomCardContent>
-          <CustomIcon src={setLogo() ? favIcoClicked : favIco} alt="" onClick={handleAddToFavorite}/>
+          
           <CustomTitle>{book.title}</CustomTitle>
           <CustomAuthor>{book.author.author_name}</CustomAuthor>
           <RatingDiv>
@@ -80,7 +98,7 @@ const BookCard: FC<Book> = (book: Book) => {
           <CustomButton onClick={handleButtonClick}>{book.price}</CustomButton>
         </CardActions>
       </CustomCard>
-    </>
+
   );
 };
 
@@ -172,7 +190,7 @@ const CustomButton = styled(Button)`
 const BookImg = styled.img`
   @media only screen and (min-width: 835px) {
     width: 420px;
-    height: 448px;
+    height: auto;
     border-radius: 16px;
   }
   @media only screen and (min-width: 321px) and (max-width: 834px) {
@@ -184,7 +202,7 @@ const BookImg = styled.img`
 const CustomIcon = styled.img`
   @media only screen and (min-width: 835px) {
     position: relative;
-    bottom: 430px;
+    bottom: 610px;
     left: 20px;
   }
   @media only screen and (min-width: 321px) and (max-width: 834px) {

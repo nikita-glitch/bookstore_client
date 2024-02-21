@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import bookApi from "../API/booksAPI";
-import { BookStateInterface, SortOptionsInterface } from "../interfaces/interfaces";
-import { RootState } from "./store";
+import { BookStateInterface } from "../interfaces/interfaces";
 import userAPI from "../API/userAPI";
 
 export const getBook = createAsyncThunk(
   "books/get",
-  async (params: {
+  async (params?: {
     priceFilter: number[];
     searchString: string;
     genreFilter: {key?: string}[];
@@ -14,17 +13,18 @@ export const getBook = createAsyncThunk(
     offset: number;
   }) => {
     const sortOptions = {
-      genreId: params.genreFilter,
-      priceRange: params.priceFilter,
-      sort: params.sortBy,
+      genreId: params?.genreFilter,
+      priceRange: params?.priceFilter,
+      sort: params?.sortBy,
     };
 
     const response = await bookApi.getBooks(
-      params.offset,
-      params.searchString,
+      params?.offset ?? 1,
+      params?.searchString,
       sortOptions
-    );
+    );    
     return response.data;
+
   }
 );
 
@@ -40,7 +40,7 @@ export const postComment = createAsyncThunk(
   "comment/post",
   async (data: { commentText: string; bookId?: string }) => {
     const response = await userAPI.addComment(data.commentText, data.bookId);
-    return response.data;
+    return response;
   }
 );
 
@@ -73,32 +73,25 @@ const bookSlice = createSlice({
     builder.addCase(postComment.pending, (state, action) => {});
 
     builder.addCase(postComment.fulfilled, (state, action) => {
-      const currentBook = state.book!.find(
-        (elem) => elem.id === action.payload.bookId
-      );      
-      currentBook?.comments?.push(action.payload);
-      console.log(currentBook?.comments);
+      console.log(action.payload.data.comment);
       
+      const comment = action.payload.data.comment
+      const currentBook = state.book?.find(
+        (book) => book.id === comment.bookId
+      );    
+        
+      if (currentBook) {
+        state.book?.map((book) => {
+          if (book.id === currentBook.id) {
+            book.comments.push(comment)
+            return
+          }
+        })
+      }
     });
 
     builder.addCase(postComment.rejected, (state, action) => {});
 
-    // builder.addCase(setBookRating.pending, (state, action) => {});
-
-    // builder.addCase(setBookRating.fulfilled, (state, action) => {
-    //   const { userRatingOfBook, ratingOfBook } = action.payload;
-    //   const currentBook = state.book.find(
-    //     (elem) => elem.id === userRatingOfBook.bookId
-    //   );
-    //   if (currentBook) {
-    //     currentBook.rating.push(userRatingOfBook);
-    //     currentBook.bookRating = ratingOfBook;
-    //   }
-    //   console.log(currentBook?.bookRating);
-      
-    // });
-
-    // builder.addCase(setBookRating.rejected, (state, action) => {});
   },
 });
 

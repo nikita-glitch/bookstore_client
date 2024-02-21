@@ -5,22 +5,27 @@ import styled from "styled-components";
 
 const BookComment = (comment: Comments) => {
   const resolveCommentTime = () => {
-    const day = Math.floor((parseInt(comment.createdAt) / 24) * 3600 * 1000);
-    if (day <= 1) {
-      return `Left a comment ${day} today`;
+    const time = new Date(comment?.createdAt)
+    const dateDiff = Date.now() - time.valueOf()
+    const day = Math.floor(dateDiff / (24 * 3600000));
+    
+    if (day < 1) {
+      return `Left a comment today`;
+    } else if (day === 1) {
+      return `Left a comment yesterday`;
     } else if (day < 30) {
       return `Left a comment ${day} days ago`;
-    } else if (day >= 30) {
+    } else if (day >= 30 && day < 365) {
       return `Left a comment ${Math.ceil(day / 30)} month ago`;
     } else if (day >= 365) {
-      return `Left a comment ${Math.ceil(day / 240)} year ago`;
+      return `Left a comment ${Math.ceil(day / 360)} year ago`;
     }
   };
 
   return (
     <CommentDiv>
       <CustomUserInfo>
-        <CustomUserAvatar src={""} alt="" />
+        <CustomUserAvatar src={'http://localhost:5000/' + comment.user.avatar?.avatarName} alt="" />
       </CustomUserInfo>
       <CustomDiv>
         <CustomUserName>{comment.user?.name}</CustomUserName>

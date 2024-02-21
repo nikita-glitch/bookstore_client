@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import userAPI from "../API/userAPI";
+import userAPI, { uploadAvatar } from "../API/userAPI";
 import authAPI from "../API/authAPI";
 import { changeAmount } from "../API/cartApi";
-import { UserInterface, UserStateInterface } from "../interfaces/interfaces";
+import { UserStateInterface } from "../interfaces/interfaces";
 
 export const getUser = createAsyncThunk("user/get", async () => {
   const response = await userAPI.getUser();
@@ -37,9 +37,9 @@ export const changeUserName = createAsyncThunk(
   }
 );
 
-export const getUserAvatar = createAsyncThunk("avatar/get", async () => {
-  const response = await userAPI.getAvatar();
-  return response?.data;
+export const addUserAvatar = createAsyncThunk("avatar/get", async (file: FormData) => {
+  const response = await uploadAvatar(file);  
+  return response;
 });
 
 export const setBookRating = createAsyncThunk(
@@ -89,8 +89,6 @@ export const addBookToFavorite = createAsyncThunk(
     return response;
   }
 );
-
-
 
 const initialState = {
   user: null,
@@ -213,26 +211,23 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
 
-    builder.addCase(getUserAvatar.pending, (state) => {
+    builder.addCase(addUserAvatar.pending, (state) => {
       state.isLoading = true;
     });
 
-    builder.addCase(getUserAvatar.fulfilled, (state, action) => {
-      state.user!.avatar = action.payload;
+    builder.addCase(addUserAvatar.fulfilled, (state, action) => {
+      state.user!.avatar = action.payload.data.avatar;
       state.isLoading = false;
     });
 
-    builder.addCase(getUserAvatar.rejected, (state, action: any) => {
+    builder.addCase(addUserAvatar.rejected, (state, action: any) => {
       state.isLoading = false;
     });
 
     builder.addCase(setBookRating.pending, (state, action) => {});
 
-    builder.addCase(setBookRating.fulfilled, (state, action) => {
-      console.log(action.payload);
-      
+    builder.addCase(setBookRating.fulfilled, (state, action) => {      
       state.user!.rating!.push(action.payload.userRatingOfBook);
-      
     });
 
     builder.addCase(setBookRating.rejected, (state, action) => {});

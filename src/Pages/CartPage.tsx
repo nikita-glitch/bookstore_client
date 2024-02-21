@@ -65,7 +65,7 @@ const CartPage = () => {
 
   return (
     <>
-      {cartBooks!.length === 0 && (
+      {cartBooks?.length === 0 && (
         <Box component="form" onSubmit={handleSubmit}>
           <EmptyCartDiv>
             <CustomLogo src={logo} alt="" />
@@ -80,10 +80,10 @@ const CartPage = () => {
           </EmptyCartDiv>
         </Box>
       )}
-      {cartBooks!.map((cartBook: CartBooks) => (
+      {cartBooks && cartBooks?.map((cartBook: CartBooks) => (
         <div key={cartBook.id}>
-          <CustomTitle>{cartBook.book.title}</CustomTitle>
-          <CustomAuthor>{cartBook.book.author.author_name}</CustomAuthor>
+          <CustomTitle>{cartBook.book?.title}</CustomTitle>
+          <CustomAuthor>{cartBook.book?.author.author_name}</CustomAuthor>
           <div>
             <Button onClick={() => handleChangeAmountDec(cartBook.bookId)}>
               -
@@ -95,11 +95,11 @@ const CartPage = () => {
             <Button onClick={() => handleRemoveFromCart(cartBook.bookId)}>
               delete
             </Button>
-            <>{cartBook.book.price}</>
+            <>{cartBook.book?.price}</>
           </div>
         </div>
       ))}
-      {cartBooks!.length !== 0 && (
+      {cartBooks?.length !== 0 && (
         <>
           <Typography>Total:{countTotal()}</Typography>
           <></>

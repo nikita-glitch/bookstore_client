@@ -2,7 +2,7 @@ import { SortOptionsInterface } from "../interfaces/interfaces";
 import { privateRoute } from "./index";
 
 const getBooks = async (
-  paginationOffset: number,
+  paginationOffset?: number,
   searchString?: string,
   sortOptions?: SortOptionsInterface
 ) => {
@@ -22,14 +22,11 @@ export const getBookById = async (bookId: string) => {
   return response
 };
 
-export const getBookPhoto = async (bookId: string) => {
-  
-}
 
-export const getBookComments = async (bookId: string) => {
-  const response = privateRoute.get("/books/" + bookId + "/comments");  
-  return response
-}
+// export const getBookComments = async (bookId: string) => {
+//   const response = privateRoute.get("/books/" + bookId + "/comments");  
+//   return response
+// }
 
 export const getBookRating = async (bookId: string) => {
   const response = privateRoute.get("/books/" + bookId + "/rating");  

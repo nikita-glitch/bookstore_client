@@ -6,8 +6,8 @@ export interface UserInterface {
   cart: Cart;
   favorite: Favorite;
   rating?: Rating[];
-  comments: Comments[];
-  avatar?: {};
+  comments?: Comments[];
+  avatar?: UserAvatar;
 }
 
 export interface UserStateInterface {
@@ -25,6 +25,16 @@ export interface Genre {
   genre_name: string;
 }
 
+export interface BookPhoto {
+  id: string;
+  photo: string;
+}
+
+export interface UserAvatar {
+  id: string;
+  avatarName: string;
+}
+
 export interface Rating {
   id: string;
   value: number;
@@ -37,7 +47,7 @@ export interface Comments {
   text: string;
   user: UserInterface;
   bookId: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export interface Book {
@@ -49,8 +59,9 @@ export interface Book {
   rating?: Rating[];
   author: AuthorInterface;
   genreId: string;
+  photosId: string;
   comments: Comments[];
-  photos: {};
+  photos?: BookPhoto;
 }
 
 export interface BookStateInterface {

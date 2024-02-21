@@ -1,7 +1,7 @@
 import * as React from "react";
 import userPhoto from "../Logos/User photo.png";
 import photoLogo from "../Logos/button_photo.svg";
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
+import { Box, Link, TextField, Typography } from "@mui/material";
 import FormButton from "../Components/FormButton";
 import styled from "styled-components";
 import { useFormik } from "formik";
@@ -12,10 +12,9 @@ import {
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { useDispatch } from "react-redux";
-import { getUserAvatar, changeUserName, getUser } from "../store/userSlice";
-import { changePassword, uploadAvatar } from "../API/userAPI";
+import { addUserAvatar, changeUserName } from "../store/userSlice";
+import { changePassword } from "../API/userAPI";
 import { notify } from "../Notify";
-
 
 const ProfilePage = () => {
   const [changePass, setChangePass] = React.useState<boolean>(false);
@@ -23,27 +22,18 @@ const ProfilePage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user, isLoading } = useSelector((state: RootState) => state.users);
 
-
-  React.useEffect(() => {
-    let ignore = false;
-    if (!ignore) {
-      //dispatch(changeUserAvatar('asd'));
-    }
-    return () => {
-      ignore = true;
-    };
-  }, []);
-
   const handleAddAvatar = async (ev: React.ChangeEvent<HTMLInputElement>) => {
-    if (!ev.target.files) {
-      return;
+    try {
+      if (!ev.target.files) {
+        return;
+      }
+      const file = new FormData();
+      file.append("file", ev.target.files[0]);
+      const response = await dispatch(addUserAvatar(file)).unwrap();
+      notify(response.data.message, "succsess");
+    } catch (err: any) {
+      notify(err.data.message, "error");
     }
-    const file = new FormData();
-    const avatar = ev.target.files[0];
-    file.append("avatar", avatar);
-    console.log(avatar);
-
-    //await uploadAvatar(file)
   };
 
   const handlePasswordChange = (
@@ -75,10 +65,11 @@ const ProfilePage = () => {
     //validationSchema: nameChangeSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const response = await dispatch(changeUserName(values.userName)).unwrap();        
-        notify(response.message, 'succsess')
+        const response = await dispatch(
+          changeUserName(values.userName)
+        ).unwrap();
+        notify(response.message, "succsess");
       } catch (error) {
-
       } finally {
         setSubmitting(false);
         setChangeName(false);
@@ -96,20 +87,23 @@ const ProfilePage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await changePassword(values);
-        notify(response.data.message, 'succsess');
+        notify(response.data.message, "succsess");
       } catch (error) {
         //notify(error.response.data)
       } finally {
-      setSubmitting(false);
-      setChangePass(false);
-      passwordChange.resetForm()
+        setSubmitting(false);
+        setChangePass(false);
+        passwordChange.resetForm();
       }
     },
   });
   return (
     <CustomProfileDiv>
       <div>
-        <CustomAvatar src={userPhoto} alt="" />
+        <CustomAvatar
+          src={"http://localhost:5000/" + user?.avatar?.avatarName ?? userPhoto}
+          alt=""
+        />
         <label>
           <CustomLogo src={photoLogo} alt="" />
           <VisuallyHiddenInput type="file" onChange={handleAddAvatar} />
