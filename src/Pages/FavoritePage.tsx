@@ -4,18 +4,28 @@ import { Box, Button, Typography } from "@mui/material";
 import styled from "styled-components";
 import FormButton from "../Components/FormButton";
 import logo from "../Logos/unsplash_DgQf1dUKUTM.svg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   bookRemovedFromFavorite,
+  getFavoriteBook,
   removeBookFromFavorite,
 } from "../store/userSlice";
 import { notify } from "../Notify";
 import { FavoriteBooks } from "../interfaces/interfaces";
+import { useEffect } from "react";
 
 const FavoritePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { favoriteBooks, id } = useSelector(
+  const { id } = useParams()
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getFavoriteBook(id))
+    }
+  }, [id])
+
+  const { favoriteBooks } = useSelector(
     (state: RootState) => state.users!.user!.favorite
   );
 
@@ -25,14 +35,14 @@ const FavoritePage = () => {
 
   const handleRemoveFromFavorite = async (bookId: string) => {
     try {
-      const response = await dispatch(removeBookFromFavorite(bookId)).unwrap();
-      dispatch(bookRemovedFromFavorite(bookId));
+      const { response } = await dispatch(removeBookFromFavorite(bookId)).unwrap();
+      //dispatch(bookRemovedFromFavorite(bookId));
       notify(response.data.message, "succsess");
     } catch (error) {}
   };
   return (
     <div>
-      {favoriteBooks!.length === 0 && (
+      {favoriteBooks?.length === 0 && (
         <Box component="form" onSubmit={handleSubmit}>
           <EmptyCartDiv>
             <CustomLogo src={logo} alt="" />
@@ -45,7 +55,7 @@ const FavoritePage = () => {
         </Box>
       )}
       <div>
-        {favoriteBooks!.map((favoriteBook: FavoriteBooks) => (
+        {favoriteBooks?.map((favoriteBook: FavoriteBooks) => (
           <div key={favoriteBook.id}>
             <CustomTitle>{favoriteBook.book.title}</CustomTitle>
             <CustomAuthor>{favoriteBook.book.author.author_name}</CustomAuthor>

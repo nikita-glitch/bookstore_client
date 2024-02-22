@@ -12,13 +12,8 @@ import React, { FC, useState } from "react";
 import styled from "styled-components";
 import { getAllGenres } from "../API/genreAPI";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import {
-  createSearchParams,
-  useSearchParams,
-} from "react-router-dom";
+import { createSearchParams, useSearchParams } from "react-router-dom";
 import { Genre } from "../interfaces/interfaces";
-
-
 
 function valuetext(value: number) {
   return `${value}$`;
@@ -34,14 +29,13 @@ const Filters: FC = () => {
 
   React.useEffect(() => {
     let ignore = false;
-    setGenres([]);
-    getAllGenres()
-      .then((response) => {
-        if (!ignore) {
+    if (!ignore) {
+      getAllGenres()
+        .then((response) => {          
           setGenres(response?.data);
-        }
-      })
-      .catch((error) => console.log(error));
+        })
+        .catch((error) => console.log(error));
+    }
     return () => {
       ignore = true;
     };
@@ -99,20 +93,19 @@ const Filters: FC = () => {
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={searchParams.get("genreId") }
+            value={searchParams.get("genreId")}
             label="Genre"
             onChange={handleGenreChange}
           >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            {genres &&
-            genres.map((genre: Genre) => (
-              <MenuItem key={genre.id} value={genre.id}>
-                <Checkbox checked={handleChecked(genre.id)} />
-                <ListItemText primary={genre.genre_name} />
-              </MenuItem>
-            ))}
+            {genres?.map((genre: Genre) => (
+                <MenuItem key={genre.id} value={genre.id}>
+                  <Checkbox checked={handleChecked(genre.id)} />
+                  <ListItemText primary={genre.genre_name} />
+                </MenuItem>
+              ))}
           </CustomSelect>
         </FormControl>
       </CustomDiv>

@@ -29,8 +29,10 @@ const SignInPage = () => {
       try {
         await dispatch(signIn(values)).unwrap();
         navigate("/profile");
-      } catch(err: any) {
-        notify(err.response.data, "error")
+      } catch(err: any) {        
+        if (err.code === "ERR_BAD_REQUEST") {
+          notify('Wrong email or password', "error")
+        }
       } finally {
         setSubmitting(false)
       }
@@ -39,7 +41,6 @@ const SignInPage = () => {
   });
   return (
     <CustomPageDiv>
-     
       <CustomImg src={logo} alt="" className="picture" />
       <CustomFormDiv>
         <CustomTitle>Sign In</CustomTitle>

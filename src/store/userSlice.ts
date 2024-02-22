@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userAPI, { uploadAvatar } from "../API/userAPI";
 import authAPI from "../API/authAPI";
-import { changeAmount } from "../API/cartApi";
+import { changeAmount, getCartBooks } from "../API/cartApi";
 import { UserStateInterface } from "../interfaces/interfaces";
+import { getFavoriteBooks } from "../API/favoriteApi";
 
 export const getUser = createAsyncThunk("user/get", async () => {
   const response = await userAPI.getUser();
@@ -58,6 +59,17 @@ export const setAmount = createAsyncThunk(
   }
 );
 
+export const getFavoriteBook = createAsyncThunk("favorite/get", async(favoriteId: string) => {
+  const response = await getFavoriteBooks(favoriteId)
+  return response
+})
+
+export const getCartBook = createAsyncThunk("cart/get", async(cartId: string) => {
+  const response = await getCartBooks(cartId)
+  return response
+})
+
+
 export const addBookToCart = createAsyncThunk(
   "cart/post",
   async (bookId?: string) => {
@@ -70,7 +82,7 @@ export const removeBookFromCart = createAsyncThunk(
   "cart/delete",
   async (bookId: string) => {
     const response = await userAPI.removeFromCart(bookId);
-    return response;
+    return bookId;
   }
 );
 
@@ -78,13 +90,13 @@ export const removeBookFromFavorite = createAsyncThunk(
   "favorite/delete",
   async (bookId: string) => {
     const response = await userAPI.removeFromFavorite(bookId);
-    return response;
+    return {response, bookId};
   }
 );
 
 export const addBookToFavorite = createAsyncThunk(
   "favorite/post",
-  async (bookId: string) => {
+  async (bookId: string, {dispatch, getState}) => {
     const response = await userAPI.addToFavorite(bookId);
     return response;
   }
@@ -137,6 +149,33 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+
+    builder.addCase(removeBookFromCart.pending, (state, action) => {
+      state.isLoading = true;
+    })
+
+    builder.addCase(removeBookFromCart.fulfilled, (state, action) => {
+      state.user!.cart.cartBooks = state.user!.cart.cartBooks.filter((cartBook) => cartBook.id !== action.payload);
+      state.isLoading = false;
+    });
+
+    builder.addCase(removeBookFromCart.rejected, (state, action: any) => {
+      state.isLoading = false;
+    });
+
+    builder.addCase(removeBookFromFavorite.pending, (state, action) => {
+      state.isLoading = true;
+    })
+
+    builder.addCase(removeBookFromFavorite.fulfilled, (state, action) => {
+      state.user!.favorite.favoriteBooks = state.user!.favorite.favoriteBooks.filter((favBook) => favBook.id !== action.payload.bookId);
+      state.isLoading = false;
+    });
+
+    builder.addCase(removeBookFromFavorite.rejected, (state, action: any) => {
+      state.isLoading = false;
+    });
+
     builder.addCase(addBookToCart.fulfilled, (state, action) => {
       state.user!.cart.cartBooks.push(action.payload.data.cartBook);
       state.isLoading = false;
@@ -149,7 +188,7 @@ export const userSlice = createSlice({
     builder.addCase(addBookToFavorite.fulfilled, (state, action) => {
       console.log(action.payload);
 
-      state.user!.favorite.favoriteBooks.push(action.payload.data.favoriteBook);
+      state.user!.favorite.favoriteBooks.push(action.payload.data);
       state.isLoading = false;
     });
 
@@ -231,6 +270,22 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(setBookRating.rejected, (state, action) => {});
+
+    builder.addCase(getCartBook.pending, (state, action) => {});
+
+    builder.addCase(getCartBook.fulfilled, (state, action) => {     
+      state.user!.cart = action.payload.data;
+    });
+
+    builder.addCase(getCartBook.rejected, (state, action) => {});
+
+    builder.addCase(getFavoriteBook.pending, (state, action) => {});
+
+    builder.addCase(getFavoriteBook.fulfilled, (state, action) => {    
+      state.user!.favorite = action.payload.data;
+    });
+
+    builder.addCase(getFavoriteBook.rejected, (state, action) => {});
   },
 });
 

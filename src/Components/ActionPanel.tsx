@@ -4,7 +4,7 @@ import profileLogo from "../Logos/button_user profile.svg";
 import cartLogo from "../Logos/button_cart.svg";
 import favoriteLogo from "../Logos//favorite.svg";
 import { useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { RootState } from "../store/store";
 
@@ -22,28 +22,34 @@ const ActionPanel = () => {
       setRoute("sign-in");
     }
   };
-  const handleProfileClick = (
-    ev: React.MouseEvent<HTMLImageElement, MouseEvent>
-  ) => {
-    navigate("/profile");
-  };
-  const handleFavoriteClick = (
-    ev: React.MouseEvent<HTMLImageElement, MouseEvent>
-  ) => {
-    navigate("/favorite");
-  };
-  const handleCartClick = (
-    ev: React.MouseEvent<HTMLImageElement, MouseEvent>
-  ) => {
-    navigate("/cart");
-  };
+  // const handleProfileClick = (
+  //   ev: React.MouseEvent<HTMLImageElement, MouseEvent>
+  // ) => {
+  //   navigate("/profile");
+  // };
+  // const handleFavoriteClick = (
+  //   ev: React.MouseEvent<HTMLImageElement, MouseEvent>
+  // ) => {
+  //   navigate("/favorite");
+  // };
+  // const handleCartClick = (
+  //   ev: React.MouseEvent<HTMLImageElement, MouseEvent>
+  // ) => {
+  //   navigate("/cart");
+  // };
   return (
     <>
       {user?.id ? (
         <>
-          <img src={cartLogo} alt="" onClick={handleCartClick} />
-          <img src={favoriteLogo} alt="" onClick={handleFavoriteClick} />
-          <img src={profileLogo} alt="" onClick={handleProfileClick} />
+        <Link to={"/cart/" + user.cart.id}>
+          <img src={cartLogo} alt=""/>
+        </Link>
+        <Link to={"/favorite/" + user.favorite.id}>
+          <img src={favoriteLogo} alt=""/>
+        </Link>
+        <Link to={"/profile"}>
+          <img src={profileLogo} alt=""/>
+        </Link>
         </>
       ) : (
         <>
@@ -56,7 +62,7 @@ const ActionPanel = () => {
             </CustomLoginButton>
           </NavLink>
         </>
-       )} 
+        )} 
     </>
   );
 };

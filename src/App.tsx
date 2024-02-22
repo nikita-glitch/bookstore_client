@@ -75,8 +75,8 @@ const App = () => {
           {init && (
             <Route element={<ProtectedRoute user={user!} />}>
               <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/favorite" element={<FavoritePage />} />
+              <Route path="/cart/:id" element={<CartPage />} />
+              <Route path="/favorite/:id" element={<FavoritePage />} />
             </Route>
           )}
           {/* <Route path="*" element={<CatalogPage />} /> */}

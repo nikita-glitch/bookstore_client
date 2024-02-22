@@ -5,22 +5,32 @@ import {
   amountDecremented,
   amountIncremented,
   bookRemovedFromCart,
+  getCartBook,
 
 } from "../store/userSlice";
 import { AppDispatch, RootState } from "../store/store";
 import { useSelector } from "react-redux";
 import { Box, Button, Typography } from "@mui/material";
 import FormButton from "../Components/FormButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { removeBookFromCart, setAmount } from "../store/userSlice";
 import { changeAmount } from "../API/cartApi";
 import { CartBooks } from "../interfaces/interfaces";
+import { useEffect } from "react";
 
 const CartPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const { id } = useParams()
+
+  useEffect(() => {
+    if (id) {
+      dispatch(getCartBook(id))
+    }
+  }, [id])
+
   const  {cartBooks, has_paid, is_ordered}  = useSelector(
-    (state: RootState) => state.users.user!.cart!
+    (state: RootState) => state.users.user?.cart!
   );
 
   const handleSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
@@ -50,14 +60,14 @@ const CartPage = () => {
 
   const handleRemoveFromCart = async (bookId: string) => {
     try {
-      dispatch(bookRemovedFromCart(bookId))
+      //dispatch(bookRemovedFromCart(bookId))
       await dispatch(removeBookFromCart(bookId)).unwrap();
     } catch (error) {}
   };
 
   const countTotal = () => {
     let count = 0;
-    cartBooks!.map((cartBook) => {
+    cartBooks?.map((cartBook) => {
       count += cartBook.book.price * cartBook.amount;
     });
     return count;

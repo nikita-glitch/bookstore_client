@@ -7,7 +7,7 @@ import favIco from "../../Logos/button_save.svg";
 import favIcoClicked from "../../Logos/Group 229.svg";
 import { FC, useState } from "react";
 import { Book, FavoriteBooks } from "../../interfaces/interfaces";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import {
@@ -25,48 +25,36 @@ const BookCard: FC<Book> = (book: Book) => {
   );
   const user = useSelector((state: RootState) => state.users.user);
 
-  const handleButtonClick = (
-    ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    navigate("/books/" + book.id);
-  };
 
   const handleAddToFavorite = async (
     ev: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) => {
     try {
-      if (user) {
-        const isInFavorite = setLogo();
-        if (isInFavorite) {
-          const response = await dispatch(
-            removeBookFromFavorite(book.id)
-          ).unwrap();
-          dispatch(bookRemovedFromFavorite(book.id));          
-          notify(response.data.message, "succsess");
-        } else {
+      if (!user) { 
+        notify('Only authorized users can add book to favorite', "error"); 
+      }
+      const isInFavorite = checkIsInFavorite();
+      if (isInFavorite) {
+        const { response } = await dispatch(
+          removeBookFromFavorite(book.id)
+        ).unwrap();
+       // dispatch(bookRemovedFromFavorite(book.id));          
+        notify(response.data.message, "succsess");
+        return
+      } 
         const response = await dispatch(addBookToFavorite(book.id)).unwrap();
         notify(response.data.message, "succsess");
-      }
-    } else {
-      notify('Only authorized users can add book to favorite', "error");
-    }
+      
     } catch (err: any) {
       console.log(err);
       notify(err.message, "error");
     }
   };
 
-  const setLogo = () => {
-    let isInFavorite = false;
-
-    favoriteBooks?.map((favBook) => {
-      if (favBook.book.id === book.id) {
-        isInFavorite = true;
-        return;
-      }
-    });
-    return isInFavorite;
+  const checkIsInFavorite = () => {
+    return favoriteBooks?.some((favBook) => favBook.book?.id === book.id)    
   };
+
 
   return (
 
@@ -74,7 +62,7 @@ const BookCard: FC<Book> = (book: Book) => {
         <CardMedia>
           <BookImg src={'http://localhost:5000/' + book.photos?.photo} alt="" />
           <CustomIcon
-            src={setLogo() ? favIcoClicked : favIco}
+            src={checkIsInFavorite() ? favIcoClicked : favIco}
             alt=""
             onClick={handleAddToFavorite}
           />
@@ -95,7 +83,9 @@ const BookCard: FC<Book> = (book: Book) => {
           </RatingDiv>
         </CustomCardContent>
         <CardActions>
-          <CustomButton onClick={handleButtonClick}>{book.price}</CustomButton>
+          <Link to={"/books/" + book.id}>
+          <CustomButton onClick={() => {}}>{book.price}</CustomButton>
+          </Link>
         </CardActions>
       </CustomCard>
 

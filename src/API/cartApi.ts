@@ -6,3 +6,8 @@ export const changeAmount = async (bookId: string, isIncrement: boolean) => {
   return response
 };
 
+export const getCartBooks = async (cartId: string) => {
+  const response = privateRoute.get('/cart/' + cartId)
+  return response
+}
+
