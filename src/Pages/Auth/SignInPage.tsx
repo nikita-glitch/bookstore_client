@@ -17,7 +17,8 @@ const SignInPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.users)
-
+  
+  window.scrollTo(0, 0);
   const signInForm = useFormik({
     initialValues: {
       email: "",

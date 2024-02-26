@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import BookCard from "./Book/BookCard";
 import signInBanner from "../Logos/sign_in_banner.svg";
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import bookBanner from "../Logos/banner.svg";
 import {
   Pagination,
@@ -19,56 +19,44 @@ import { getBook } from "../store/bookSlice";
 const CatalogPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const catalog = useRef<HTMLDivElement | null>(null);
-  const books = useSelector((state: RootState) => state.books);
+  const { book, total } = useSelector((state: RootState) => state.books);
   const user = useSelector((state: RootState) => state.users.user!);
   const [offset, SetOffset] = useState<number>(1);
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    let ignore = false;
-    if (!ignore) {
-      let genreFilter = [{}];
-      let priceFilter = [0, 100];
-      let searchString = "";
-      let sortBy = "";
-      searchParams.forEach((value, key) => {       
-        switch (key) {
-          case "genreId":
-            genreFilter.push(value);
-            break;
-          case "sort":
-            sortBy = value;
-            break;
-          case "priceRange":
-            const firstElem = parseInt(value.split(',')[0]);
-            const secondElem = parseInt(value.split(',')[1]);           
-            priceFilter = [firstElem, secondElem];
-            break;
-          case "searchString":
-            searchString = value;
-            break;
-        }
-      });      
-      const params = {priceFilter, searchString, genreFilter, sortBy, offset}
-      dispatch(getBook(params));
-    }
-    return () => {
-      ignore = true;
-    };
-  }, [searchParams, offset]);
+    window.scrollTo(0, 0);
+    let genreFilter = [{}];
+    let priceFilter = [0, 100];
+    let searchString = "";
+    let sortBy = "";
+    searchParams.forEach((value, key) => {
+      switch (key) {
+        case "genreId":
+          genreFilter.push(value);
+          break;
+        case "sort":
+          sortBy = value;
+          break;
+        case "priceRange":
+          const firstElem = parseInt(value.split(",")[0]);
+          const secondElem = parseInt(value.split(",")[1]);
+          priceFilter = [firstElem, secondElem];
+          break;
+        case "searchString":
+          searchString = value;
+          break;
+      }
+    });
+    const params = { priceFilter, searchString, genreFilter, sortBy, offset };
+    dispatch(getBook(params));
+  }, [searchParams, offset, dispatch]);
 
-  const book = useSelector(
-    (state: RootState) => state.books.book!
-  );
-
-    const handlePaginationClick = (ev: React.ChangeEvent<unknown>, page: number) => {
-      SetOffset(page)
-    }
-
-  const navigate = useNavigate();
-
-  const handleAuthBannerClick = () => {
-    navigate("/sign-in");
+  const handlePaginationClick = (
+    ev: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    SetOffset(page);
   };
 
   const handleBookBannerClick = () => {
@@ -87,24 +75,25 @@ const CatalogPage = () => {
         <Filters />
       </CustomFilterDiv>
       <CustomCardsDiv ref={catalog}>
-
-        {book?.map((bookItem) => (  
-            <BookCard key={bookItem.id} {...bookItem} />
+        {book?.map((bookItem) => (
+          <BookCard key={bookItem.id} {...bookItem} />
         ))}
       </CustomCardsDiv>
 
       <CustomPagination
-        count={Math.ceil(books.total / 12)}
+        count={Math.ceil(total / 12)}
         onChange={handlePaginationClick}
         renderItem={(item) => (
           <PaginationItem
-           // slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+            // slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
             {...item}
           />
         )}
       />
       {!user && (
-        <CustomIcon src={signInBanner} alt="" onClick={handleAuthBannerClick} />
+        <Link to={"/sign-in"}>
+          <CustomIcon src={signInBanner} alt="" />
+        </Link>
       )}
     </CustomCatalogDiv>
   );

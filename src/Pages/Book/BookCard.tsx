@@ -5,14 +5,14 @@ import styled from "styled-components";
 import Rating from "@mui/material/Rating";
 import favIco from "../../Logos/button_save.svg";
 import favIcoClicked from "../../Logos/Group 229.svg";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Book, FavoriteBooks } from "../../interfaces/interfaces";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import {
   addBookToFavorite,
-  bookRemovedFromFavorite,
+  getFavoriteBook,
   removeBookFromFavorite,
 } from "../../store/userSlice";
 import { notify } from "../../Notify";
@@ -20,31 +20,38 @@ import { notify } from "../../Notify";
 const BookCard: FC<Book> = (book: Book) => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const user = useSelector((state: RootState) => state.users.user);
+
+  useEffect(() => {
+    if (user?.favorite.id) {
+      dispatch(getFavoriteBook(user.favorite.id));
+    }
+  }, [user?.favorite.id]);
+
   const favoriteBooks = useSelector(
     (state: RootState) => state.users.user?.favorite?.favoriteBooks
   );
-  const user = useSelector((state: RootState) => state.users.user);
-
 
   const handleAddToFavorite = async (
     ev: React.MouseEvent<HTMLImageElement, MouseEvent>
   ) => {
     try {
-      if (!user) { 
-        notify('Only authorized users can add book to favorite', "error"); 
+      if (!user) {
+        notify("Only authorized users can add book to favorite", "error");
       }
+
       const isInFavorite = checkIsInFavorite();
+
       if (isInFavorite) {
         const { response } = await dispatch(
           removeBookFromFavorite(book.id)
         ).unwrap();
-       // dispatch(bookRemovedFromFavorite(book.id));          
         notify(response.data.message, "succsess");
-        return
-      } 
-        const response = await dispatch(addBookToFavorite(book.id)).unwrap();
-        notify(response.data.message, "succsess");
-      
+        return;
+      }
+
+      const response = await dispatch(addBookToFavorite(book.id)).unwrap();
+      notify(response.data.message, "succsess");
     } catch (err: any) {
       console.log(err);
       notify(err.message, "error");
@@ -52,43 +59,39 @@ const BookCard: FC<Book> = (book: Book) => {
   };
 
   const checkIsInFavorite = () => {
-    return favoriteBooks?.some((favBook) => favBook.book?.id === book.id)    
+    return favoriteBooks?.some((favBook) => favBook.book?.id === book.id);
   };
 
-
   return (
-
-      <CustomCard>
-        <CardMedia>
-          <BookImg src={'http://localhost:5000/' + book.photos?.photo} alt="" />
-          <CustomIcon
-            src={checkIsInFavorite() ? favIcoClicked : favIco}
-            alt=""
-            onClick={handleAddToFavorite}
+    <CustomCard>
+      <CardMedia>
+        <BookImg src={"http://localhost:5000/" + book.photos?.photo} alt="" />
+        <CustomIcon
+          src={checkIsInFavorite() ? favIcoClicked : favIco}
+          alt=""
+          onClick={handleAddToFavorite}
+        />
+      </CardMedia>
+      <CustomCardContent>
+        <CustomTitle>{book.title}</CustomTitle>
+        <CustomAuthor>{book.author.author_name}</CustomAuthor>
+        <RatingDiv>
+          <CustomRating
+            id="rating"
+            name="simple-controlled"
+            value={book.bookRating | 0}
+            size="large"
+            disabled
           />
-        </CardMedia>
-        <CustomCardContent>
-          
-          <CustomTitle>{book.title}</CustomTitle>
-          <CustomAuthor>{book.author.author_name}</CustomAuthor>
-          <RatingDiv>
-            <CustomRating
-              id="rating"
-              name="simple-controlled"
-              value={book.bookRating | 0}
-              size="large"
-              disabled
-            />
-            <Box>{book.bookRating | 0}</Box>
-          </RatingDiv>
-        </CustomCardContent>
-        <CardActions>
-          <Link to={"/books/" + book.id}>
-          <CustomButton onClick={() => {}}>{book.price}</CustomButton>
-          </Link>
-        </CardActions>
-      </CustomCard>
-
+          <Box>{book.bookRating | 0}</Box>
+        </RatingDiv>
+      </CustomCardContent>
+      <CardActions disableSpacing={true}>
+        <Link to={"/books/" + book.id}>
+          <CustomButton>{book.price}</CustomButton>
+        </Link>
+      </CardActions>
+    </CustomCard>
   );
 };
 

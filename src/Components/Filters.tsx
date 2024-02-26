@@ -118,8 +118,6 @@ const Filters: FC = () => {
                 getAriaLabel={() => "Price"}
                 value={value}
                 onChange={handlePriceChange}
-                valueLabelDisplay="auto"
-                getAriaValueText={valuetext}
               />
             </SliderDiv>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>

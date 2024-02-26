@@ -5,7 +5,6 @@ import App from "./App";
 import { Provider } from "react-redux";
 import {store} from "./store/store";
 import { BrowserRouter } from "react-router-dom";
-
 //require("dotenv").config({ path: __dirname + "/.env" });
 
 const root = ReactDOM.createRoot(

@@ -2,16 +2,16 @@ import { Button } from "@mui/material";
 import logo from "../Logos/Group 1.svg";
 import SearchBar from "./SearchBar";
 import ActionPanel from "./ActionPanel";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const NavBar = () => {
   return (
     <CustomDivNavbar>
       <img src={logo} alt="logo" />
-      <NavLink to="/books">
+      <Link to={"/books"}>
         <CustomCatalogButton>Catalog</CustomCatalogButton>
-      </NavLink>
+      </Link>
       <SearchBar />
       <ActionPanel />
     </CustomDivNavbar>

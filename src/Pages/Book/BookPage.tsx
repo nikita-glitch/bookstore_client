@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import signInBanner from "../../Logos/sign_in_banner.svg";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import BookCard from "./BookCard";
 import { useEffect, useState } from "react";
 import { getBookRating } from "../../API/booksAPI";
@@ -21,46 +21,37 @@ const BookPage = () => {
   const { id } = useParams();
   const user = useSelector((state: RootState) => state.users!.user!);
   const books = useSelector((state: RootState) => state.books.book);
-  const currentBook = useSelector((state: RootState) => state.books.book?.find((elem) => elem.id === id));
+  const currentBook = useSelector((state: RootState) =>
+    state.books.book?.find((elem) => elem.id === id)
+  );
   const dispatch = useDispatch<AppDispatch>();
-  
+
   const navigate = useNavigate();
 
   useEffect(() => {
-    let ignore = false;
-    if (!ignore) {
-      dispatch(getBook())
-    }
-    return () => {
-      ignore = true;
-    };
-  }, [id]);
+    window.scrollTo(0, 0);
+    dispatch(getBook());
+  }, [dispatch]);
 
   useEffect(() => {
-    let ignore = false;
-    if (!ignore) {
-      if (id) {
-        getBookRating(id).then((response) => {
-          setRatings(response.data);
-        });
-      }
+    if (id) {
+      getBookRating(id).then((response) => {
+        setRatings(response.data);
+      });
     }
-    return () => {
-      ignore = true;
-    };
-  }, [user?.rating]);
+  }, [user?.rating, id]);
 
   const getUserRate = () => {
-    let value = 0;
-    if (user) {
-      user?.rating?.map((rate) => {
-        if (rate.userId === user!.id && rate.bookId === id) {
-          value = rate.value;
-        }
-      });
-      return value;
+    if (!user) {
+      return 0;
     }
-    return 0
+    let value = 0;
+    user?.rating?.forEach((rate) => {
+      if (rate.userId === user!.id && rate.bookId === id) {
+        value = rate.value;
+      }
+    });
+    return value;
   };
 
   const handleTextInputChange = (
@@ -72,14 +63,15 @@ const BookPage = () => {
   const handleCommentPost = async (
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    const data = {
-      commentText: input,
-      bookId: id,
-    };
     try {
-      const response = await dispatch(postComment(data)).unwrap();
-      notify(response.data.message, "succsess")
-      setInput('')
+      const response = await dispatch(
+        postComment({
+          commentText: input,
+          bookId: id,
+        })
+      ).unwrap();
+      notify(response.data.message, "succsess");
+      setInput("");
     } catch (error) {}
   };
 
@@ -87,48 +79,46 @@ const BookPage = () => {
     event: React.SyntheticEvent<Element, Event>,
     newValue: number | null
   ) => {
-    
     if (!newValue) {
-      return
+      return;
     }
-    const data = {
-      ratingValue: newValue,
-      bookId: id,
-    };
-    try {      
-      const response = await dispatch(setBookRating(data)).unwrap();
-      notify(response.data.message, "succsess")
-    } catch (error) {}
-  };
 
-  const handleBannerClick = (
-    ev: React.MouseEvent<HTMLImageElement, MouseEvent>
-  ) => {
-    navigate("/sign-in");
+    try {
+      const response = await dispatch(
+        setBookRating({
+          ratingValue: newValue,
+          bookId: id,
+        })
+      ).unwrap();
+      notify(response.data.message, "succsess");
+    } catch (error) {}
   };
 
   const handleCartAddClick = async (
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    if (!user.id) {
+    if (!user?.id) {
       navigate("/sign-in");
-    } else {
-      const response = await dispatch(addBookToCart(id)).unwrap();
-      notify(response.data.message, "succsess");
+      return;
     }
+    const response = await dispatch(addBookToCart(id)).unwrap();
+    notify(response.data.message, "succsess");
   };
 
   return (
     <Page>
       <CustomBookDiv>
-        <Bookimg src={'http://localhost:5000/' + currentBook?.photos?.photo} alt="" />
+        <Bookimg
+          src={"http://localhost:5000/" + currentBook?.photos?.photo!}
+          alt=""
+        />
         <CustomInfoDiv>
           <BookTitle>{currentBook?.title}</BookTitle>
           <BookAuthor>{currentBook?.author.author_name}</BookAuthor>
           <CustomRatingDiv>
             <CustomLogo src={logo} alt="" />
             <Typography>{rating ?? 0}</Typography>
-            
+
             <Rating
               name="simple-controlled"
               disabled={user ? false : true}
@@ -176,22 +166,22 @@ const BookPage = () => {
           </CustomButton>
         </TextAreaDiv>
       ) : (
-        <>
-          <CustomIcon src={signInBanner} alt="" onClick={handleBannerClick} />
-        </>
+        <Link to={"/sign-in"}>
+          <CustomIcon src={signInBanner} alt="" />
+        </Link>
       )}
       <Recomendations>Recommendations</Recomendations>
       <RecomendationsDiv>
-        {books && books!.map((bookItem: Book, index: number) => (
-          <div key={bookItem.id}>
-            {index < 4 && <BookCard key={bookItem.id} {...bookItem} />}
-          </div>
-        ))}
+        {books &&
+          books!.map((bookItem: Book, index: number) => (
+            <div key={bookItem.id}>
+              {index < 4 && <BookCard key={bookItem.id} {...bookItem} />}
+            </div>
+          ))}
       </RecomendationsDiv>
     </Page>
   );
 };
-
 
 const CustomButtonDiv = styled.div`
   display: flex;

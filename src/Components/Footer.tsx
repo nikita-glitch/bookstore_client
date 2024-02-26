@@ -2,23 +2,12 @@ import { MenuList, MenuItem, Typography } from "@mui/material";
 import logo from "../Logos/LogoWhite.svg";
 import map from "../Logos/map.png";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const Footer = () => {
-  const navigate = useNavigate()
-  const handleHomeItemClick = (ev: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-    navigate('/')
-  }
-  const handleCatalogItemClick = (ev: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-    navigate("/books")
-  }
-  const handleProfileItemClick = (ev: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-    navigate('/profile')
-  }
-  const handleCartItemClick = (ev: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-    navigate('/cart')
-  }
-
+const user = useSelector((state: RootState) => state.users.user)
   return (
     <CustomFooterDiv>
       <CustomContactsDiv>
@@ -29,10 +18,18 @@ const Footer = () => {
         </div>
       </CustomContactsDiv>
       <MenuList>
-        <CustomMenuItem onClick={handleHomeItemClick}>Home page</CustomMenuItem>
-        <CustomMenuItem onClick={handleCatalogItemClick}>Catalog</CustomMenuItem>
-        <CustomMenuItem onClick={handleProfileItemClick}>My account</CustomMenuItem>
-        <CustomMenuItem onClick={handleCartItemClick}>Cart</CustomMenuItem>
+        <Link to={"/"}>
+        <CustomMenuItem >Home page</CustomMenuItem>
+        </Link>
+        <Link to={"/books"}>
+        <CustomMenuItem >Catalog</CustomMenuItem>
+        </Link>
+        <Link to={"/profile"}>
+        <CustomMenuItem >My account</CustomMenuItem>
+        </Link>
+        <Link to={"/cart/" + user?.cart.id}>
+        <CustomMenuItem >Cart</CustomMenuItem>
+        </Link>
       </MenuList>
       <div>
         <CustomText>6391 Elgin St. Celina, Delaware 10299</CustomText>
@@ -71,10 +68,11 @@ const CustomText = styled(Typography)`
   line-height: 30px;
 `;
 
-// const CustomMenu = styled.div`
-//   background-color: #0d1821;
-//   height: 341px;
-// `;
+const CustomMenu = styled(MenuList)`
+  background-color: #0d1821;
+  height: 341px;
+`;
+
 const CustomMenuItem = styled(MenuItem)`
   color: #fff;
   font-size: 20px;

@@ -5,25 +5,22 @@ import styled from "styled-components";
 import FormButton from "../Components/FormButton";
 import logo from "../Logos/unsplash_DgQf1dUKUTM.svg";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  bookRemovedFromFavorite,
-  getFavoriteBook,
-  removeBookFromFavorite,
-} from "../store/userSlice";
+import { getFavoriteBook, removeBookFromFavorite } from "../store/userSlice";
 import { notify } from "../Notify";
 import { FavoriteBooks } from "../interfaces/interfaces";
 import { useEffect } from "react";
+import FAVORITE_CART_BOOK from "./Book/FAVORITE_CART_BOOK";
 
 const FavoritePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { id } = useParams()
+  const { id } = useParams();
 
   useEffect(() => {
     if (id) {
-      dispatch(getFavoriteBook(id))
+      dispatch(getFavoriteBook(id));
     }
-  }, [id])
+  }, [id, dispatch]);
 
   const { favoriteBooks } = useSelector(
     (state: RootState) => state.users!.user!.favorite
@@ -33,13 +30,6 @@ const FavoritePage = () => {
     navigate("/books");
   };
 
-  const handleRemoveFromFavorite = async (bookId: string) => {
-    try {
-      const { response } = await dispatch(removeBookFromFavorite(bookId)).unwrap();
-      //dispatch(bookRemovedFromFavorite(bookId));
-      notify(response.data.message, "succsess");
-    } catch (error) {}
-  };
   return (
     <div>
       {favoriteBooks?.length === 0 && (
@@ -56,15 +46,10 @@ const FavoritePage = () => {
       )}
       <div>
         {favoriteBooks?.map((favoriteBook: FavoriteBooks) => (
-          <div key={favoriteBook.id}>
-            <CustomTitle>{favoriteBook.book.title}</CustomTitle>
-            <CustomAuthor>{favoriteBook.book.author.author_name}</CustomAuthor>
-            <Button
-              onClick={() => handleRemoveFromFavorite(favoriteBook.book.id)}
-            >
-              Remove
-            </Button>
-          </div>
+          <>
+            <FAVORITE_CART_BOOK key={favoriteBook.id} {...favoriteBook} />
+            <LineDiv></LineDiv>
+          </>
         ))}
       </div>
     </div>
@@ -73,26 +58,13 @@ const FavoritePage = () => {
 
 export default FavoritePage;
 
-const CustomTitle = styled(Typography)`
-  font-family: Poppins;
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 60px;
-
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
-  }
-  @media only screen and (max-width: 320px) {
-  }
-`;
-const CustomAuthor = styled(Typography)`
-  font-family: Poppins;
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 36px;
-
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
-  }
-  @media only screen and (max-width: 320px) {
+const LineDiv = styled.div`
+  margin-left: 80px;
+  width: 1280px;
+  border: 1px solid #d6d8e7;
+  box-sizing: border-box;
+  & :last-child {
+    border: none;
   }
 `;
 

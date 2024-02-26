@@ -18,57 +18,42 @@ import FavoritePage from "./Pages/FavoritePage";
 import BookPage from "./Pages/Book/BookPage";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import styled from "styled-components";
 
 const App = () => {
   const [init, setInit] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
-    let ignore = false;
-    if (!ignore) {
-      const token = localStorage.getItem("token");
-      if (token) {
-        dispatch(getUser());
-      }
-      setInit(true);
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(getUser());
     }
-    return () => {
-      ignore = true;
-    };
+    setInit(true);
   }, [dispatch]);
 
-  const { user, isLoading } = useSelector(
-    (state: RootState) => state.users!
-  );
+  const { user, isLoading } = useSelector((state: RootState) => state.users!);
 
   return (
     <div className="App">
-      {/* {isLoading ? (
-        <Skeleton>
-          <NavBar />
-          <Footer />
-        </Skeleton>
-      ) : ( */}
-      <ToastContainer
-        position="top-center"
-        autoClose={2000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      <>
-
+      <CustomNavDiv>
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <NavBar />
+      </CustomNavDiv>
+      <CustomMainDiv>
         <Routes>
-          <Route
-            path="/books"
-            
-            element={<CatalogPage />}
-          />
+          <Route path="/books" element={<CatalogPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/sign-in" element={<SignInPage />} />
           <Route path="/books/:id" element={<BookPage />} />
@@ -79,13 +64,27 @@ const App = () => {
               <Route path="/favorite/:id" element={<FavoritePage />} />
             </Route>
           )}
-          {/* <Route path="*" element={<CatalogPage />} /> */}
+          <Route path="/" element={<CatalogPage />} />
         </Routes>
-        <Footer />
-      </>
-      {/* )} */}
+      </CustomMainDiv>
+      <CustomFooterDiv>
+      <Footer />
+      </CustomFooterDiv>
     </div>
   );
 };
 
 export default App;
+
+const CustomNavDiv = styled.div`
+  flex-shrink: 0;
+`
+
+const CustomMainDiv = styled.div`
+  height: 100%;
+  flex-grow: 1;
+`
+
+const CustomFooterDiv = styled.div`
+  flex-shrink: 0;
+`

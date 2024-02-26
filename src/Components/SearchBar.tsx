@@ -6,10 +6,8 @@ import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
 const SearchBar = () => {
-  const [input, setInput] = React.useState<string>("");
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const dispatch = useDispatch();
   const handleSearchInput = (
     ev: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {

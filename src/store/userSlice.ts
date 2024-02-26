@@ -53,9 +53,9 @@ export const setBookRating = createAsyncThunk(
 
 export const setAmount = createAsyncThunk(
   "cart/patch",
-  async (data: { bookId: string; isIncrement: boolean }) => {
+  async (data: { bookId: string; isIncrement: boolean }, thunkApi) => {
     const response = await changeAmount(data.bookId, data.isIncrement);
-    return response;
+    return { response, data };
   }
 );
 
@@ -82,7 +82,7 @@ export const removeBookFromCart = createAsyncThunk(
   "cart/delete",
   async (bookId: string) => {
     const response = await userAPI.removeFromCart(bookId);
-    return bookId;
+    return {response, bookId};
   }
 );
 
@@ -110,44 +110,7 @@ const initialState = {
 export const userSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {
-    amountIncremented(state, action) {
-      const currentCartBook = state.user!.cart.cartBooks.find(
-        (elem) => elem.book.id === action.payload
-      );
-      if (currentCartBook) {
-        currentCartBook.amount++;
-      }
-    },
-
-    amountDecremented(state, action) {
-      const currentCartBook = state.user!.cart.cartBooks.find(
-        (elem) => elem.book.id === action.payload
-      );
-      if (currentCartBook) {
-        if (currentCartBook.amount <= 1) {
-          state.user!.cart!.cartBooks = state.user!.cart.cartBooks.filter(
-            (elem) => elem.book.id !== action.payload
-          );
-        } else {
-          currentCartBook.amount--;
-        }
-      }
-    },
-
-    bookRemovedFromCart(state, action) {
-      state.user!.cart!.cartBooks = state.user!.cart.cartBooks.filter(
-        (elem) => elem.book.id !== action.payload
-      );
-    },
-
-    bookRemovedFromFavorite(state, action) {
-      state.user!.favorite.favoriteBooks =
-        state.user!.favorite.favoriteBooks.filter(
-          (elem) => elem.book.id !== action.payload
-        );
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
 
     builder.addCase(removeBookFromCart.pending, (state, action) => {
@@ -155,7 +118,9 @@ export const userSlice = createSlice({
     })
 
     builder.addCase(removeBookFromCart.fulfilled, (state, action) => {
-      state.user!.cart.cartBooks = state.user!.cart.cartBooks.filter((cartBook) => cartBook.id !== action.payload);
+      state.user!.cart!.cartBooks = state.user!.cart.cartBooks.filter(
+        (elem) => elem.book.id !== action.payload.bookId
+      );
       state.isLoading = false;
     });
 
@@ -168,7 +133,10 @@ export const userSlice = createSlice({
     })
 
     builder.addCase(removeBookFromFavorite.fulfilled, (state, action) => {
-      state.user!.favorite.favoriteBooks = state.user!.favorite.favoriteBooks.filter((favBook) => favBook.id !== action.payload.bookId);
+      state.user!.favorite.favoriteBooks =
+        state.user!.favorite.favoriteBooks.filter(
+          (elem) => elem.book.id !== action.payload.bookId
+        );
       state.isLoading = false;
     });
 
@@ -188,7 +156,7 @@ export const userSlice = createSlice({
     builder.addCase(addBookToFavorite.fulfilled, (state, action) => {
       console.log(action.payload);
 
-      state.user!.favorite.favoriteBooks.push(action.payload.data);
+      state.user!.favorite.favoriteBooks.push(action.payload.data.favoriteBook);
       state.isLoading = false;
     });
 
@@ -286,14 +254,34 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(getFavoriteBook.rejected, (state, action) => {});
+
+    builder.addCase(setAmount.pending, (state, action) => {});
+
+    builder.addCase(setAmount.fulfilled, (state, action) => {   
+      const { bookId, isIncrement } = action.payload.data 
+      const currentCartBook = state.user?.cart?.cartBooks.find(
+        (elem) => elem.book.id === bookId
+      );
+      if (!currentCartBook) {
+        return
+      }
+      if (isIncrement) {
+        currentCartBook.amount++
+        return
+      } 
+      if (currentCartBook.amount <= 1) {
+        state.user!.cart!.cartBooks = state.user!.cart.cartBooks.filter(
+          (elem) => elem.book.id !== bookId
+        );
+      } else {
+        currentCartBook.amount--;
+      }
+
+    });
+
+    builder.addCase(setAmount.rejected, (state, action) => {});
   },
 });
 
-export const {
-  amountIncremented,
-  amountDecremented,
-  bookRemovedFromCart,
-  bookRemovedFromFavorite,
-} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -41,12 +41,12 @@ const ProfilePage = () => {
   ) => {
     setChangePass(!changePass);
     setChangeName(false);
-    passwordChange.errors.oldPassword = "";
-    passwordChange.touched.oldPassword = false;
-    passwordChange.errors.newPassword = "";
-    passwordChange.touched.newPassword = false;
-    passwordChange.errors.passwordToCompare = "";
-    passwordChange.touched.passwordToCompare = false;
+    // passwordChange.errors.oldPassword = "";
+    // passwordChange.touched.oldPassword = false;
+    // passwordChange.errors.newPassword = "";
+    // passwordChange.touched.newPassword = false;
+    // passwordChange.errors.passwordToCompare = "";
+    // passwordChange.touched.passwordToCompare = false;
   };
 
   const handleNameChange = (
@@ -54,8 +54,8 @@ const ProfilePage = () => {
   ) => {
     setChangeName(!changeName);
     setChangePass(false);
-    nameChange.errors.userName = "";
-    nameChange.touched.userName = false;
+    // nameChange.errors.userName = "";
+    // nameChange.touched.userName = false;
   };
 
   const nameChange = useFormik({

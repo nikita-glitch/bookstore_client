@@ -81,7 +81,7 @@ const bookSlice = createSlice({
       );    
         
       if (currentBook) {
-        state.book?.map((book) => {
+        state.book?.forEach((book) => {
           if (book.id === currentBook.id) {
             book.comments.push(comment)
             return

@@ -98,6 +98,8 @@ export interface CartBooks {
 
 export interface FavoriteBooks {
   id: string;
+  cartId: never;
+  amount: never;
   favoriteId: string;
   bookId: string;
   book: Book;
