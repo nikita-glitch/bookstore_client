@@ -6,12 +6,9 @@ import { AppDispatch, RootState } from "../store/store";
 import { useSelector } from "react-redux";
 import { Box, Button, Typography } from "@mui/material";
 import FormButton from "../Components/FormButton";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { removeBookFromCart, setAmount } from "../store/userSlice";
-import { changeAmount } from "../API/cartApi";
+import { useNavigate, useParams } from "react-router-dom";
 import { CartBooks } from "../interfaces/interfaces";
 import { useEffect } from "react";
-import { notify } from "../Notify";
 import FAVORITE_CART_BOOK from "./Book/FAVORITE_CART_BOOK";
 
 const CartPage = () => {
@@ -41,6 +38,10 @@ const CartPage = () => {
     return count.toFixed(2);
   };
 
+  const lastElemCheck = (cartBook: CartBooks) => {
+    return cartBooks.length - cartBooks.indexOf(cartBook) - 1 > 0;
+  };
+
   return (
     <>
       {!cartBooks?.length && (
@@ -58,11 +59,11 @@ const CartPage = () => {
           </EmptyCartDiv>
         </Box>
       )}
-      {cartBooks &&
-        cartBooks?.map((cartBook: CartBooks) => (
+      
+        {cartBooks?.map((cartBook: CartBooks) => (
           <>
             <FAVORITE_CART_BOOK key={cartBook.id} {...cartBook} />
-            <LineDiv></LineDiv>
+            {lastElemCheck(cartBook) && <LineDiv></LineDiv>}
           </>
         ))}
       {cartBooks?.length && (
@@ -105,6 +106,7 @@ const CheckoutButton = styled(Button)`
 const ButtonsGroup = styled.div`
   display: flex;
   gap: 20px;
+  margin-top: 30px;
 `
 
 const ShoppingButton = styled(Button)`
@@ -130,9 +132,7 @@ const LineDiv = styled.div`
   width: 1280px;
   border: 1px solid #d6d8e7;
   box-sizing: border-box;
-  & :last-child {
-    border: none;
-  }
+
 `;
 
 const EmptyTitle = styled(Typography)`

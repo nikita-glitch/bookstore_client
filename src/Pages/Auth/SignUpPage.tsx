@@ -14,7 +14,6 @@ import { notify } from "../../Notify";
 const SignUpPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user, isLoading } = useSelector((state: RootState) => state.users);
 
   const signUpForm = useFormik({
     initialValues: {
@@ -55,12 +54,8 @@ const SignUpPage = () => {
                   fieldValue={signUpForm.values.email}
                   blurHandler={signUpForm.handleBlur}
                   {...signUpForm.getFieldProps("email")}
+                  errorMessage={signUpForm.errors.email}
                 />
-                {signUpForm.touched.email && signUpForm.errors.email ? (
-                  <CustomErrorMessage>
-                    {signUpForm.errors.email}
-                  </CustomErrorMessage>
-                ) : null}
                 <FormInput
                   labelText="Password"
                   helperText="Enter your password"
@@ -70,12 +65,8 @@ const SignUpPage = () => {
                   blurHandler={signUpForm.handleBlur}
                   fieldValue={signUpForm.values.password}
                   {...signUpForm.getFieldProps("password")}
+                  errorMessage={signUpForm.errors.password}
                 />
-                {signUpForm.touched.password && signUpForm.errors.password ? (
-                  <CustomErrorMessage>
-                    {signUpForm.errors.password}
-                  </CustomErrorMessage>
-                ) : null}
                 <FormInput
                   labelText="Password replay"
                   helperText="Repeat your password without errors"
@@ -85,13 +76,8 @@ const SignUpPage = () => {
                   blurHandler={signUpForm.handleBlur}
                   fieldValue={signUpForm.values.passwordToCompare}
                   {...signUpForm.getFieldProps("passwordToCompare")}
+                  errorMessage={signUpForm.errors.passwordToCompare}
                 />
-                {signUpForm.touched.passwordToCompare &&
-                signUpForm.errors.passwordToCompare ? (
-                  <CustomErrorMessage>
-                    {signUpForm.errors.passwordToCompare}
-                  </CustomErrorMessage>
-                ) : null}
                 <FormButton buttonType="submit" buttonText="Sign Up" />
               </Box>
             </Box>
@@ -103,12 +89,12 @@ const SignUpPage = () => {
 };
 
 const CustomPageDiv = styled.div`
-  @media only screen and (min-width: 835px) {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    margin: 10px 80px 80px 80px;
-  }
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 10px 80px 80px 80px;
+  gap: 255px;
+  justify-content: center;
+
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {

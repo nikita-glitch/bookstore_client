@@ -21,7 +21,7 @@ const SearchBar = () => {
       <CustomInputBase
         placeholder="Search"
         onChange={handleSearchInput}
-        value={searchParams.get('searchString') ?? ""}
+        value={searchParams.get('searchString')}
       ></CustomInputBase>
     </CustomSearchDiv>
   );
@@ -31,6 +31,7 @@ const CustomSearchDiv = styled.div`
   margin: 0;
   display: flex;
   align-items: center;
+  width: 630px;
 `;
 
 const CustomInputBase = styled(InputBase)`

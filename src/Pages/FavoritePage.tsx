@@ -30,6 +30,10 @@ const FavoritePage = () => {
     navigate("/books");
   };
 
+  const lastElemCheck = (favoriteBook: FavoriteBooks) => {
+    return favoriteBooks.length - favoriteBooks.indexOf(favoriteBook) - 1 > 0;
+  };
+
   return (
     <div>
       {favoriteBooks?.length === 0 && (
@@ -46,10 +50,10 @@ const FavoritePage = () => {
       )}
       <div>
         {favoriteBooks?.map((favoriteBook: FavoriteBooks) => (
-          <>
-            <FAVORITE_CART_BOOK key={favoriteBook.id} {...favoriteBook} />
-            <LineDiv></LineDiv>
-          </>
+          <div key={favoriteBook.id}>
+            <FAVORITE_CART_BOOK {...favoriteBook} />
+            {lastElemCheck(favoriteBook) && <LineDiv></LineDiv>}
+          </div>
         ))}
       </div>
     </div>

@@ -58,12 +58,9 @@ const SignInPage = () => {
                   blurHandler={signInForm.handleBlur}
                   fieldValue={signInForm.values.email}
                   {...signInForm.getFieldProps("email")}
+                  errorMessage= {signInForm.errors.email}
                 />
-                {signInForm.touched.email && signInForm.errors.email ? (
-                  <CustomErrorMessage>
-                    {signInForm.errors.email}
-                  </CustomErrorMessage>
-                ) : null}
+            
                 <FormInput
                   labelText="Password"
                   helperText="Enter your password"
@@ -73,12 +70,9 @@ const SignInPage = () => {
                   blurHandler={signInForm.handleBlur}
                   fieldValue={signInForm.values.password}
                   {...signInForm.getFieldProps("password")}
+                  errorMessage={signInForm.errors.password}
                 />
-                {signInForm.touched.password && signInForm.errors.password ? (
-                  <CustomErrorMessage>
-                    {signInForm.errors.password}
-                  </CustomErrorMessage>
-                ) : null}
+                
                 <FormButton buttonType="submit" buttonText="Sign In" />
               </Box>
             </Box>
@@ -95,58 +89,59 @@ const CustomErrorMessage = styled.div`
 `;
 
 const CustomPageDiv = styled.div`
-  @media (min-width: 835px) {
+ 
     display: flex;
     flex-direction: row-reverse;
-    justify-content: space-between;
-    margin: 10px 80px 80px 80px;
+    padding: 10px 80px 80px 80px;
+    gap: 255px;
+    justify-content: center;
+  
+  @media  (min-width: 321px) and (max-width: 834px) {
   }
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
-  }
-  @media only screen and (max-width: 320px) {
+  @media (max-width: 320px) {
   }
 `;
 
 const CustomFormDiv = styled.div`
-  @media only screen and (min-width: 835px) {
+  
     margin: 120px 0 0 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-  }
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  
+  @media  (min-width: 321px) and (max-width: 834px) {
   }
 
-  @media only screen and (max-width: 320px) {
+  @media (max-width: 320px) {
   }
 `;
 
 const CustomTitle = styled(Typography)`
-  @media only screen and (min-width: 835px) {
+ 
     font-size: 40px;
     font-style: normal;
     font-weight: 700;
     line-height: normal;
     text-align: left;
     margin: 0 0 60px 0;
-  }
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  
+  @media (min-width: 321px) and (max-width: 834px) {
   }
 
-  @media only screen and (max-width: 320px) {
+  @media (max-width: 320px) {
   }
 `;
 
 const CustomImg = styled.img`
-  @media only screen and (min-width: 835px) {
+ 
     margin-top: 90px;
     width: 612px;
     height: 522px;
+  
+  @media (min-width: 321px) and (max-width: 834px) {
   }
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
-  }
-  @media only screen and (max-width: 320px) {
+  @media (max-width: 320px) {
   }
 `;
 export default SignInPage;

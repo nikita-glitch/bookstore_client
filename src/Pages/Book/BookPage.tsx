@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { addBookToCart, setBookRating } from "../../store/userSlice";
 import { notify } from "../../Notify";
 import { getBook, postComment } from "../../store/bookSlice";
+import FormButton from "../../Components/FormButton";
 
 const BookPage = () => {
   const [input, setInput] = useState<string>("");
@@ -135,11 +136,13 @@ const BookPage = () => {
           <CustomButtonDiv>
             <div>
               <Typography>PaperBack</Typography>
+              
               <CustomButton disabled>Not available</CustomButton>
             </div>
             <div>
               <Typography>HardCover</Typography>
-              <CustomButton onClick={handleCartAddClick}>Buy</CustomButton>
+              
+              <CustomButton onClick={handleCartAddClick}>{currentBook?.price}</CustomButton>
             </div>
           </CustomButtonDiv>
         </CustomInfoDiv>
@@ -189,6 +192,7 @@ const CustomButtonDiv = styled.div`
 `;
 
 const CommentsList = styled.div`
+
   padding: 0 0 0 80px;
 `;
 
@@ -279,7 +283,8 @@ const CustomDescriptionDiv = styled.div`
 
 const CustomBookDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  gap: 128px;
+  justify-content: center;
   padding: 60px 80px 110px 80px;
 
   @media only screen and (min-width: 321px) and (max-width: 834px) {
@@ -289,6 +294,9 @@ const CustomBookDiv = styled.div`
 `;
 
 const Page = styled.div`
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -317,6 +325,21 @@ const DescriptionText = styled(Typography)`
   }
 `;
 const CustomButton = styled(Button)`
+  width: 216px;
+  height: 50px;
+  padding: 10px, 50px, 10px, 50px;
+  border-radius: 16px;
+  gap: 10px;
+  background: #344966;
+  color: #F0F4EF;
+   &.MuiButton-root:hover {
+    background-color: #344966;
+  }
+  &.Mui-disabled{
+    background: #B9BAC3;
+
+  }
+
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {

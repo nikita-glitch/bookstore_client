@@ -10,6 +10,7 @@ const Footer = () => {
 const user = useSelector((state: RootState) => state.users.user)
   return (
     <CustomFooterDiv>
+      <ContentDiv>
       <CustomContactsDiv>
         <CustomCompanyLogo src={logo} alt="logo" />
         <div>
@@ -17,7 +18,7 @@ const user = useSelector((state: RootState) => state.users.user)
           <CustomText>(480) 555-0103</CustomText>
         </div>
       </CustomContactsDiv>
-      <MenuList>
+      <CustomMenu>
         <Link to={"/"}>
         <CustomMenuItem >Home page</CustomMenuItem>
         </Link>
@@ -30,11 +31,12 @@ const user = useSelector((state: RootState) => state.users.user)
         <Link to={"/cart/" + user?.cart.id}>
         <CustomMenuItem >Cart</CustomMenuItem>
         </Link>
-      </MenuList>
+      </CustomMenu>
       <div>
         <CustomText>6391 Elgin St. Celina, Delaware 10299</CustomText>
         <CustomMap src={map} alt="logo" />
       </div>
+      </ContentDiv>
     </CustomFooterDiv>
   );
 };
@@ -42,6 +44,7 @@ const user = useSelector((state: RootState) => state.users.user)
 const CustomCompanyLogo = styled.img`
   width: 88.3px;
   height: 46px;
+  margin-bottom: 40px;
 `;
 
 const CustomMap = styled.img`
@@ -49,33 +52,51 @@ const CustomMap = styled.img`
   height: 160px;
 `;
 
-const CustomFooterDiv = styled.div`
-  padding: 73px 80px;
-  background-color: #0d1821;
-  margin-top: 154px;
+const ContentDiv = styled.div`
+  width: 1280px;
   display: flex;
-  justify-content: space-between;
+  
 `;
+
+const CustomFooterDiv = styled.div`
+  padding: 70px 80px;
+  background-color: #0d1821;
+  display: flex;
+  justify-content: center;
+`;
+
 const CustomContactsDiv = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
 `;
 
 const CustomText = styled(Typography)`
   color: #fff;
+  font-family: Poppins;
   font-size: 20px;
+  font-weight: 400;
   line-height: 30px;
+  letter-spacing: 0em;
+  text-align: left;
+
 `;
 
 const CustomMenu = styled(MenuList)`
-  background-color: #0d1821;
-  height: 341px;
+  padding: 0;
+  margin: 0 290px 63px 166px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 `;
 
 const CustomMenuItem = styled(MenuItem)`
   color: #fff;
+  font-family: Poppins;
   font-size: 20px;
+  font-weight: 400;
   line-height: 30px;
+  letter-spacing: 0em;
+
 `;
 export default Footer;

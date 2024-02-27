@@ -63,6 +63,7 @@ const FAVORITE_CART_BOOK: FC<CartBooks> = (
             <>
               <div>
                 <CustomAmount>
+                  <ButtonContainer>
                   <AmountButton
                     onClick={() => handleChangeAmountDec(currentBook.bookId)}
                   >
@@ -74,6 +75,7 @@ const FAVORITE_CART_BOOK: FC<CartBooks> = (
                   >
                     +
                   </AmountButton>
+                  </ButtonContainer>
                   <CustomDeleteLogo
                     src={deleteLogo}
                     onClick={() => handleRemoveFromCart(currentBook.bookId)}
@@ -90,12 +92,17 @@ const FAVORITE_CART_BOOK: FC<CartBooks> = (
           )}
         </div>
       </CartBookDiv>
-     
     </>
   );
 };
 
 export default FAVORITE_CART_BOOK;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 118px;
+`
 
 const BookAmount = styled.div`
   font-family: Poppins;
@@ -125,7 +132,7 @@ const CustomAmount = styled.div`
   display: flex;
   width: 196px;
   align-items: center;
-  justify-content: space-evenly;
+  gap: 58px;
   height: 33px;
 `;
 
@@ -134,8 +141,6 @@ const CartBookDiv = styled.div`
   padding: 60px 80px 47px 80px;
   gap: 20px;
 `;
-
-
 
 const CustomDeleteLogo = styled.img`
   width: 20px;

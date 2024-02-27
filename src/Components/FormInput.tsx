@@ -7,13 +7,14 @@ import { Input, InputLabel } from "@mui/material";
 
 const FormInput = (props: {
   labelText: string;
-  helperText: string;
+  helperText?: string;
   inputStyle: string;
-  inputName: string;
+  inputName?: string;
   disabled?: true | false;
   changeHandler?: (e: React.ChangeEvent<any>) => void;
   blurHandler?: (e: React.ChangeEvent<any>) => void;
-  fieldValue?: string
+  fieldValue?: string;
+  errorMessage?: string;
 }) => {
   const [hiddenPass, setHiddenPass] = React.useState<boolean>(true);
 
@@ -25,70 +26,78 @@ const FormInput = (props: {
     props.inputStyle === "email" ? "text" : hiddenPass ? "password" : "text";
 
   return (
-    <>
-    <CustomDiv>
-      <CustomImg
-        className="icon"
-        src={
-          props.inputStyle === "email"
-            ? `${Mail}`
-            : hiddenPass
-            ? `${hidePass}`
-            : `${viewPass}`
-        }
-        alt=""
-        onClick={handlePassHide}
-      ></CustomImg>
-      <CustomInputField
-        placeholder={props.labelText}
-        type={setType}
-        value={props.fieldValue}
-        onChange={props.changeHandler}
-        onBlur={props.blurHandler}
-        id={props.inputName}
-        disabled={props.disabled}
-        disableUnderline={true}
-        
-      />
-      
-    </CustomDiv>
-    <CustomInputLabel>{props.helperText}</CustomInputLabel>
-    </>
+    <FormDiv>
+      <CustomDiv>
+        <CustomImg
+          className="icon"
+          src={
+            props.inputStyle === "email"
+              ? `${Mail}`
+              : hiddenPass
+              ? `${hidePass}`
+              : `${viewPass}`
+          }
+          alt=""
+          onClick={handlePassHide}
+        ></CustomImg>
+        <CustomInputField
+          placeholder={props.labelText}
+          type={setType}
+          value={props.fieldValue}
+          onChange={props.changeHandler}
+          onBlur={props.blurHandler}
+          id={props.inputName}
+          disabled={props.disabled}
+          disableUnderline={true}
+        />
+      </CustomDiv>
+      <CustomInputLabel>{props.helperText}</CustomInputLabel>
+      {props.errorMessage && (
+        <CustomError>{props.errorMessage}</CustomError>
+      )}
+    </FormDiv>
   );
 };
 const CustomInputField = styled(Input)`
   width: 365px;
-  height: 66px;
+  height: 64px;
   border: none;
   border-bottom-right-radius: 16px;
   border-top-right-radius: 16px;
   background-color: #f0f4ef;
-  
 `;
 
 const CustomImg = styled.img`
-  padding: 22px 24px;
+  padding: 20px;
   background-color: #f0f4ef;
   border-bottom-left-radius: 16px;
   border-top-left-radius: 16px;
   color: #b9bac3;
   text-align: center;
-  margin-bottom: 9px;
 `;
 
 const CustomDiv = styled.div`
   display: flex;
   flex-wrap: nowrap;
-
-`
+`;
+const FormDiv = styled.div`
+margin-bottom: 30px;
+`;
 
 const CustomInputLabel = styled(InputLabel)`
   margin: 0;
+  display: inline;
   font-size: 14px;
   color: #344966;
-  margin-bottom: 63px;
   text-align: start;
   line-height: 24px;
+`;
 
-`
+const CustomError = styled(InputLabel)`
+  margin: 0;
+  font-size: 16px;
+  color: #e6120a;
+  text-align: start;
+  line-height: 24px;
+`;
 export default FormInput;

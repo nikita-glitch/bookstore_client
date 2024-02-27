@@ -23,22 +23,17 @@ const MAX = 100;
 const MIN = 0;
 
 const Filters: FC = () => {
+  const [settedGenre, setSettedGenre] = useState<Genre[]>([]);
   const [value, setValue] = useState<number[]>([0, 100]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
 
   React.useEffect(() => {
-    let ignore = false;
-    if (!ignore) {
-      getAllGenres()
-        .then((response) => {          
-          setGenres(response?.data);
-        })
-        .catch((error) => console.log(error));
-    }
-    return () => {
-      ignore = true;
-    };
+    getAllGenres()
+      .then((response) => {
+        setGenres(response?.data);
+      })
+      .catch((error) => console.log(error));
   }, []);
 
   const handleSortByChange = (event: SelectChangeEvent<any>) => {
@@ -47,26 +42,17 @@ const Filters: FC = () => {
   };
 
   const handleGenreChange = (event: SelectChangeEvent<any>) => {
-    if (event.target.value === "") {
+    const isEmptyString = event.target.value.includes("");
+    if (isEmptyString) {
       searchParams.forEach((value, key) => {
         if (key === "genreId") {
           searchParams.delete(key);
           setSearchParams(searchParams);
         }
       });
-    } else {
-      let params = searchParams.getAll("genreId");
-      params.push(event.target.value);
-      if (
-        params.indexOf(event.target.value) !== -1 &&
-        params.lastIndexOf(event.target.value) !== -1 &&
-        params.indexOf(event.target.value) !==
-          params.lastIndexOf(event.target.value)
-      ) {
-        params = params.filter((param) => param !== event.target.value);
-      }
-      setSearchParams(createSearchParams({ genreId: params }));
+      return;
     }
+    setSearchParams(createSearchParams({ genreId: event.target.value }));
   };
 
   const handlePriceChange = (event: Event, newValue: number | number[]) => {
@@ -85,15 +71,17 @@ const Filters: FC = () => {
     });
     return res;
   };
+  
   return (
-    <FltersDiv>
+    <FiltersDiv>
       <CustomDiv>
         <FormControl>
           <InputLabel id="demo-simple-select-label">Genre</InputLabel>
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={searchParams.get("genreId")}
+            multiple
+            value={searchParams.getAll("genreId")}
             label="Genre"
             onChange={handleGenreChange}
           >
@@ -101,11 +89,11 @@ const Filters: FC = () => {
               <em>None</em>
             </MenuItem>
             {genres?.map((genre: Genre) => (
-                <MenuItem key={genre.id} value={genre.id}>
-                  <Checkbox checked={handleChecked(genre.id)} />
-                  <ListItemText primary={genre.genre_name} />
-                </MenuItem>
-              ))}
+              <MenuItem key={genre.id} value={genre.id}>
+                <Checkbox checked={handleChecked(genre.id)} />
+                <ListItemText primary={genre.genre_name} />
+              </MenuItem>
+            ))}
           </CustomSelect>
         </FormControl>
       </CustomDiv>
@@ -151,13 +139,16 @@ const Filters: FC = () => {
           </CustomSelect>
         </FormControl>
       </CustomDiv>
-    </FltersDiv>
+    </FiltersDiv>
   );
 };
 
-const FltersDiv = styled.div`
+const FiltersDiv = styled.div`
   display: flex;
   width: 630px;
+  padding: 8px 0;
+  align-items: center;
+
 `;
 
 const CustomDiv = styled.div`

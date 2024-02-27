@@ -23,9 +23,9 @@ const ActionPanel = () => {
   };
 
   return (
-    <>
+    <ActionPanelDiv>
       {user?.id ? (
-        <>
+        <ActionsDiv>
         <Link to={"/cart/" + user.cart.id}>
           <img src={cartLogo} alt=""/>
         </Link>
@@ -35,9 +35,8 @@ const ActionPanel = () => {
         <Link to={"/profile"}>
           <img src={profileLogo} alt=""/>
         </Link>
-        </>
+        </ActionsDiv>
       ) : (
-        <>
           <Link to={route}>
             <CustomLoginButton
               variant="contained"
@@ -46,18 +45,34 @@ const ActionPanel = () => {
               Log In/ Sign Up
             </CustomLoginButton>
           </Link>
-        </>
         )} 
-    </>
+    </ActionPanelDiv>
   );
 };
 
 const CustomLoginButton = styled(Button)`
   background-color: #344966;
-  border-radius: 16px;
-  width: 230px;
+  width: 231px;
   height: 44px;
+  padding: 10px, 50px, 10px, 50px;
+  border-radius: 16px;
+  gap: 10px;
   margin-left: 98px;
 `;
+
+const ActionPanelDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 198px;
+  margin-left: 127px;
+`
+
+const ActionsDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 198px;
+`
 
 export default ActionPanel;

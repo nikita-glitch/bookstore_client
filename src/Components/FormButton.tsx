@@ -1,13 +1,15 @@
 import { Button } from "@mui/material";
+import { click } from "@testing-library/user-event/dist/click";
 import * as React from "react";
 import styled from "styled-components";
 
 const FormButton = (props: {
-  buttonText: string;
+  buttonText?: string;
   buttonType: "submit" | "button";
+  click?: (ev: React.MouseEvent<any>) => Promise<void>
 }) => {
   return (
-    <Custombutton type={props.buttonType}>{props.buttonText}</Custombutton>
+    <Custombutton type={props.buttonType} onClick={props.click}>{props.buttonText}</Custombutton>
   );
 };
 const Custombutton = styled(Button)`

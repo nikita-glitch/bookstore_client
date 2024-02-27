@@ -1,15 +1,16 @@
 import styled from "styled-components";
 import BookCard from "./Book/BookCard";
 import signInBanner from "../Logos/sign_in_banner.svg";
-import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
-import bookBanner from "../Logos/banner.svg";
+import { Link, useSearchParams } from "react-router-dom";
+import bookBanner from "../Logos/banner.png";
 import {
   Pagination,
   PaginationItem,
   Skeleton,
   Typography,
 } from "@mui/material";
-
+import actvePag from "../Logos/activePag.svg";
+import pag from "../Logos/Pag.svg";
 import Filters from "../Components/Filters";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
@@ -25,7 +26,6 @@ const CatalogPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     let genreFilter = [{}];
     let priceFilter = [0, 100];
     let searchString = "";
@@ -56,6 +56,11 @@ const CatalogPage = () => {
     ev: React.ChangeEvent<unknown>,
     page: number
   ) => {
+    catalog.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
     SetOffset(page);
   };
 
@@ -82,26 +87,38 @@ const CatalogPage = () => {
 
       <CustomPagination
         count={Math.ceil(total / 12)}
+        boundaryCount={3}
         onChange={handlePaginationClick}
         renderItem={(item) => (
           <PaginationItem
-            // slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+            // slots={{ previous: }}
             {...item}
           />
         )}
       />
       {!user && (
         <Link to={"/sign-in"}>
-          <CustomIcon src={signInBanner} alt="" />
+          <CustomSignInIcon src={signInBanner} alt="" />
         </Link>
       )}
     </CustomCatalogDiv>
   );
 };
 const CustomIcon = styled.img`
-  @media only screen and (min-width: 835px) {
-    margin-bottom: 80px;
+  width: 1280px;
+  height: 400px;
+  padding-top: 40px;
+
+  @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
+  @media only screen and (max-width: 320px) {
+  }
+`;
+
+const CustomSignInIcon = styled.img`
+  width: 1280px;
+  height: 462px;
+  margin-bottom: 154px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -109,11 +126,9 @@ const CustomIcon = styled.img`
 `;
 
 const CustomCatalogDiv = styled.div`
-  @media only screen and (min-width: 835px) {
-    display: flex;
-    flex-direction: column;
-    padding: 0 80px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -121,12 +136,10 @@ const CustomCatalogDiv = styled.div`
 `;
 
 const CustomFilterDiv = styled.div`
-  @media only screen and (min-width: 835px) {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 110px 0 38px 0;
-  }
+  display: flex;
+  justify-content: space-between;
+  width: 1280px;
+  margin: 110px 0 38px 0;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -143,11 +156,9 @@ const CustomText = styled(Typography)`
 `;
 
 const CustomPagination = styled(Pagination)`
-  @media only screen and (min-width: 835px) {
-    display: flex;
-    justify-content: center;
-    margin: 78px 0 150px 0;
-  }
+  display: flex;
+  justify-content: center;
+padding: 78px 0 30px 0;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -155,12 +166,11 @@ const CustomPagination = styled(Pagination)`
 `;
 
 const CustomCardsDiv = styled.div`
-  @media only screen and (min-width: 835px) {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    row-gap: 60px;
-    column-gap: 20px;
-  }
+  display: grid;
+  grid-template-columns: repeat(4, 305px);
+  row-gap: 60px;
+  column-gap: 20px;
+
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {

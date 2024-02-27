@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { addUserAvatar, changeUserName } from "../store/userSlice";
 import { changePassword } from "../API/userAPI";
 import { notify } from "../Notify";
+import FormInput from "../Components/FormInput";
 
 const ProfilePage = () => {
   const [changePass, setChangePass] = React.useState<boolean>(false);
@@ -99,16 +100,16 @@ const ProfilePage = () => {
   });
   return (
     <CustomProfileDiv>
-      <div>
+      <>
         <CustomAvatar
           src={"http://localhost:5000/" + user?.avatar?.avatarName ?? userPhoto}
           alt=""
         />
-        <label>
+        <CustomLabel>
           <CustomLogo src={photoLogo} alt="" />
           <VisuallyHiddenInput type="file" onChange={handleAddAvatar} />
-        </label>
-      </div>
+        </CustomLabel>
+      </>
       <div>
         <CustomTextDiv>
           <Typography>Personal information</Typography>
@@ -118,21 +119,18 @@ const ProfilePage = () => {
         </CustomTextDiv>
         <Box component="form" onSubmit={nameChange.handleSubmit}>
           <CustomInputDiv>
-            <CustomTextField
-              label="Your name"
-              placeholder={user!.name}
+            <FormInput
+              labelText="Your name"
+              inputStyle="email"
               disabled={!changeName}
-              id="userName"
-              {...nameChange.getFieldProps("userName")}
+              changeHandler={nameChange.handleChange}
+              blurHandler={nameChange.handleBlur}
+              fieldValue={nameChange.values.userName}
+              {...nameChange.getFieldProps("email")}
+              errorMessage={nameChange.errors.userName}
             />
-            {nameChange.touched.userName &&
-            nameChange.errors.userName &&
-            changeName ? (
-              <CustomErrorMessage>
-                {nameChange.errors.userName}
-              </CustomErrorMessage>
-            ) : null}
-            <CustomTextField label="Your email" name="email" disabled={true} />
+
+            <CustomTextField label="Your email" name="email" disabled={true}/>
           </CustomInputDiv>
           {changeName && (
             <FormButton buttonText="Confirm" buttonType="submit" />
@@ -151,53 +149,44 @@ const ProfilePage = () => {
         <CustomInputDiv>
           <Box component="form" onSubmit={passwordChange.handleSubmit}>
             <CustomInputDiv>
-              <CustomTextField
-                label="Old password"
-                placeholder=""
-                id="oldPassword"
+              <FormInput
+                labelText={changePass ? "Old password" : "Your password"}
+                inputStyle="password"
+                inputName="oldPassword"
                 disabled={!changePass}
+                changeHandler={passwordChange.handleChange}
+                blurHandler={passwordChange.handleBlur}
+                fieldValue={passwordChange.values.oldPassword}
                 {...passwordChange.getFieldProps("oldPassword")}
+                errorMessage={passwordChange.errors.oldPassword}
               />
-              {passwordChange.touched.oldPassword &&
-              passwordChange.errors.oldPassword &&
-              changePass ? (
-                <CustomErrorMessage>
-                  {passwordChange.errors.oldPassword}
-                </CustomErrorMessage>
-              ) : null}
             </CustomInputDiv>
             {changePass && (
               <>
                 <CustomInputDiv>
-                  <CustomTextField
-                    label="New password"
-                    id="newPassword"
-                    type="password"
+                  <FormInput
+                    labelText="New password"
                     helperText="Enter your password"
+                    inputStyle="password"
+                    inputName="newPassword"
+                    disabled={!changePass}
+                    changeHandler={passwordChange.handleChange}
+                    blurHandler={passwordChange.handleBlur}
+                    fieldValue={passwordChange.values.newPassword}
                     {...passwordChange.getFieldProps("newPassword")}
+                    errorMessage={passwordChange.errors.newPassword}
                   />
-                  {passwordChange.touched.newPassword &&
-                  passwordChange.errors.newPassword &&
-                  changePass ? (
-                    <CustomErrorMessage>
-                      {passwordChange.errors.newPassword}
-                    </CustomErrorMessage>
-                  ) : null}
-                  <CustomTextField
-                    label="Password replay"
-                    placeholder=""
-                    id="passwordToCompare"
-                    type="password"
+                  <FormInput
+                    labelText="Password replay"
                     helperText="Repeat your password without errors"
+                    inputStyle="password"
+                    inputName="passwordToCompare"
+                    changeHandler={passwordChange.handleChange}
+                    blurHandler={passwordChange.handleBlur}
+                    fieldValue={passwordChange.values.passwordToCompare}
                     {...passwordChange.getFieldProps("passwordToCompare")}
+                    errorMessage={passwordChange.errors.passwordToCompare}
                   />
-                  {passwordChange.touched.passwordToCompare &&
-                  passwordChange.errors.passwordToCompare &&
-                  changePass ? (
-                    <CustomErrorMessage>
-                      {passwordChange.errors.passwordToCompare}
-                    </CustomErrorMessage>
-                  ) : null}
                 </CustomInputDiv>
                 <FormButton buttonText="Confirm" buttonType="submit" />
               </>
@@ -205,10 +194,13 @@ const ProfilePage = () => {
           </Box>
         </CustomInputDiv>
       </div>
-      <div></div>
     </CustomProfileDiv>
   );
 };
+
+const CustomLabel = styled.label`
+  width: 128px
+`;
 
 const VisuallyHiddenInput = styled.input`
   visibility: hidden;
@@ -216,8 +208,10 @@ const VisuallyHiddenInput = styled.input`
 
 const CustomProfileDiv = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 60px 205px 110px 80px;
+  width: 1280px;
+
+  //justify-content: space-around;
+  padding: 36px 405px 110px 80px;
 `;
 
 const CustomInputDiv = styled.div`
@@ -237,14 +231,13 @@ const CustomAvatar = styled.img`
   width: 305px;
   height: 305px;
   border-radius: 16px;
-  margin-right: 70px;
 `;
 
 const CustomLogo = styled.img`
   z-index: 9999;
   position: relative;
-  bottom: 20px;
-  right: 138px;
+  top: 240px;
+  right: 65px;
 `;
 
 const CustomTextField = styled(TextField)`
@@ -259,9 +252,6 @@ const CustomTextField = styled(TextField)`
   }
 `;
 
-const CustomErrorMessage = styled.div`
-  color: tomato;
-  margin-bottom: 5px;
-`;
+
 
 export default ProfilePage;

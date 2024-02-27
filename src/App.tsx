@@ -78,13 +78,23 @@ export default App;
 
 const CustomNavDiv = styled.div`
   flex-shrink: 0;
+  display: flex;
+  max-width: 1280px;
+  margin: 24px 80px;
+  margin-bottom: 0;
 `
 
 const CustomMainDiv = styled.div`
   height: 100%;
+  display: flex;
+  justify-content: center;
   flex-grow: 1;
+  max-width: 1280px;
+  padding: 0 80px;
 `
 
 const CustomFooterDiv = styled.div`
   flex-shrink: 0;
+  width: 100%;
+
 `
