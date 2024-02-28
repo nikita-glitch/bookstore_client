@@ -109,9 +109,15 @@ const CustomIcon = styled.img`
   height: 400px;
   padding-top: 40px;
 
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px){
+    width: 835px;
+    height: 365px;
+    padding-top: 40px;
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
+    width: 290px;
+    height: 524px;
+    padding-top: 40px;
   }
 `;
 
@@ -119,9 +125,9 @@ const CustomSignInIcon = styled.img`
   width: 1280px;
   height: 462px;
   margin-bottom: 154px;
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px) {
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
   }
 `;
 
@@ -129,20 +135,21 @@ const CustomCatalogDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  padding-bottom: 150px;
+  @media (min-width: 834px) and (max-width: 1279px){
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
   }
 `;
 
 const CustomFilterDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 1280px;
+  width: 100%;
   margin: 110px 0 38px 0;
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px) {
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
   }
 `;
 
@@ -158,22 +165,29 @@ const CustomText = styled(Typography)`
 const CustomPagination = styled(Pagination)`
   display: flex;
   justify-content: center;
-padding: 78px 0 30px 0;
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  padding: 78px 0 30px 0;
+  @media (min-width: 834px) and (max-width: 1279px){
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
   }
 `;
 
 const CustomCardsDiv = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 305px);
+  grid-template-columns: repeat(4, 1fr) ;
   row-gap: 60px;
   column-gap: 20px;
-
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px){
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) ;
+    row-gap: 31px;
+    column-gap: 21px;
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px){
+    display: grid;
+    grid-template-columns: repeat(2, 1fr) ;
+    row-gap: 30px;
+    column-gap: 20px;
   }
 `;
 

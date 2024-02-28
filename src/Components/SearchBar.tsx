@@ -32,6 +32,13 @@ const CustomSearchDiv = styled.div`
   display: flex;
   align-items: center;
   width: 630px;
+  @media (min-width: 835px) and (max-width: 1279px){
+
+    width: 247px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    width: 290px;
+  }
 `;
 
 const CustomInputBase = styled(InputBase)`
@@ -41,6 +48,12 @@ const CustomInputBase = styled(InputBase)`
   padding: 0 509px 0 16px;
   border-bottom-right-radius: 16px;
   border-top-right-radius: 16px;
+  @media (min-width: 835px) and (max-width: 1279px){
+    padding: 0 123px 0 14px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    padding: 0 180px 0 64px;
+  }
 `;
 
 const CustomSearchIcon = styled(SearchIcon)`
@@ -49,5 +62,9 @@ const CustomSearchIcon = styled(SearchIcon)`
   background-color: #f0f4ef;
   border-bottom-left-radius: 16px;
   border-top-left-radius: 16px;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 export default SearchBar;

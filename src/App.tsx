@@ -80,8 +80,19 @@ const CustomNavDiv = styled.div`
   flex-shrink: 0;
   display: flex;
   max-width: 1280px;
-  margin: 24px 80px;
-  margin-bottom: 0;
+  padding: 24px 80px;
+  padding-bottom: 0;
+  @media (min-width: 834px) and (max-width: 1279px){
+    max-width: 804px;
+    padding: 24px 15px;
+    padding-bottom: 0;
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+    max-width: 290px;
+    padding: 20px 15px;
+    padding-bottom: 0;
+   
+  }
 `
 
 const CustomMainDiv = styled.div`
@@ -91,10 +102,27 @@ const CustomMainDiv = styled.div`
   flex-grow: 1;
   max-width: 1280px;
   padding: 0 80px;
+  @media (min-width: 834px) and (max-width: 1279px){
+    display: flex;
+    justify-content: center;
+    max-width: 804px;
+    padding: 0 16px 100px 0;
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+    display: flex;
+    justify-content: center;
+    max-width: 290px;
+    padding: 0 15px 70px 0;
+  }
 `
 
 const CustomFooterDiv = styled.div`
   flex-shrink: 0;
   width: 100%;
-
+  @media (min-width: 835px) and (max-width: 1279px){
+    
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    
+  }
 `

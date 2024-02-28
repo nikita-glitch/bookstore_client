@@ -21,5 +21,9 @@ const Custombutton = styled(Button)`
   &.MuiButton-root:hover {
     background-color: #344966;
   }
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 export default FormButton;

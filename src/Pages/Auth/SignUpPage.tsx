@@ -42,7 +42,7 @@ const SignUpPage = () => {
       <CustomFormDiv>
         <CustomTitle>Sign Up</CustomTitle>
         <Grid container>
-          <Grid component={Paper} elevation={0}>
+          <Grid component={Paper} elevation={0} sx={{ width: '413px' }}>
             <Box>
               <Box component="form" onSubmit={signUpForm.handleSubmit}>
                 <FormInput

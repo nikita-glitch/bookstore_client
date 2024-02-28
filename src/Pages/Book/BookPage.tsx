@@ -1,4 +1,10 @@
-import { Button, Rating, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  ButtonBase,
+  Rating,
+  TextField,
+  Typography,
+} from "@mui/material";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
@@ -15,6 +21,7 @@ import { addBookToCart, setBookRating } from "../../store/userSlice";
 import { notify } from "../../Notify";
 import { getBook, postComment } from "../../store/bookSlice";
 import FormButton from "../../Components/FormButton";
+import { ArrowBack } from "@mui/icons-material";
 
 const BookPage = () => {
   const [input, setInput] = useState<string>("");
@@ -46,13 +53,10 @@ const BookPage = () => {
     if (!user) {
       return 0;
     }
-    let value = 0;
-    user?.rating?.forEach((rate) => {
-      if (rate.userId === user!.id && rate.bookId === id) {
-        value = rate.value;
-      }
-    });
-    return value;
+    const rate = user?.rating?.find(
+      (rate) => rate.userId === user!.id && rate.bookId === id
+    );    
+    return rate?.value;
   };
 
   const handleTextInputChange = (
@@ -64,16 +68,14 @@ const BookPage = () => {
   const handleCommentPost = async (
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    try {
-      const response = await dispatch(
-        postComment({
-          commentText: input,
-          bookId: id,
-        })
-      ).unwrap();
-      notify(response.data.message, "succsess");
-      setInput("");
-    } catch (error) {}
+    const response = await dispatch(
+      postComment({
+        commentText: input,
+        bookId: id,
+      })
+    ).unwrap();
+    notify(response.data.message, "succsess");
+    setInput("");
   };
 
   const handleRatingChange = async (
@@ -83,16 +85,13 @@ const BookPage = () => {
     if (!newValue) {
       return;
     }
-
-    try {
-      const response = await dispatch(
-        setBookRating({
-          ratingValue: newValue,
-          bookId: id,
-        })
-      ).unwrap();
-      notify(response.data.message, "succsess");
-    } catch (error) {}
+    const { res } = await dispatch(
+      setBookRating({
+        ratingValue: newValue,
+        bookId: id,
+      })
+    ).unwrap();    
+    notify(res.message, "succsess");
   };
 
   const handleCartAddClick = async (
@@ -117,32 +116,33 @@ const BookPage = () => {
           <BookTitle>{currentBook?.title}</BookTitle>
           <BookAuthor>{currentBook?.author.author_name}</BookAuthor>
           <CustomRatingDiv>
+            <RatingValueDiv>
             <CustomLogo src={logo} alt="" />
-            <Typography>{rating ?? 0}</Typography>
+            <CustomRate>{rating ?? 0}</CustomRate>
+            </RatingValueDiv>
 
-            <Rating
+            <CustomRating
               name="simple-controlled"
               disabled={user ? false : true}
               value={getUserRate()}
               onChange={handleRatingChange}
             />
-            <Typography>Rate this book</Typography>
+            <CustomRateText>Rate this book</CustomRateText>
           </CustomRatingDiv>
-
           <CustomDescriptionDiv>
-            Description
+            <CustomDescription>Description</CustomDescription>
             <DescriptionText>{currentBook?.description}</DescriptionText>
           </CustomDescriptionDiv>
           <CustomButtonDiv>
             <div>
-              <Typography>PaperBack</Typography>
-              
+              <CustomButtonText>Paperback</CustomButtonText>
               <CustomButton disabled>Not available</CustomButton>
             </div>
             <div>
-              <Typography>HardCover</Typography>
-              
-              <CustomButton onClick={handleCartAddClick}>{currentBook?.price}</CustomButton>
+              <CustomButtonText>Hardcover</CustomButtonText>
+              <CustomButton onClick={handleCartAddClick}>
+                ${currentBook?.price} USD
+              </CustomButton>
             </div>
           </CustomButtonDiv>
         </CustomInfoDiv>
@@ -156,7 +156,7 @@ const BookPage = () => {
       </CommentsList>
       {user?.id ? (
         <TextAreaDiv>
-          <TextField
+          <CustomTextField
             id="outlined-multiline-static"
             label="Share a comment"
             multiline
@@ -176,7 +176,7 @@ const BookPage = () => {
       <Recomendations>Recommendations</Recomendations>
       <RecomendationsDiv>
         {books &&
-          books!.map((bookItem: Book, index: number) => (
+          books?.map((bookItem: Book, index: number) => (
             <div key={bookItem.id}>
               {index < 4 && <BookCard key={bookItem.id} {...bookItem} />}
             </div>
@@ -188,15 +188,16 @@ const BookPage = () => {
 
 const CustomButtonDiv = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: start;
+  gap: 82px;
 `;
 
 const CommentsList = styled.div`
-
-  padding: 0 0 0 80px;
+padding-bottom: 68px;
 `;
 
 const CustomLogo = styled.img``;
+
 const CustomRatingDiv = styled.div`
   display: flex;
   align-items: center;
@@ -206,8 +207,8 @@ const CustomRatingDiv = styled.div`
 `;
 
 const CustomIcon = styled.img`
-  padding: 68px 80px 110px 80px;
-  width: 1720px;
+  width: 1280px;
+  padding-bottom: 110px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -229,6 +230,25 @@ const BookTitle = styled(Typography)`
   font-size: 40px;
   font-weight: 700;
   line-height: 60px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #0d1821;
+
+  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  }
+  @media only screen and (max-width: 320px) {
+  }
+`;
+
+const CustomDescription = styled(Typography)`
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 36px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #0d1821;
+  padding-bottom: 10px;
 
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
@@ -237,12 +257,11 @@ const BookTitle = styled(Typography)`
 `;
 
 const Recomendations = styled(Typography)`
-  padding: 0 0 0 80px;
   font-family: Poppins;
   font-size: 40px;
   font-weight: 700;
   line-height: 60px;
-
+  padding-bottom: 50px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -254,7 +273,7 @@ const Comment = styled(Typography)`
   font-size: 40px;
   font-weight: 700;
   line-height: 60px;
-
+  padding-bottom: 50px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -274,7 +293,7 @@ const BookAuthor = styled(Typography)`
 `;
 const CustomDescriptionDiv = styled.div`
   width: 640px;
-
+  padding-bottom: 74px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -283,9 +302,9 @@ const CustomDescriptionDiv = styled.div`
 
 const CustomBookDiv = styled.div`
   display: flex;
-  gap: 128px;
   justify-content: center;
-  padding: 60px 80px 110px 80px;
+  padding-bottom: 110px;
+  gap: 128px;
 
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
@@ -294,19 +313,54 @@ const CustomBookDiv = styled.div`
 `;
 
 const Page = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
+  padding: 60px 80px 150px 80px;
+  width: 1280px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
   }
 `;
 
+
+const CustomRateText = styled(Typography)`
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #B9BAC3;
+
+`
+const CustomRating = styled(Rating)`
+  font-size: 2.5rem;
+  color:#BFCC94;
+  //border: 2px solid #BFCC94;
+`
+const CustomRate = styled(Typography)`
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #B9BAC3;
+
+`
+
 const CustomInfoDiv = styled.div`
   display: flex;
   flex-direction: column;
+  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  }
+  @media only screen and (max-width: 320px) {
+  }
+`;
 
+const RatingValueDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 13px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -324,20 +378,25 @@ const DescriptionText = styled(Typography)`
   @media only screen and (max-width: 320px) {
   }
 `;
-const CustomButton = styled(Button)`
-  width: 216px;
-  height: 50px;
-  padding: 10px, 50px, 10px, 50px;
+
+const CustomButton = styled(ButtonBase)`
+
+  padding: 10px 50px;
   border-radius: 16px;
-  gap: 10px;
   background: #344966;
-  color: #F0F4EF;
-   &.MuiButton-root:hover {
+  color: #f0f4ef;
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+  letter-spacing: 0.75px;
+  text-align: center;
+
+  &.MuiButton-root:hover {
     background-color: #344966;
   }
-  &.Mui-disabled{
-    background: #B9BAC3;
-
+  &.Mui-disabled {
+    background: #b9bac3;
   }
 
   @media only screen and (min-width: 321px) and (max-width: 834px) {
@@ -348,18 +407,49 @@ const CustomButton = styled(Button)`
 const RecomendationsDiv = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 50px 80px 150px 80px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
   }
 `;
+
+const CustomButtonText = styled(Typography)`
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #344966;
+  padding-bottom: 14px;
+`
+
 const TextAreaDiv = styled.div`
-  padding: 50px 0 0 80px;
-  width: 800px;
-  border-radius: 16px;
+  padding-bottom: 108px;
   display: flex;
   flex-direction: column;
+  gap: 30px;
+  width: 276px;
+  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  }
+  @media only screen and (max-width: 320px) {
+  }
+`;
+
+const CustomTextField = styled(TextField)`
+  width: 738px;
+  border-radius: 16px;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0.75px;
+  text-align: left;
+  border: none;
+  color: #B9BAC3;
+
+  background: #F0F4EF;
+
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {

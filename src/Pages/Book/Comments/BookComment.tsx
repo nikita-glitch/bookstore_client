@@ -42,16 +42,25 @@ const BookComment = (comment: Comments) => {
 
 export default BookComment;
 
-const CustomUserInfo = styled.div``;
+const CustomUserInfo = styled.div`
+
+`;
 const CommentDiv = styled.div`
+  width: 738px;
+  height: auto;
+  border-radius: 16px;
   display: flex;
-  padding: 30px 30px 25px 30px;
-  gap: 20px;
-  width: 740px;
+  justify-content: space-evenly;
+  padding: 30px 0 25px 0;
   background-color: #f0f4ef;
   margin-bottom: 10px;
 `;
-const CustomDiv = styled.div``;
+
+const CustomDiv = styled.div`
+padding-top: 5px;
+  width: 598px;
+`;
+
 const CustomUserName = styled(Typography)`
   font-family: Poppins;
   font-size: 16px;
@@ -61,6 +70,7 @@ const CustomUserName = styled(Typography)`
   text-align: left;
   color: #0d1821;
 `;
+
 const CustomUserAvatar = styled.img`
   width: 60px;
   height: 60px;
@@ -68,6 +78,7 @@ const CustomUserAvatar = styled.img`
 `;
 
 const CustomTimestapm = styled(Typography)`
+padding: 4px 0 9px 0;
   font-family: Poppins;
   font-size: 12px;
   font-weight: 400;
@@ -85,4 +96,8 @@ const CustomText = styled(Typography)`
   letter-spacing: 0.75px;
   text-align: left;
   color: #344966;
+  width: 598px;
+  height: 72px;
+
+
 `;

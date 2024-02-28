@@ -9,7 +9,7 @@ const NavBar = () => {
   return (
     
     <CustomDivNavbar>
-      <img src={logo} alt="logo" />
+      <BookStoreLogo src={logo} alt="logo" />
       <Link to={"/books"}>
         <CustomCatalogButton >Catalog</CustomCatalogButton>
       </Link>
@@ -20,10 +20,31 @@ const NavBar = () => {
   );
 };
 
+const BookStoreLogo = styled.img`
+
+  @media (min-width: 835px) and (max-width: 1279px){
+    width: 88.43px;
+    height: 46px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    width: 62px;
+    height: 31px;
+  }
+`
+
 const CustomDivNavbar = styled.div`
   display: flex;
   align-items: center;
   margin-right: 125px;
+  @media (min-width: 835px) and (max-width: 1279px){
+    width: 804px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    width: 290px;
+    display: grid;
+    grid-auto-flow:  row  dense;
+    grid-template-rows: repeat(2, 47px);
+  }
 `;
 
 const CustomCatalogButton = styled(Button)`
@@ -38,5 +59,14 @@ const CustomCatalogButton = styled(Button)`
   width: 66px;
   height: 24px;
   margin: 18px 43px 22px 128px;
+  @media (min-width: 835px) and (max-width: 1279px){
+    margin: 18px 73px 22px 51px;
+
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    width: 58px;
+    height: 21px;
+    margin:0 18px;
+  }
 `;
 export default NavBar;

@@ -48,7 +48,7 @@ const FAVORITE_CART_BOOK: FC<CartBooks> = (
     } catch (error) {}
   };
   return (
-    <>
+    
       <CartBookDiv>
         <CustomBookPhoto
           src={"http://localhost:5000/" + currentBook.book.photos?.photo}
@@ -92,7 +92,7 @@ const FAVORITE_CART_BOOK: FC<CartBooks> = (
           )}
         </div>
       </CartBookDiv>
-    </>
+    
   );
 };
 
@@ -134,12 +134,14 @@ const CustomAmount = styled.div`
   align-items: center;
   gap: 58px;
   height: 33px;
+  padding-top: 50px;
 `;
 
 const CartBookDiv = styled.div`
   display: flex;
-  padding: 60px 80px 47px 80px;
   gap: 20px;
+  padding: 40px 0;
+
 `;
 
 const CustomDeleteLogo = styled.img`
@@ -170,6 +172,7 @@ const CustomPrice = styled(Typography)`
   letter-spacing: 0em;
   text-align: left;
   color: #0d1821;
+  padding-top: 50px;
 
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
@@ -185,7 +188,6 @@ const CustomAuthor = styled(Typography)`
   letter-spacing: 0em;
   text-align: left;
   color: #0d1821;
-
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {

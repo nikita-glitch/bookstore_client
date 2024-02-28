@@ -73,16 +73,18 @@ const BookCard: FC<Book> = (book: Book) => {
         <CustomAuthor>{book.author.author_name}</CustomAuthor>
         <RatingDiv>
           <CustomRating
+          sx={{opacity: '1',}}
             id="rating"
             name="simple-controlled"
             value={book.bookRating | 0}
+            disabled
           />
-          <Box>{book.bookRating | 0}.0</Box>
+          <Box>{book.bookRating | 0}</Box>
         </RatingDiv>
       </CustomCardContent>
-      <CardActions disableSpacing={true} sx={{padding: 0}}>
+      <CardActions disableSpacing={true} sx={{ padding: 0 }}>
         <Link to={"/books/" + book.id}>
-          <CustomButton>{book.price}</CustomButton>
+          <CustomButton>${book.price} USD</CustomButton>
         </Link>
       </CardActions>
     </CustomCard>
@@ -91,10 +93,15 @@ const BookCard: FC<Book> = (book: Book) => {
 
 const CustomRating = styled(Rating)`
   color: #a5cc24;
-  /* .MuiRating-root{
+  font-size: 2.5rem;
+  &.Mui-disabled{
+    opacity: 1;
+    
+  }
+  &.MuiRating-root{
     display: "flex";
-    justify-content: "space-around";
-  } */
+    justify-content: "space-between";
+  }
 
   @media (min-width: 321px) and (max-width: 834px) {
   }
@@ -111,8 +118,6 @@ const RatingDiv = styled.div`
     font-size: 20px;
     font-weight: 500;
     line-height: 24px;
-    letter-spacing: 0em;
-    margin: 10px 0;
   }
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
@@ -126,11 +131,11 @@ const CustomCardContent = styled(CardContent)`
 `;
 
 const CustomTitle = styled(Typography)`
-    color: #344966;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 30px;
-    text-align: left;
+  color: #344966;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+  text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -155,20 +160,19 @@ const CustomAuthor = styled(Typography)`
 `;
 
 const CustomButton = styled(Button)`
-
+  background: #344966;
+  border-radius: 16px;
+  padding: 10px 50px;
+  color: #f0f4ef;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.75px;
+  text-align: center;
+  width: 305px;
+  &:hover {
     background: #344966;
-    border-radius: 16px;
-    padding: 10px 50px;
-    color: #f0f4ef;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 28px;
-    letter-spacing: 0.75px;
-    text-align: center;
-    width: 305px;
-    &:hover {
-      background: #344966;
-    }
+  }
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
@@ -187,22 +191,19 @@ const BookImg = styled.img`
 `;
 
 const CustomIcon = styled.img`
-  @media only screen and (min-width: 835px) {
-    position: relative;
-    bottom: 610px;
-    left: 20px;
-  }
+  position: relative;
+  transform: translate(20px, -430px);
+
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
   }
 `;
 const CustomCard = styled(Card)`
-  
-    display: flex;
-    flex-direction: column;
-    box-shadow: none;
- 
+  display: flex;
+  flex-direction: column;
+  box-shadow: none;
+  width: 305px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {

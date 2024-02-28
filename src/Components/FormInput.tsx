@@ -15,6 +15,7 @@ const FormInput = (props: {
   blurHandler?: (e: React.ChangeEvent<any>) => void;
   fieldValue?: string;
   errorMessage?: string;
+  width?: string
 }) => {
   const [hiddenPass, setHiddenPass] = React.useState<boolean>(true);
 
@@ -59,12 +60,16 @@ const FormInput = (props: {
   );
 };
 const CustomInputField = styled(Input)`
-  width: 365px;
+  width: 100%;
   height: 64px;
   border: none;
   border-bottom-right-radius: 16px;
   border-top-right-radius: 16px;
   background-color: #f0f4ef;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 
 const CustomImg = styled.img`
@@ -74,14 +79,25 @@ const CustomImg = styled.img`
   border-top-left-radius: 16px;
   color: #b9bac3;
   text-align: center;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 
 const CustomDiv = styled.div`
   display: flex;
-  flex-wrap: nowrap;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 const FormDiv = styled.div`
 margin-bottom: 30px;
+@media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 
 const CustomInputLabel = styled(InputLabel)`
@@ -91,6 +107,10 @@ const CustomInputLabel = styled(InputLabel)`
   color: #344966;
   text-align: start;
   line-height: 24px;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 
 const CustomError = styled(InputLabel)`
@@ -99,5 +119,9 @@ const CustomError = styled(InputLabel)`
   color: #e6120a;
   text-align: start;
   line-height: 24px;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 export default FormInput;

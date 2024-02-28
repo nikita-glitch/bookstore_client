@@ -35,17 +35,17 @@ const FavoritePage = () => {
   };
 
   return (
-    <div>
+    <FavoritePageDiv>
       {favoriteBooks?.length === 0 && (
         <Box component="form" onSubmit={handleSubmit}>
-          <EmptyCartDiv>
+          <EmptyFavoriteDiv>
             <CustomLogo src={logo} alt="" />
             <div>
               <EmptyTitle>Your favorite is empty</EmptyTitle>
               <GoToCatalog>Go to the catalogue no.</GoToCatalog>
               <FormButton buttonText="Go to catalog" buttonType="submit" />
             </div>
-          </EmptyCartDiv>
+          </EmptyFavoriteDiv>
         </Box>
       )}
       <div>
@@ -56,26 +56,28 @@ const FavoritePage = () => {
           </div>
         ))}
       </div>
-    </div>
+    </FavoritePageDiv>
   );
 };
 
 export default FavoritePage;
 
+const FavoritePageDiv = styled.div`
+  width: 1280px;
+  padding: 20px 0 114px 0;
+`
+
 const LineDiv = styled.div`
-  margin-left: 80px;
   width: 1280px;
   border: 1px solid #d6d8e7;
   box-sizing: border-box;
-  & :last-child {
-    border: none;
-  }
+
 `;
 
-const EmptyCartDiv = styled.div`
+const EmptyFavoriteDiv = styled.div`
   display: flex;
   justify-content: space-around;
-  padding: 118px 185px 148px 188px;
+  padding: 118px 0 158px 0;
 `;
 
 const CustomLogo = styled.img`

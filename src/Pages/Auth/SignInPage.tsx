@@ -46,7 +46,7 @@ const SignInPage = () => {
       <CustomFormDiv>
         <CustomTitle>Sign In</CustomTitle>
         <Grid container>
-          <Grid component={Paper} elevation={0}>
+          <Grid component={Paper} elevation={0} sx={{ width: '413px' }}>
             <Box>
               <Box component="form" onSubmit={signInForm.handleSubmit}>
                 <FormInput

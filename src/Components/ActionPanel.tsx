@@ -27,13 +27,13 @@ const ActionPanel = () => {
       {user?.id ? (
         <ActionsDiv>
         <Link to={"/cart/" + user.cart.id}>
-          <img src={cartLogo} alt=""/>
+          <CustomIcom src={cartLogo} alt=""/>
         </Link>
         <Link to={"/favorite/" + user.favorite.id}>
-          <img src={favoriteLogo} alt=""/>
+          <CustomIcom src={favoriteLogo} alt=""/>
         </Link>
         <Link to={"/profile"}>
-          <img src={profileLogo} alt=""/>
+          <CustomIcom src={profileLogo} alt=""/>
         </Link>
         </ActionsDiv>
       ) : (
@@ -58,6 +58,12 @@ const CustomLoginButton = styled(Button)`
   border-radius: 16px;
   gap: 10px;
   margin-left: 98px;
+  @media (min-width: 834px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+    width: 135px;
+    height: 36px;
+  }
 `;
 
 const ActionPanelDiv = styled.div`
@@ -65,7 +71,24 @@ const ActionPanelDiv = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 198px;
-  margin-left: 127px;
+  @media (min-width: 834px) and (max-width: 1279px){
+
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+    width: 135px;
+  }
+ 
+`
+
+const CustomIcom = styled.img`
+  width: 48px;
+  height: 48px;
+  @media (min-width: 834px) and (max-width: 1279px){
+
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+    width: 135px;
+  }
 `
 
 const ActionsDiv = styled.div`
@@ -73,6 +96,14 @@ const ActionsDiv = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 198px;
+  gap: 27px;
+  padding-left: 127px;
+  @media (min-width: 834px) and (max-width: 1279px){
+
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+    width: 135px;
+  }
 `
 
 export default ActionPanel;

@@ -38,16 +38,19 @@ export const changeUserName = createAsyncThunk(
   }
 );
 
-export const addUserAvatar = createAsyncThunk("avatar/get", async (file: FormData) => {
-  const response = await uploadAvatar(file);  
-  return response;
-});
+export const addUserAvatar = createAsyncThunk(
+  "avatar/get",
+  async (file: FormData) => {
+    const response = await uploadAvatar(file);
+    return response;
+  }
+);
 
 export const setBookRating = createAsyncThunk(
   "rating/post",
   async (data: { ratingValue: number | null; bookId?: string }) => {
     const response = await userAPI.setRating(data.ratingValue, data.bookId);
-    return response?.data;
+    return {res: response?.data, bookId: data.bookId};
   }
 );
 
@@ -59,16 +62,21 @@ export const setAmount = createAsyncThunk(
   }
 );
 
-export const getFavoriteBook = createAsyncThunk("favorite/get", async(favoriteId: string) => {
-  const response = await getFavoriteBooks(favoriteId)
-  return response
-})
+export const getFavoriteBook = createAsyncThunk(
+  "favorite/get",
+  async (favoriteId: string) => {
+    const response = await getFavoriteBooks(favoriteId);
+    return response;
+  }
+);
 
-export const getCartBook = createAsyncThunk("cart/get", async(cartId: string) => {
-  const response = await getCartBooks(cartId)
-  return response
-})
-
+export const getCartBook = createAsyncThunk(
+  "cart/get",
+  async (cartId: string) => {
+    const response = await getCartBooks(cartId);
+    return response;
+  }
+);
 
 export const addBookToCart = createAsyncThunk(
   "cart/post",
@@ -82,7 +90,7 @@ export const removeBookFromCart = createAsyncThunk(
   "cart/delete",
   async (bookId: string) => {
     const response = await userAPI.removeFromCart(bookId);
-    return {response, bookId};
+    return { response, bookId };
   }
 );
 
@@ -90,13 +98,13 @@ export const removeBookFromFavorite = createAsyncThunk(
   "favorite/delete",
   async (bookId: string) => {
     const response = await userAPI.removeFromFavorite(bookId);
-    return {response, bookId};
+    return { response, bookId };
   }
 );
 
 export const addBookToFavorite = createAsyncThunk(
   "favorite/post",
-  async (bookId: string, {dispatch, getState}) => {
+  async (bookId: string, { dispatch, getState }) => {
     const response = await userAPI.addToFavorite(bookId);
     return response;
   }
@@ -112,10 +120,9 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-
     builder.addCase(removeBookFromCart.pending, (state, action) => {
       state.isLoading = true;
-    })
+    });
 
     builder.addCase(removeBookFromCart.fulfilled, (state, action) => {
       state.user!.cart!.cartBooks = state.user!.cart.cartBooks.filter(
@@ -130,7 +137,7 @@ export const userSlice = createSlice({
 
     builder.addCase(removeBookFromFavorite.pending, (state, action) => {
       state.isLoading = true;
-    })
+    });
 
     builder.addCase(removeBookFromFavorite.fulfilled, (state, action) => {
       state.user!.favorite.favoriteBooks =
@@ -233,15 +240,16 @@ export const userSlice = createSlice({
 
     builder.addCase(setBookRating.pending, (state, action) => {});
 
-    builder.addCase(setBookRating.fulfilled, (state, action) => {      
-      state.user!.rating!.push(action.payload.userRatingOfBook);
+    builder.addCase(setBookRating.fulfilled, (state, action) => {
+      state.user!.rating! = state.user!.rating!.filter((rate) => rate.bookId !== action.payload.bookId)
+      state.user!.rating!.push(action.payload.res.userRatingOfBook);
     });
 
     builder.addCase(setBookRating.rejected, (state, action) => {});
 
     builder.addCase(getCartBook.pending, (state, action) => {});
 
-    builder.addCase(getCartBook.fulfilled, (state, action) => {     
+    builder.addCase(getCartBook.fulfilled, (state, action) => {
       state.user!.cart = action.payload.data;
     });
 
@@ -249,7 +257,7 @@ export const userSlice = createSlice({
 
     builder.addCase(getFavoriteBook.pending, (state, action) => {});
 
-    builder.addCase(getFavoriteBook.fulfilled, (state, action) => {    
+    builder.addCase(getFavoriteBook.fulfilled, (state, action) => {
       state.user!.favorite = action.payload.data;
     });
 
@@ -257,18 +265,18 @@ export const userSlice = createSlice({
 
     builder.addCase(setAmount.pending, (state, action) => {});
 
-    builder.addCase(setAmount.fulfilled, (state, action) => {   
-      const { bookId, isIncrement } = action.payload.data 
+    builder.addCase(setAmount.fulfilled, (state, action) => {
+      const { bookId, isIncrement } = action.payload.data;
       const currentCartBook = state.user?.cart?.cartBooks.find(
         (elem) => elem.book.id === bookId
       );
       if (!currentCartBook) {
-        return
+        return;
       }
       if (isIncrement) {
-        currentCartBook.amount++
-        return
-      } 
+        currentCartBook.amount++;
+        return;
+      }
       if (currentCartBook.amount <= 1) {
         state.user!.cart!.cartBooks = state.user!.cart.cartBooks.filter(
           (elem) => elem.book.id !== bookId
@@ -276,12 +284,10 @@ export const userSlice = createSlice({
       } else {
         currentCartBook.amount--;
       }
-
     });
 
     builder.addCase(setAmount.rejected, (state, action) => {});
   },
 });
-
 
 export default userSlice.reducer;

@@ -45,16 +45,28 @@ const CustomCompanyLogo = styled.img`
   width: 88.3px;
   height: 46px;
   margin-bottom: 40px;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 
 const CustomMap = styled.img`
   width: 413px;
   height: 160px;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 
 const ContentDiv = styled.div`
   width: 1280px;
   display: flex;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
   
 `;
 
@@ -63,11 +75,19 @@ const CustomFooterDiv = styled.div`
   background-color: #0d1821;
   display: flex;
   justify-content: center;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 
 const CustomContactsDiv = styled.div`
   display: flex;
   flex-direction: column;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 
 const CustomText = styled(Typography)`
@@ -78,6 +98,10 @@ const CustomText = styled(Typography)`
   line-height: 30px;
   letter-spacing: 0em;
   text-align: left;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 
 `;
 
@@ -88,6 +112,10 @@ const CustomMenu = styled(MenuList)`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 
 const CustomMenuItem = styled(MenuItem)`
@@ -97,6 +125,10 @@ const CustomMenuItem = styled(MenuItem)`
   font-weight: 400;
   line-height: 30px;
   letter-spacing: 0em;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 
 `;
 export default Footer;

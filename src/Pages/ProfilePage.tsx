@@ -42,12 +42,7 @@ const ProfilePage = () => {
   ) => {
     setChangePass(!changePass);
     setChangeName(false);
-    // passwordChange.errors.oldPassword = "";
-    // passwordChange.touched.oldPassword = false;
-    // passwordChange.errors.newPassword = "";
-    // passwordChange.touched.newPassword = false;
-    // passwordChange.errors.passwordToCompare = "";
-    // passwordChange.touched.passwordToCompare = false;
+
   };
 
   const handleNameChange = (
@@ -55,8 +50,7 @@ const ProfilePage = () => {
   ) => {
     setChangeName(!changeName);
     setChangePass(false);
-    // nameChange.errors.userName = "";
-    // nameChange.touched.userName = false;
+
   };
 
   const nameChange = useFormik({
@@ -112,12 +106,12 @@ const ProfilePage = () => {
       </>
       <div>
         <CustomTextDiv>
-          <Typography>Personal information</Typography>
+          <CustomText>Personal information</CustomText>
           <Link component="button" onClick={handleNameChange} color="#8D9F4F">
             Change information
           </Link>
         </CustomTextDiv>
-        <Box component="form" onSubmit={nameChange.handleSubmit}>
+        <Box component="form" onSubmit={nameChange.handleSubmit} sx={{paddingBottom: "40px", paddingTop: "30px"}}>
           <CustomInputDiv>
             <FormInput
               labelText="Your name"
@@ -137,7 +131,7 @@ const ProfilePage = () => {
           )}
         </Box>
         <CustomTextDiv>
-          <Typography>Password</Typography>
+          <CustomText>Password</CustomText>
           <Link
             component="button"
             onClick={handlePasswordChange}
@@ -147,7 +141,7 @@ const ProfilePage = () => {
           </Link>
         </CustomTextDiv>
         <CustomInputDiv>
-          <Box component="form" onSubmit={passwordChange.handleSubmit}>
+          <Box component="form" onSubmit={passwordChange.handleSubmit} sx={{paddingTop: '20px'}}>
             <CustomInputDiv>
               <FormInput
                 labelText={changePass ? "Old password" : "Your password"}
@@ -198,6 +192,16 @@ const ProfilePage = () => {
   );
 };
 
+const CustomText = styled(Typography)`
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: 0em;
+  text-align: left;
+
+`
+
 const CustomLabel = styled.label`
   width: 128px
 `;
@@ -211,7 +215,7 @@ const CustomProfileDiv = styled.div`
   width: 1280px;
 
   //justify-content: space-around;
-  padding: 36px 405px 110px 80px;
+  padding: 60px 0 110px 0;
 `;
 
 const CustomInputDiv = styled.div`
@@ -224,7 +228,6 @@ const CustomTextDiv = styled.div`
   width: 522px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 32px;
 `;
 
 const CustomAvatar = styled.img`
@@ -245,7 +248,6 @@ const CustomTextField = styled(TextField)`
   border-bottom-right-radius: 16px;
   border-top-right-radius: 16px;
   background-color: #f0f4ef;
-  margin-bottom: 20px;
   text-decoration-color: #344966;
   & .MuiTextField-root {
     color: #344966;

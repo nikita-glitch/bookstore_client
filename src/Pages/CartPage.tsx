@@ -35,6 +35,9 @@ const CartPage = () => {
       (accum, cartBook) => (accum += cartBook.book.price * cartBook.amount),
       0
     );
+    if (!count) {
+      return 0
+    }
     return count.toFixed(2);
   };
 
@@ -43,7 +46,7 @@ const CartPage = () => {
   };
 
   return (
-    <>
+    <CartPageDiv>
       {!cartBooks?.length && (
         <Box component="form" onSubmit={handleSubmit}>
           <EmptyCartDiv>
@@ -66,7 +69,7 @@ const CartPage = () => {
             {lastElemCheck(cartBook) && <LineDiv></LineDiv>}
           </>
         ))}
-      {cartBooks?.length && (
+      {cartBooks?.length !== 0 && (
         <TotalDiv>
           <CustomTotal>
             <StyledTotal>Total:</StyledTotal>
@@ -78,7 +81,7 @@ const CartPage = () => {
           </ButtonsGroup>
         </TotalDiv>
       )}
-    </>
+    </CartPageDiv>
   );
 };
 
@@ -101,12 +104,32 @@ const CheckoutButton = styled(Button)`
   &:hover {
     background: #344966;
   }
+  @media (min-width: 834px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+  }
 `;
+
+const CartPageDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 1280px;
+  padding: 20px 0 114px 0;
+  @media (min-width: 834px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+  }
+
+`
 
 const ButtonsGroup = styled.div`
   display: flex;
   gap: 20px;
   margin-top: 30px;
+  @media (min-width: 834px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+  }
 `
 
 const ShoppingButton = styled(Button)`
@@ -123,16 +146,21 @@ const ShoppingButton = styled(Button)`
   line-height: 28px;
   letter-spacing: 0.75px;
   text-align: center;
-
+  @media (min-width: 834px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+  }
 `;
 
 
 const LineDiv = styled.div`
-  margin-left: 80px;
   width: 1280px;
   border: 1px solid #d6d8e7;
   box-sizing: border-box;
-
+  @media (min-width: 834px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+  }
 `;
 
 const EmptyTitle = styled(Typography)`
@@ -145,9 +173,9 @@ const EmptyTitle = styled(Typography)`
   color: #0d1821;
   margin-bottom: 20px;
 
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px){
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px){
   }
 `;
 
@@ -161,25 +189,37 @@ const GoToCatalog = styled(Typography)`
   color: #344966;
   margin-bottom: 60px;
 
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px){
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px){
   }
 `;
 
 const EmptyCartDiv = styled.div`
   display: flex;
   justify-content: space-around;
-  padding: 118px 185px 148px 188px;
+  padding: 118px 0 158px 0;
+  @media (min-width: 834px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+  }
 `;
 
 const TotalDiv = styled.div`
-  padding-left: 80px;
+  padding-top: 10px;
+  @media (min-width: 834px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+  }
 `;
 
 const CustomLogo = styled.img`
   width: 433px;
   height: auto;
+  @media (min-width: 834px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+  }
 `;
 
 const StyledTotal = styled(Typography)`
@@ -191,9 +231,9 @@ const StyledTotal = styled(Typography)`
   text-align: left;
   color: #0d1821;
 
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px){
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px){
   }
 `;
 
@@ -206,13 +246,17 @@ const StyledSum = styled(Typography)`
   text-align: left;
   color: #0d1821;
 
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px){
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px){
   }
 `;
 
 const CustomTotal = styled.div`
   display: flex;
   gap: 10px;
+  @media (min-width: 834px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 833px){
+  }
 `;
