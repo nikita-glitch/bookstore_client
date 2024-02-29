@@ -51,18 +51,23 @@ const ActionPanel = () => {
 };
 
 const CustomLoginButton = styled(Button)`
-  background-color: #344966;
+  background: #344966;
   width: 231px;
   height: 44px;
-  padding: 10px, 50px, 10px, 50px;
+  padding: 10px 50px;
   border-radius: 16px;
   gap: 10px;
   margin-left: 98px;
+  &:hover{
+    background: #344966;
+  }
   @media (min-width: 834px) and (max-width: 1279px){
+    margin-left: 51px;
   }
   @media (min-width: 320px) and (max-width: 833px){
     width: 135px;
     height: 36px;
+    margin: 0;
   }
 `;
 
@@ -77,8 +82,7 @@ const ActionPanelDiv = styled.div`
   @media (min-width: 320px) and (max-width: 833px){
     width: 135px;
   }
- 
-`
+`;
 
 const CustomIcom = styled.img`
   width: 48px;
@@ -87,7 +91,8 @@ const CustomIcom = styled.img`
 
   }
   @media (min-width: 320px) and (max-width: 833px){
-    width: 135px;
+    width: 32.7px;
+  height: 32.7px;
   }
 `
 
@@ -99,10 +104,11 @@ const ActionsDiv = styled.div`
   gap: 27px;
   padding-left: 127px;
   @media (min-width: 834px) and (max-width: 1279px){
-
+    padding-left: 81px;
   }
   @media (min-width: 320px) and (max-width: 833px){
     width: 135px;
+    padding: 0;
   }
 `
 

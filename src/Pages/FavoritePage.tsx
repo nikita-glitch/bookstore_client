@@ -65,12 +65,27 @@ export default FavoritePage;
 const FavoritePageDiv = styled.div`
   width: 1280px;
   padding: 20px 0 114px 0;
+   @media (min-width: 835px) and (max-width: 1279px){
+    width: 804px;
+  padding: 20px 0 64px 0;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    width: 290px;
+
+  }
 `
 
 const LineDiv = styled.div`
   width: 1280px;
   border: 1px solid #d6d8e7;
   box-sizing: border-box;
+   @media (min-width: 835px) and (max-width: 1279px){
+    width: 804px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    width: 290px;
+
+  }
 
 `;
 
@@ -78,11 +93,22 @@ const EmptyFavoriteDiv = styled.div`
   display: flex;
   justify-content: space-around;
   padding: 118px 0 158px 0;
+   @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    
+  }
 `;
 
 const CustomLogo = styled.img`
   width: 433px;
   height: auto;
+   @media (min-width: 835px) and (max-width: 1279px){
+    height: 341px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    
+  }
 `;
 
 const EmptyTitle = styled(Typography)`
@@ -95,9 +121,10 @@ const EmptyTitle = styled(Typography)`
   color: #0d1821;
   margin-bottom: 20px;
 
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 835px) and (max-width: 1279px){
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 834px){
+    
   }
 `;
 
@@ -111,8 +138,9 @@ const GoToCatalog = styled(Typography)`
   color: #344966;
   margin-bottom: 60px;
 
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 835px) and (max-width: 1279px){
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 834px){
+    
   }
 `;

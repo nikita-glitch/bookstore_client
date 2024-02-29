@@ -22,6 +22,7 @@ const Custombutton = styled(Button)`
     background-color: #344966;
   }
   @media (min-width: 835px) and (max-width: 1279px){
+    margin: 45px 0 0 0;
   }
   @media (min-width: 320px) and (max-width: 834px){
   }

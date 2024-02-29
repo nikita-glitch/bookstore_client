@@ -71,7 +71,7 @@ const Filters: FC = () => {
     <FiltersDiv>
       <CustomDiv>
         <FormControl>
-          <InputLabel id="demo-simple-select-label">Genre</InputLabel>
+          <InputLabel id="demo-simple-select-label" sx={{color: '#344966'}}>Genre</InputLabel>
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -80,11 +80,11 @@ const Filters: FC = () => {
             label="Genre"
             onChange={handleGenreChange}
           >
-            <MenuItem value="">
+            <MenuItem value="" sx={{color: '#344966'}}>
               <em>None</em>
             </MenuItem>
             {genres?.map((genre: Genre) => (
-              <MenuItem key={genre.id} value={genre.id}>
+              <MenuItem key={genre.id} value={genre.id} sx={{color: '#344966'}}>
                 <Checkbox
                   checked={handleChecked(genre.id)}
                   sx={{
@@ -101,7 +101,7 @@ const Filters: FC = () => {
       </CustomDiv>
       <CustomDiv>
         <FormControl sx={{margin: 0 }}>
-          <InputLabel id="label">Price</InputLabel>
+          <InputLabel id="label" sx={{color: '#344966'}}>Price</InputLabel>
           <CustomSelect labelId="label" id="demo-simple-select" label="Price">
             <SliderDiv>
               <CustomSlider
@@ -125,7 +125,7 @@ const Filters: FC = () => {
       </CustomDiv>
       <CustomDiv>
         <FormControl>
-          <InputLabel id="demo-simple-select-label">Sort by</InputLabel>
+          <InputLabel id="demo-simple-select-label" sx={{color: '#344966'}}>Sort by</InputLabel>
           <CustomSelect
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -133,13 +133,13 @@ const Filters: FC = () => {
             label="Age"
             onChange={handleSortByChange}
           >
-            <MenuItem value="">
+            <CustomMenuItem value="">
               <em>None</em>
-            </MenuItem>
-            <MenuItem value="price">Price</MenuItem>
-            <MenuItem value="title">Name</MenuItem>
-            <MenuItem value="author.author_name">Author name</MenuItem>
-            <MenuItem value="bookRating">Rating</MenuItem>
+            </CustomMenuItem>
+            <CustomMenuItem value="price">Price</CustomMenuItem>
+            <CustomMenuItem value="title">Name</CustomMenuItem>
+            <CustomMenuItem value="author.author_name">Author name</CustomMenuItem>
+            <CustomMenuItem value="bookRating">Rating</CustomMenuItem>
           </CustomSelect>
         </FormControl>
       </CustomDiv>
@@ -147,16 +147,41 @@ const Filters: FC = () => {
   );
 };
 
+const CustomMenuItem = styled(MenuItem)`
+  color: #B9BAC3;
+  &.Mui-selected{
+  color: #344966;
+  }
+  background: #F0F4EF;
+
+  @media (min-width: 835px) and (max-width: 1279px) {
+    
+  }
+  @media (min-width: 320px) and (max-width: 834px) {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    letter-spacing: 0.75px;
+    text-align: left;
+
+  }
+`
+
 const FiltersDiv = styled.div`
   display: flex;
   width: 630px;
- 
   align-items: center;
- 
-  
   @media (min-width: 835px) and (max-width: 1279px) {
+    width: 804px;
+    padding-bottom: 26px;
+    justify-content: space-between;
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    flex-direction: column;
+    gap: 20px;
+    width: 290px;
+    align-items: start;
   }
 `;
 
@@ -164,6 +189,8 @@ const CustomDiv = styled.div`
   width: 196px;
   margin-right: 20px;
   @media (min-width: 835px) and (max-width: 1279px) {
+    width: 255px;
+    height: 50px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
   }
@@ -174,8 +201,10 @@ const CustomSelect = styled(Select)`
   border: none;
   border-radius: 16px;
   @media (min-width: 835px) and (max-width: 1279px) {
+    width: 255px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    width: 290px;
   }
 `;
 
@@ -187,19 +216,25 @@ const CustomSlider = styled(Slider)`
 
 
   @media (min-width: 835px) and (max-width: 1279px) {
+     width: 260px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    width: 260px;
   }
 `;
 
 const SliderDiv = styled.div`
-width: 379px;
-padding: 32px 16px;
-background: #F0F4EF;
+  width: 379px;
+  padding: 32px 16px;
+  background: #F0F4EF;
 
   @media (min-width: 835px) and (max-width: 1279px) {
+    width: 260px;
+  padding: 27px 15px 37px 15px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    padding: 40px 15px;
+    width: 260px;
   }
 `;
 

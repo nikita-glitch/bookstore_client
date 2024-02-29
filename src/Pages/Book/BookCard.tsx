@@ -60,14 +60,14 @@ const BookCard: FC<Book> = (book: Book) => {
 
   return (
     <CustomCard>
-      <CardMedia>
+      <CustomCardMedia>
         <BookImg src={"http://localhost:5000/" + book.photos?.photo} alt="" />
         <CustomIcon
           src={checkIsInFavorite() ? favIcoClicked : favIco}
           alt=""
           onClick={handleAddToFavorite}
         />
-      </CardMedia>
+      </CustomCardMedia>
       <CustomCardContent>
         <CustomTitle>{book.title}</CustomTitle>
         <CustomAuthor>{book.author.author_name}</CustomAuthor>
@@ -96,21 +96,21 @@ const CustomRating = styled(Rating)`
   font-size: 2.5rem;
   &.Mui-disabled{
     opacity: 1;
-    
   }
   &.MuiRating-root{
     display: "flex";
     justify-content: "space-between";
   }
 
-  @media (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px) {
   }
-  @media (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
+    font-size: 20px;
   }
 `;
 
 const RatingDiv = styled.div`
-  @media only screen and (min-width: 835px) {
+  
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -118,16 +118,35 @@ const RatingDiv = styled.div`
     font-size: 20px;
     font-weight: 500;
     line-height: 24px;
+
+  @media (min-width: 834px) and (max-width: 1279px) {
   }
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
-  }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
   }
 `;
 
 const CustomCardContent = styled(CardContent)`
   padding: 0;
   height: 107px;
+  @media (min-width: 834px) and (max-width: 1279px) {
+  }
+  @media (min-width: 320px) and (max-width: 833px) {
+    height: auto;
+    padding-bottom: 15px;
+  }
+`;
+
+const CustomCardMedia = styled(CardContent)`
+  padding: 0;
+  height: 448px;
+  padding-bottom: 30px;
+  @media (min-width: 834px) and (max-width: 1279px) {
+    height: 372px;
+  }
+  @media (min-width: 320px) and (max-width: 833px) {
+    height: 192px;
+    padding-bottom: 15px;
+  }
 `;
 
 const CustomTitle = styled(Typography)`
@@ -139,23 +158,49 @@ const CustomTitle = styled(Typography)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px) {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+
   }
-  @media only screen and (max-width: 320px) {
-  }
+  @media (min-width: 320px) and (max-width: 833px) {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
+
+ }
 `;
 const CustomAuthor = styled(Typography)`
-  @media only screen and (min-width: 835px) {
+  
     color: #b9bac3;
     font-size: 20px;
     font-weight: 500;
     line-height: 30px;
     letter-spacing: 0em;
     text-align: left;
+
+  @media (min-width: 834px) and (max-width: 1279px) {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
   }
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
-  }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    letter-spacing: 0em;
+    text-align: left;
   }
 `;
 
@@ -173,9 +218,19 @@ const CustomButton = styled(Button)`
   &:hover {
     background: #344966;
   }
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px) {
+    width: 254px;
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
+    width: 135px;
+    padding: 3px 21.5px;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 28px;
+    letter-spacing: 0.75px;
+    text-align: center;
+
   }
 `;
 
@@ -184,9 +239,13 @@ const BookImg = styled.img`
   height: 448px;
 
   border-radius: 16px;
-  @media (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px) {
+    width: 254px;
+    height: 372px;
   }
-  @media (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
+    width: 135px;
+    height: 192px;
   }
 `;
 
@@ -194,9 +253,13 @@ const CustomIcon = styled.img`
   position: relative;
   transform: translate(20px, -430px);
 
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px) {
+   transform: translate(20px, -370px);
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
+    width: 25px;
+    height: 25px;
+    transform: translate(10px, -190px);
   }
 `;
 const CustomCard = styled(Card)`
@@ -204,9 +267,11 @@ const CustomCard = styled(Card)`
   flex-direction: column;
   box-shadow: none;
   width: 305px;
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 834px) and (max-width: 1279px) {
+    width: 254px;
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 833px) {
+    width: 135px;
   }
 `;
 export default BookCard;

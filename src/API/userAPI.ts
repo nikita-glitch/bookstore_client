@@ -14,9 +14,7 @@ export const changePassword = async (values: {
 };
 
 const changeName = async (name: string) => {
-  const response = await privateRoute.patch("/users/profile/profile-change", {
-    name: name,
-  });
+  const response = await privateRoute.patch("/users/profile/profile-change", { name });
   return response;
 };
 

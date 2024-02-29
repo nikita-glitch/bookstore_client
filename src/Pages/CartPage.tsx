@@ -105,6 +105,13 @@ const CheckoutButton = styled(Button)`
     background: #344966;
   }
   @media (min-width: 834px) and (max-width: 1279px){
+    font-family: Poppins;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: 0.75px;
+  text-align: center;
+
   }
   @media (min-width: 320px) and (max-width: 833px){
   }
@@ -116,8 +123,11 @@ const CartPageDiv = styled.div`
   width: 1280px;
   padding: 20px 0 114px 0;
   @media (min-width: 834px) and (max-width: 1279px){
+    padding: 20px 15px 104px 15px;
+    width: 804px;
   }
   @media (min-width: 320px) and (max-width: 833px){
+    width: 290px;
   }
 
 `
@@ -147,6 +157,13 @@ const ShoppingButton = styled(Button)`
   letter-spacing: 0.75px;
   text-align: center;
   @media (min-width: 834px) and (max-width: 1279px){
+    font-family: Poppins;
+font-size: 16px;
+font-weight: 600;
+line-height: 28px;
+letter-spacing: 0.75px;
+text-align: center;
+
   }
   @media (min-width: 320px) and (max-width: 833px){
   }
@@ -158,8 +175,10 @@ const LineDiv = styled.div`
   border: 1px solid #d6d8e7;
   box-sizing: border-box;
   @media (min-width: 834px) and (max-width: 1279px){
+    width: 804px;
   }
   @media (min-width: 320px) and (max-width: 833px){
+    width: 290px;
   }
 `;
 
@@ -174,6 +193,13 @@ const EmptyTitle = styled(Typography)`
   margin-bottom: 20px;
 
   @media (min-width: 834px) and (max-width: 1279px){
+    font-family: Poppins;
+font-size: 32px;
+font-weight: 700;
+line-height: 48px;
+letter-spacing: 0em;
+text-align: left;
+
   }
   @media (min-width: 320px) and (max-width: 833px){
   }
@@ -190,6 +216,15 @@ const GoToCatalog = styled(Typography)`
   margin-bottom: 60px;
 
   @media (min-width: 834px) and (max-width: 1279px){
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-bottom: 50px;
+
+
   }
   @media (min-width: 320px) and (max-width: 833px){
   }
@@ -200,6 +235,8 @@ const EmptyCartDiv = styled.div`
   justify-content: space-around;
   padding: 118px 0 158px 0;
   @media (min-width: 834px) and (max-width: 1279px){
+    padding: 105px 15px 104px 15px;
+    gap: 62px;
   }
   @media (min-width: 320px) and (max-width: 833px){
   }
@@ -208,6 +245,7 @@ const EmptyCartDiv = styled.div`
 const TotalDiv = styled.div`
   padding-top: 10px;
   @media (min-width: 834px) and (max-width: 1279px){
+    padding-top: 30px;
   }
   @media (min-width: 320px) and (max-width: 833px){
   }
@@ -217,6 +255,8 @@ const CustomLogo = styled.img`
   width: 433px;
   height: auto;
   @media (min-width: 834px) and (max-width: 1279px){
+    width: 350px;
+    height: 212px;
   }
   @media (min-width: 320px) and (max-width: 833px){
   }
@@ -232,6 +272,14 @@ const StyledTotal = styled(Typography)`
   color: #0d1821;
 
   @media (min-width: 834px) and (max-width: 1279px){
+    font-family: Poppins;
+font-size: 36px;
+font-weight: 700;
+line-height: 54px;
+letter-spacing: 0em;
+text-align: left;
+
+
   }
   @media (min-width: 320px) and (max-width: 833px){
   }
@@ -247,6 +295,13 @@ const StyledSum = styled(Typography)`
   color: #0d1821;
 
   @media (min-width: 834px) and (max-width: 1279px){
+
+font-family: Poppins;
+font-size: 36px;
+font-weight: 400;
+line-height: 54px;
+letter-spacing: 0em;
+text-align: left;
   }
   @media (min-width: 320px) and (max-width: 833px){
   }

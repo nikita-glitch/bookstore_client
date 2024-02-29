@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import BookCard from "./Book/BookCard";
 import signInBanner from "../Logos/sign_in_banner.svg";
+import BookBannerSmall from "../Logos/banner.svg";
+
 import { Link, useSearchParams } from "react-router-dom";
 import bookBanner from "../Logos/banner.png";
 import {
@@ -74,7 +76,7 @@ const CatalogPage = () => {
 
   return (
     <CustomCatalogDiv>
-      <CustomIcon src={bookBanner} alt="" onClick={handleBookBannerClick} />
+      <CustomIcon src={window.innerWidth < 834 ? BookBannerSmall : bookBanner} alt="" onClick={handleBookBannerClick} />
       <CustomFilterDiv>
         <CustomText>Catalog</CustomText>
         <Filters />
@@ -110,14 +112,14 @@ const CustomIcon = styled.img`
   padding-top: 40px;
 
   @media (min-width: 834px) and (max-width: 1279px){
-    width: 835px;
+    width: 804px;
     height: 365px;
     padding-top: 40px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
     width: 290px;
     height: 524px;
-    padding-top: 40px;
+    padding-top: 0px;
   }
 `;
 
@@ -126,6 +128,8 @@ const CustomSignInIcon = styled.img`
   height: 462px;
   margin-bottom: 154px;
   @media (min-width: 834px) and (max-width: 1279px) {
+    width: 803px;
+    height: 400px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
   }
@@ -137,8 +141,10 @@ const CustomCatalogDiv = styled.div`
   align-items: center;
   padding-bottom: 150px;
   @media (min-width: 834px) and (max-width: 1279px){
+    padding-bottom: 100px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
+    padding-bottom: 0px;
   }
 `;
 
@@ -148,8 +154,20 @@ const CustomFilterDiv = styled.div`
   width: 100%;
   margin: 110px 0 38px 0;
   @media (min-width: 834px) and (max-width: 1279px) {
+    width: 804px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 60px 0 24px 0;
   }
   @media (min-width: 320px) and (max-width: 833px) {
+    flex-direction: column;
+    width: 290px;
+    margin: 0;
+    padding: 20px 0 17px 0;
+    align-items: start;
+    gap: 13px;
   }
 `;
 
@@ -167,8 +185,10 @@ const CustomPagination = styled(Pagination)`
   justify-content: center;
   padding: 78px 0 30px 0;
   @media (min-width: 834px) and (max-width: 1279px){
+    padding: 60px 0 20px 0;
   }
   @media (min-width: 320px) and (max-width: 833px) {
+    padding: 40px 0 0 0;
   }
 `;
 

@@ -111,7 +111,8 @@ const ProfilePage = () => {
             Change information
           </Link>
         </CustomTextDiv>
-        <Box component="form" onSubmit={nameChange.handleSubmit} sx={{paddingBottom: "40px", paddingTop: "30px"}}>
+        <PersonInfoBox>
+        <Box component="form" onSubmit={nameChange.handleSubmit} >
           <CustomInputDiv>
             <FormInput
               labelText="Your name"
@@ -130,6 +131,7 @@ const ProfilePage = () => {
             <FormButton buttonText="Confirm" buttonType="submit" />
           )}
         </Box>
+        </PersonInfoBox>
         <CustomTextDiv>
           <CustomText>Password</CustomText>
           <Link
@@ -141,7 +143,8 @@ const ProfilePage = () => {
           </Link>
         </CustomTextDiv>
         <CustomInputDiv>
-          <Box component="form" onSubmit={passwordChange.handleSubmit} sx={{paddingTop: '20px'}}>
+          <PassBox>
+          <Box component="form" onSubmit={passwordChange.handleSubmit}>
             <CustomInputDiv>
               <FormInput
                 labelText={changePass ? "Old password" : "Your password"}
@@ -186,11 +189,29 @@ const ProfilePage = () => {
               </>
             )}
           </Box>
+          </PassBox>
         </CustomInputDiv>
       </div>
     </CustomProfileDiv>
   );
 };
+
+const PersonInfoBox = styled(Box)`
+  padding: 30px 0 40px 0;
+  @media (min-width: 835px) and (max-width: 1279px){
+    padding-top: 20px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
+`
+
+const PassBox = styled(Box)`
+  padding-top: 20px;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
+`
 
 const CustomText = styled(Typography)`
   font-family: Poppins;
@@ -199,41 +220,85 @@ const CustomText = styled(Typography)`
   line-height: 30px;
   letter-spacing: 0em;
   text-align: left;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 
 `
 
 const CustomLabel = styled.label`
-  width: 128px
+  width: 128px;
+  @media (min-width: 835px) and (max-width: 1279px){
+    width: 20px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    height: 30px;
+  }
 `;
 
 const VisuallyHiddenInput = styled.input`
   visibility: hidden;
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+  }
 `;
 
 const CustomProfileDiv = styled.div`
   display: flex;
   width: 1280px;
-
-  //justify-content: space-around;
   padding: 60px 0 110px 0;
+  @media (min-width: 835px) and (max-width: 1279px){
+    width: 804px;
+    padding: 59px 15px 100px 15px;
+    gap: 0;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    flex-direction: column;
+    width: 290px;
+    padding: 35px 0 30px 0;
+  }
 `;
 
 const CustomInputDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 522px;
+  @media (min-width: 835px) and (max-width: 1279px){
+    width: 529px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    width: 290px;
+  }
 `;
 
 const CustomTextDiv = styled.div`
   width: 522px;
   display: flex;
   justify-content: space-between;
+  @media (min-width: 835px) and (max-width: 1279px){
+    width: 529px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    width: 290px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
 `;
 
 const CustomAvatar = styled.img`
   width: 305px;
   height: 305px;
   border-radius: 16px;
+  @media (min-width: 835px) and (max-width: 1279px){
+    width: 255px;
+    height: 255px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    width: 290px;
+    height: 290px;
+  }
 `;
 
 const CustomLogo = styled.img`
@@ -241,6 +306,13 @@ const CustomLogo = styled.img`
   position: relative;
   top: 240px;
   right: 65px;
+  @media (min-width: 835px) and (max-width: 1279px){
+    top: 200px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    top: -70px;
+    left: 230px;
+  }
 `;
 
 const CustomTextField = styled(TextField)`
@@ -251,6 +323,10 @@ const CustomTextField = styled(TextField)`
   text-decoration-color: #344966;
   & .MuiTextField-root {
     color: #344966;
+  };
+  @media (min-width: 835px) and (max-width: 1279px){
+  }
+  @media (min-width: 320px) and (max-width: 834px){
   }
 `;
 

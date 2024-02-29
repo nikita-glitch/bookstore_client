@@ -69,6 +69,13 @@ const CustomInputField = styled(Input)`
   @media (min-width: 835px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 834px){
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 28px;
+    letter-spacing: 0.75px;
+    text-align: left;
+
   }
 `;
 
@@ -93,10 +100,12 @@ const CustomDiv = styled.div`
   }
 `;
 const FormDiv = styled.div`
-margin-bottom: 30px;
-@media (min-width: 835px) and (max-width: 1279px){
+  margin-bottom: 30px;
+  @media (min-width: 835px) and (max-width: 1279px){
+    margin-bottom: 10px;
   }
   @media (min-width: 320px) and (max-width: 834px){
+    margin-bottom: 10px;
   }
 `;
 
@@ -108,8 +117,22 @@ const CustomInputLabel = styled(InputLabel)`
   text-align: start;
   line-height: 24px;
   @media (min-width: 835px) and (max-width: 1279px){
+    font-family: Poppins;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.75px;
+    text-align: left;
+
   }
   @media (min-width: 320px) and (max-width: 834px){
+    font-family: Poppins;
+font-size: 12px;
+font-weight: 500;
+line-height: 18px;
+letter-spacing: 0.75px;
+text-align: left;
+
   }
 `;
 
@@ -120,8 +143,20 @@ const CustomError = styled(InputLabel)`
   text-align: start;
   line-height: 24px;
   @media (min-width: 835px) and (max-width: 1279px){
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.75px;
+    text-align: left;
   }
   @media (min-width: 320px) and (max-width: 834px){
+    font-family: Poppins;
+font-size: 12px;
+font-weight: 500;
+line-height: 18px;
+letter-spacing: 0.75px;
+text-align: left;
+
   }
 `;
 export default FormInput;

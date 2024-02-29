@@ -91,7 +91,6 @@ const CustomNavDiv = styled.div`
     max-width: 290px;
     padding: 20px 15px;
     padding-bottom: 0;
-   
   }
 `
 
@@ -103,16 +102,12 @@ const CustomMainDiv = styled.div`
   max-width: 1280px;
   padding: 0 80px;
   @media (min-width: 834px) and (max-width: 1279px){
-    display: flex;
-    justify-content: center;
     max-width: 804px;
-    padding: 0 16px 100px 0;
+    padding: 0 ;
   }
   @media (min-width: 320px) and (max-width: 833px){
-    display: flex;
-    justify-content: center;
     max-width: 290px;
-    padding: 0 15px 70px 0;
+    padding: 15px 0 70px 0;
   }
 `
 
@@ -120,7 +115,7 @@ const CustomFooterDiv = styled.div`
   flex-shrink: 0;
   width: 100%;
   @media (min-width: 835px) and (max-width: 1279px){
-    
+    height: auto;
   }
   @media (min-width: 320px) and (max-width: 834px){
     

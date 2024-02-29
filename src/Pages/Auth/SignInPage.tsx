@@ -18,7 +18,7 @@ const SignInPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.users)
   
-  window.scrollTo(0, 0);
+  
   const signInForm = useFormik({
     initialValues: {
       email: "",
@@ -44,9 +44,9 @@ const SignInPage = () => {
     <CustomPageDiv>
       <CustomImg src={logo} alt="" className="picture" />
       <CustomFormDiv>
-        <CustomTitle>Sign In</CustomTitle>
+        <CustomTitle>Log In</CustomTitle>
         <Grid container>
-          <Grid component={Paper} elevation={0} sx={{ width: '413px' }}>
+          <CustomGrid >
             <Box>
               <Box component="form" onSubmit={signInForm.handleSubmit}>
                 <FormInput
@@ -73,20 +73,26 @@ const SignInPage = () => {
                   errorMessage={signInForm.errors.password}
                 />
                 
-                <FormButton buttonType="submit" buttonText="Sign In" />
+                <FormButton buttonType="submit" buttonText="Log In" />
               </Box>
             </Box>
-          </Grid>
+          </CustomGrid>
         </Grid>
       </CustomFormDiv>
     </CustomPageDiv>
   );
 };
 
-const CustomErrorMessage = styled.div`
-  color: tomato;
-  margin-bottom: 5px;
-`;
+
+const CustomGrid = styled(Grid)`
+  width: 413px;
+   @media (min-width: 835px) and (max-width: 1279px){
+    width: 392px;
+  }
+  @media (min-width: 320px) and (max-width: 834px){
+    width: 290px;
+  }
+`
 
 const CustomPageDiv = styled.div`
  
@@ -96,9 +102,16 @@ const CustomPageDiv = styled.div`
     gap: 255px;
     justify-content: center;
   
-  @media  (min-width: 321px) and (max-width: 834px) {
+  
+  @media (min-width: 835px) and (max-width: 1279px){
+      width: 804px;
+      gap: 20px;
+      padding: 95px 17px 104px 15px;
   }
-  @media (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 834px){
+    flex-direction: column-reverse;
+    gap: 60px;
+    padding: 0;
   }
 `;
 
@@ -110,10 +123,12 @@ const CustomFormDiv = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
   
-  @media  (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 835px) and (max-width: 1279px){
+    margin: 0;
   }
-
-  @media (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 834px){
+    margin: 0;
+    padding-top: 20px;
   }
 `;
 
@@ -126,10 +141,24 @@ const CustomTitle = styled(Typography)`
     text-align: left;
     margin: 0 0 60px 0;
   
-  @media (min-width: 321px) and (max-width: 834px) {
+  @media (min-width: 835px) and (max-width: 1279px){
+    font-family: Poppins;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 48px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin: 0 0 50px 0;
   }
+  @media (min-width: 320px) and (max-width: 834px){
+    font-family: Poppins;
+font-size: 18px;
+font-weight: 700;
+line-height: 27px;
+letter-spacing: 0em;
+text-align: left;
 
-  @media (max-width: 320px) {
+    margin: 0 0 30px 0;
   }
 `;
 
@@ -139,9 +168,16 @@ const CustomImg = styled.img`
     width: 612px;
     height: 522px;
   
-  @media (min-width: 321px) and (max-width: 834px) {
+  
+  @media (min-width: 835px) and (max-width: 1279px){
+    margin: 0;
+    width: 390px;
+    height: 333px;
   }
-  @media (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 834px){
+    margin: 0;
+    width: 290px;
+    height: 247px;
   }
 `;
 export default SignInPage;

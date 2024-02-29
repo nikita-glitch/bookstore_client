@@ -29,7 +29,7 @@ const user = useSelector((state: RootState) => state.users.user)
         <CustomMenuItem >My account</CustomMenuItem>
         </Link>
         <Link to={"/cart/" + user?.cart.id}>
-        <CustomMenuItem >Cart</CustomMenuItem>
+        <CustomMenuItem>Cart</CustomMenuItem>
         </Link>
       </CustomMenu>
       <div>
@@ -48,6 +48,7 @@ const CustomCompanyLogo = styled.img`
   @media (min-width: 835px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 834px){
+    margin-bottom: 30px;
   }
 `;
 
@@ -55,8 +56,11 @@ const CustomMap = styled.img`
   width: 413px;
   height: 160px;
   @media (min-width: 835px) and (max-width: 1279px){
+    width: 392px;
   }
   @media (min-width: 320px) and (max-width: 834px){
+    width: 291px;
+    height: 160px;
   }
 `;
 
@@ -64,8 +68,11 @@ const ContentDiv = styled.div`
   width: 1280px;
   display: flex;
   @media (min-width: 835px) and (max-width: 1279px){
+    width: 804px;
   }
   @media (min-width: 320px) and (max-width: 834px){
+    width: 209px;
+    flex-direction: column;
   }
   
 `;
@@ -76,8 +83,11 @@ const CustomFooterDiv = styled.div`
   display: flex;
   justify-content: center;
   @media (min-width: 835px) and (max-width: 1279px){
+    padding: 73px 15px 79px 56px;
   }
   @media (min-width: 320px) and (max-width: 834px){
+    flex-direction: column;
+    padding: 73px 14px 30px 15px;
   }
 `;
 
@@ -87,11 +97,12 @@ const CustomContactsDiv = styled.div`
   @media (min-width: 835px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 834px){
+    margin-bottom: 40px;
   }
 `;
 
 const CustomText = styled(Typography)`
-  color: #fff;
+  color: #f0f4Ef;
   font-family: Poppins;
   font-size: 20px;
   font-weight: 400;
@@ -99,10 +110,24 @@ const CustomText = styled(Typography)`
   letter-spacing: 0em;
   text-align: left;
   @media (min-width: 835px) and (max-width: 1279px){
+    font-family: Poppins;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: left;
+
   }
   @media (min-width: 320px) and (max-width: 834px){
-  }
+    width: 290px;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
 
+  }
 `;
 
 const CustomMenu = styled(MenuList)`
@@ -113,22 +138,44 @@ const CustomMenu = styled(MenuList)`
   align-items: flex-start;
   justify-content: flex-start;
   @media (min-width: 835px) and (max-width: 1279px){
+    width: 95px;
+    height: 129px;
+    margin: 0;
+    padding: 0 42px 60px 26px;
   }
   @media (min-width: 320px) and (max-width: 834px){
+    width: 95px;
+    margin: 0;
+    margin-bottom: 40px;
   }
 `;
 
 const CustomMenuItem = styled(MenuItem)`
-  color: #fff;
+  color: #F0F4EF;
   font-family: Poppins;
   font-size: 20px;
   font-weight: 400;
   line-height: 30px;
   letter-spacing: 0em;
   @media (min-width: 835px) and (max-width: 1279px){
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+
   }
   @media (min-width: 320px) and (max-width: 834px){
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0em;
+    text-align: left;
+    width: 94px;
+    height: 24px;
+    padding: 0;
   }
-
 `;
 export default Footer;
