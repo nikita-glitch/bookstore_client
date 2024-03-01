@@ -2,7 +2,7 @@ import styled from "styled-components";
 import BookCard from "./Book/BookCard";
 import signInBanner from "../Logos/sign_in_banner.svg";
 import BookBannerSmall from "../Logos/banner.svg";
-
+import signInBannerSmall from "../Logos/sing in banner.png";
 import { Link, useSearchParams } from "react-router-dom";
 import bookBanner from "../Logos/banner.png";
 import {
@@ -76,7 +76,7 @@ const CatalogPage = () => {
 
   return (
     <CustomCatalogDiv>
-      <CustomIcon src={window.innerWidth < 834 ? BookBannerSmall : bookBanner} alt="" onClick={handleBookBannerClick} />
+      <CustomIcon src={window.innerWidth < 833 ? BookBannerSmall : bookBanner} alt="" onClick={handleBookBannerClick} />
       <CustomFilterDiv>
         <CustomText>Catalog</CustomText>
         <Filters />
@@ -100,7 +100,7 @@ const CatalogPage = () => {
       />
       {!user && (
         <Link to={"/sign-in"}>
-          <CustomSignInIcon src={signInBanner} alt="" />
+          <CustomSignInIcon src={window.innerWidth < 833 ? signInBannerSmall : signInBanner} alt="" />
         </Link>
       )}
     </CustomCatalogDiv>
@@ -117,7 +117,7 @@ const CustomIcon = styled.img`
     padding-top: 40px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
-    width: 290px;
+    width: 100%;
     height: 524px;
     padding-top: 0px;
   }
@@ -132,6 +132,10 @@ const CustomSignInIcon = styled.img`
     height: 400px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
+    width: 100%;
+    height: 501px;
+    margin-top: 70px;
+    margin-bottom: 70px;
   }
 `;
 
@@ -163,7 +167,7 @@ const CustomFilterDiv = styled.div`
   }
   @media (min-width: 320px) and (max-width: 833px) {
     flex-direction: column;
-    width: 290px;
+    width: 100%;
     margin: 0;
     padding: 20px 0 17px 0;
     align-items: start;

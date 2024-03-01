@@ -114,6 +114,13 @@ const CheckoutButton = styled(Button)`
 
   }
   @media (min-width: 320px) and (max-width: 833px){
+    font-family: Poppins;
+font-size: 12px;
+font-weight: 600;
+line-height: 28px;
+letter-spacing: 0.75px;
+text-align: center;
+width: 290px;
   }
 `;
 
@@ -128,6 +135,7 @@ const CartPageDiv = styled.div`
   }
   @media (min-width: 320px) and (max-width: 833px){
     width: 290px;
+    padding: 35px 0 30px 0;
   }
 
 `
@@ -139,6 +147,7 @@ const ButtonsGroup = styled.div`
   @media (min-width: 834px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 833px){
+    flex-direction: column;
   }
 `
 
@@ -166,6 +175,13 @@ text-align: center;
 
   }
   @media (min-width: 320px) and (max-width: 833px){
+    font-family: Poppins;
+font-size: 12px;
+font-weight: 600;
+line-height: 28px;
+letter-spacing: 0.75px;
+text-align: center;
+width: 290px;
   }
 `;
 
@@ -248,6 +264,8 @@ const TotalDiv = styled.div`
     padding-top: 30px;
   }
   @media (min-width: 320px) and (max-width: 833px){
+    padding-top: 30px;
+
   }
 `;
 

@@ -82,7 +82,7 @@ const BookCard: FC<Book> = (book: Book) => {
           <Box>{book.bookRating | 0}</Box>
         </RatingDiv>
       </CustomCardContent>
-      <CardActions disableSpacing={true} sx={{ padding: 0 }}>
+      <CardActions disableSpacing={true} sx={{ padding: 0, display: "block" }}>
         <Link to={"/books/" + book.id}>
           <CustomButton>${book.price} USD</CustomButton>
         </Link>
@@ -222,7 +222,7 @@ const CustomButton = styled(Button)`
     width: 254px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
-    width: 135px;
+    width: 100%;
     padding: 3px 21.5px;
     font-family: Poppins;
     font-size: 14px;
@@ -244,7 +244,7 @@ const BookImg = styled.img`
     height: 372px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
-    width: 135px;
+    width: 100%;
     height: 192px;
   }
 `;
@@ -271,7 +271,7 @@ const CustomCard = styled(Card)`
     width: 254px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
-    width: 135px;
+    width: 100%;
   }
 `;
 export default BookCard;

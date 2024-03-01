@@ -42,7 +42,7 @@ const ProfilePage = () => {
   ) => {
     setChangePass(!changePass);
     setChangeName(false);
-
+    passwordChange.resetForm()
   };
 
   const handleNameChange = (
@@ -57,14 +57,15 @@ const ProfilePage = () => {
     initialValues: {
       userName: user!.name,
     },
-    //validationSchema: nameChangeSchema,
+    validationSchema: nameChangeSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await dispatch(
           changeUserName(values.userName)
         ).unwrap();
         notify(response.message, "succsess");
-      } catch (error) {
+      } catch (error: any) {
+        notify(error.response.data, "error")
       } finally {
         setSubmitting(false);
         setChangeName(false);
@@ -78,13 +79,13 @@ const ProfilePage = () => {
       newPassword: "",
       passwordToCompare: "",
     },
-    //validationSchema: passwordChangeSchema,
+    validationSchema: passwordChangeSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await changePassword(values);
         notify(response.data.message, "succsess");
-      } catch (error) {
-        //notify(error.response.data)
+      } catch (error: any) {
+        notify(error.response.data, "error")
       } finally {
         setSubmitting(false);
         setChangePass(false);
@@ -116,16 +117,21 @@ const ProfilePage = () => {
           <CustomInputDiv>
             <FormInput
               labelText="Your name"
-              inputStyle="email"
+              inputStyle="user"
+              inputName="userName"
               disabled={!changeName}
               changeHandler={nameChange.handleChange}
               blurHandler={nameChange.handleBlur}
               fieldValue={nameChange.values.userName}
-              {...nameChange.getFieldProps("email")}
+              {...nameChange.getFieldProps("userName")}
               errorMessage={nameChange.errors.userName}
             />
-
-            <CustomTextField label="Your email" name="email" disabled={true}/>
+            <FormInput
+              labelText="Your emai"
+              inputStyle="email"
+              fieldValue={user?.email}
+              disabled={true}
+            />
           </CustomInputDiv>
           {changeName && (
             <FormButton buttonText="Confirm" buttonType="submit" />

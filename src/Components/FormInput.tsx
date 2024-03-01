@@ -2,6 +2,7 @@ import * as React from "react";
 import hidePass from "../Logos/Hide.svg";
 import viewPass from "../Logos/View.svg";
 import Mail from "../Logos/Mail.svg";
+import user from "../Logos/User profile.svg";
 import styled from "styled-components";
 import { Input, InputLabel } from "@mui/material";
 
@@ -15,7 +16,7 @@ const FormInput = (props: {
   blurHandler?: (e: React.ChangeEvent<any>) => void;
   fieldValue?: string;
   errorMessage?: string;
-  width?: string
+  width?: string;
 }) => {
   const [hiddenPass, setHiddenPass] = React.useState<boolean>(true);
 
@@ -24,20 +25,28 @@ const FormInput = (props: {
   };
 
   const setType =
-    props.inputStyle === "email" ? "text" : hiddenPass ? "password" : "text";
+    props.inputStyle === "email" || props.inputStyle === "user"
+      ? "text"
+      : hiddenPass
+      ? "password"
+      : "text";
+
+  const resolveIconType = () => {
+    if (props.inputStyle === "email") {
+      return Mail;
+    }
+    if (props.inputStyle === "user") {
+      return user;
+    }
+    return hiddenPass ? hidePass : viewPass;
+  };
 
   return (
     <FormDiv>
       <CustomDiv>
         <CustomImg
           className="icon"
-          src={
-            props.inputStyle === "email"
-              ? `${Mail}`
-              : hiddenPass
-              ? `${hidePass}`
-              : `${viewPass}`
-          }
+          src={resolveIconType()}
           alt=""
           onClick={handlePassHide}
         ></CustomImg>
@@ -53,9 +62,7 @@ const FormInput = (props: {
         />
       </CustomDiv>
       <CustomInputLabel>{props.helperText}</CustomInputLabel>
-      {props.errorMessage && (
-        <CustomError>{props.errorMessage}</CustomError>
-      )}
+      {props.errorMessage && <CustomError>{props.errorMessage}</CustomError>}
     </FormDiv>
   );
 };
@@ -66,16 +73,15 @@ const CustomInputField = styled(Input)`
   border-bottom-right-radius: 16px;
   border-top-right-radius: 16px;
   background-color: #f0f4ef;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     font-family: Poppins;
     font-size: 14px;
     font-weight: 400;
     line-height: 28px;
     letter-spacing: 0.75px;
     text-align: left;
-
   }
 `;
 
@@ -86,25 +92,25 @@ const CustomImg = styled.img`
   border-top-left-radius: 16px;
   color: #b9bac3;
   text-align: center;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
 
 const CustomDiv = styled.div`
   display: flex;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
 const FormDiv = styled.div`
   margin-bottom: 30px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     margin-bottom: 10px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     margin-bottom: 10px;
   }
 `;
@@ -116,23 +122,21 @@ const CustomInputLabel = styled(InputLabel)`
   color: #344966;
   text-align: start;
   line-height: 24px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     font-family: Poppins;
     font-size: 13px;
     font-weight: 500;
     line-height: 24px;
     letter-spacing: 0.75px;
     text-align: left;
-
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     font-family: Poppins;
-font-size: 12px;
-font-weight: 500;
-line-height: 18px;
-letter-spacing: 0.75px;
-text-align: left;
-
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0.75px;
+    text-align: left;
   }
 `;
 
@@ -142,21 +146,20 @@ const CustomError = styled(InputLabel)`
   color: #e6120a;
   text-align: start;
   line-height: 24px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     font-size: 13px;
     font-weight: 500;
     line-height: 24px;
     letter-spacing: 0.75px;
     text-align: left;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     font-family: Poppins;
-font-size: 12px;
-font-weight: 500;
-line-height: 18px;
-letter-spacing: 0.75px;
-text-align: left;
-
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0.75px;
+    text-align: left;
   }
 `;
 export default FormInput;

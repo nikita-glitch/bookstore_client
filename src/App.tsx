@@ -88,9 +88,10 @@ const CustomNavDiv = styled.div`
     padding-bottom: 0;
   }
   @media (min-width: 320px) and (max-width: 833px){
-    max-width: 290px;
+    width: 100%;
     padding: 20px 15px;
     padding-bottom: 0;
+    justify-content: center;
   }
 `
 
@@ -106,8 +107,8 @@ const CustomMainDiv = styled.div`
     padding: 0 ;
   }
   @media (min-width: 320px) and (max-width: 833px){
-    max-width: 290px;
-    padding: 15px 0 70px 0;
+    width: 100%;
+    padding: 0 15px  70px 15px;
   }
 `
 

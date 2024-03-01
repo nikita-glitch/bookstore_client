@@ -71,7 +71,7 @@ const FavoritePageDiv = styled.div`
   }
   @media (min-width: 320px) and (max-width: 834px){
     width: 290px;
-
+    padding: 35px 0 30px 0;
   }
 `
 

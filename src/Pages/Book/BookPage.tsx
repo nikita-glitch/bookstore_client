@@ -56,9 +56,9 @@ const BookPage = () => {
     }
     const rate = user?.rating?.find(
       (rate) => rate.userId === user!.id && rate.bookId === id
-    );    
+    );
     return rate?.value;
-  };  
+  };
 
   const handleTextInputChange = (
     ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -91,7 +91,7 @@ const BookPage = () => {
         ratingValue: newValue,
         bookId: id,
       })
-    ).unwrap();    
+    ).unwrap();
     notify(res.message, "succsess");
   };
 
@@ -106,15 +106,15 @@ const BookPage = () => {
     notify(response.data.message, "succsess");
   };
 
-  const countBookAmount = () => {    
+  const countBookAmount = () => {
     if (window.innerWidth > 834 && window.innerWidth < 1279) {
-      return 3
+      return 3;
     }
     if (window.innerWidth < 833) {
-      return 2
+      return 2;
     }
-    return 4
-  }
+    return 4;
+  };
 
   return (
     <Page>
@@ -128,8 +128,8 @@ const BookPage = () => {
           <BookAuthor>{currentBook?.author.author_name}</BookAuthor>
           <CustomRatingDiv>
             <RatingValueDiv>
-            <CustomLogo src={logo} alt="" />
-            <CustomRate>{rating ?? 0}</CustomRate>
+              <CustomLogo src={logo} alt="" />
+              <CustomRate>{rating ?? 0}</CustomRate>
             </RatingValueDiv>
 
             <CustomRating
@@ -181,19 +181,23 @@ const BookPage = () => {
         </TextAreaDiv>
       ) : (
         <Link to={"/sign-in"}>
-          <CustomIcon src={window.innerWidth < 833 ? signInBannerSmall : signInBanner} alt="" />
+          <CustomIcon
+            src={window.innerWidth < 833 ? signInBannerSmall : signInBanner}
+            alt=""
+          />
         </Link>
       )}
       <Recomendations>Recommendations</Recomendations>
       <RecomendationsDiv>
         {books &&
-          books?.map((bookItem: Book, index: number) => (
-            index < 4 && 
-              <div key={bookItem.id}>
-               <BookCard key={bookItem.id} {...bookItem} />
-              </div> 
-            
-          ))}
+          books?.map(
+            (bookItem: Book, index: number) =>
+              index < 4 && (
+                <div key={bookItem.id}>
+                  <BookCard key={bookItem.id} {...bookItem} />
+                </div>
+              )
+          )}
       </RecomendationsDiv>
     </Page>
   );
@@ -203,29 +207,31 @@ const CustomButtonDiv = styled.div`
   display: flex;
   justify-content: start;
   gap: 82px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     gap: 20px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     gap: 20px;
+    grid-row: 5 / 6;
+    grid-column: 1 / 3;
   }
 `;
 
 const CommentsList = styled.div`
-padding-bottom: 68px;
-@media (min-width: 835px) and (max-width: 1279px){
-  padding-bottom: 60px;
-
+  padding-bottom: 68px;
+  @media (min-width: 835px) and (max-width: 1279px) {
+    padding-bottom: 60px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
 
 const CustomLogo = styled.img`
-@media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
-  }`;
+  @media (min-width: 320px) and (max-width: 834px) {
+  }
+`;
 
 const CustomRatingDiv = styled.div`
   display: flex;
@@ -233,27 +239,29 @@ const CustomRatingDiv = styled.div`
   margin-bottom: 30px;
   width: 504px;
   justify-content: space-between;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     width: 374px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     width: 135px;
     flex-direction: column;
+    grid-row: 3 / 4;
+    grid-column: 2 / 3;
   }
 `;
 
 const CustomIcon = styled.img`
   width: 1280px;
   padding-bottom: 110px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     width: 804px;
     height: 400px;
     padding-bottom: 90px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
-    width: 290px;
+  @media (min-width: 320px) and (max-width: 834px) {
+    width: 100%;
     padding-bottom: 60px;
   }
 `;
@@ -263,14 +271,15 @@ const Bookimg = styled.img`
   height: 779px;
   border-radius: 16px;
 
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     width: 391px;
     height: 584px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     width: 135px;
     height: 202px;
-
+    grid-row: 1 / 4;
+    grid-column: 1 / 2;
   }
 `;
 const BookTitle = styled(Typography)`
@@ -282,19 +291,20 @@ const BookTitle = styled(Typography)`
   text-align: left;
   color: #0d1821;
 
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     font-size: 32px;
     line-height: 48px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     font-family: Poppins;
     font-size: 14px;
     font-weight: 600;
     line-height: 21px;
     letter-spacing: 0.75px;
     text-align: left;
-
-
+    width: 100%;
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
   }
 `;
 
@@ -308,13 +318,12 @@ const CustomDescription = styled(Typography)`
   color: #0d1821;
   padding-bottom: 10px;
 
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;
-
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
 
@@ -324,9 +333,9 @@ const Recomendations = styled(Typography)`
   font-weight: 700;
   line-height: 60px;
   padding-bottom: 50px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     font-family: Poppins;
     font-size: 18px;
     font-weight: 700;
@@ -343,9 +352,9 @@ const Comment = styled(Typography)`
   font-weight: 700;
   line-height: 60px;
   padding-bottom: 50px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     display: none;
   }
 `;
@@ -356,32 +365,34 @@ const BookAuthor = styled(Typography)`
   font-weight: 400;
   line-height: 36px;
   margin-bottom: 30px;
-  @media (min-width: 835px) and (max-width: 1279px){
-   
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 30px;
-
-
-  }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     font-family: Poppins;
-font-size: 12px;
-font-weight: 500;
-line-height: 18px;
-letter-spacing: 0em;
-text-align: left;
-
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+  }
+  @media (min-width: 320px) and (max-width: 834px) {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
+    grid-row: 2 / 3;
+    grid-column: 2 / 3;
+    width: 100%;
   }
 `;
 const CustomDescriptionDiv = styled.div`
   width: 640px;
   padding-bottom: 74px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     width: 392px;
     padding-bottom: 50px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     font-family: Poppins;
     font-size: 14px;
     font-weight: 500;
@@ -389,7 +400,10 @@ const CustomDescriptionDiv = styled.div`
     letter-spacing: 0em;
     text-align: left;
     padding-bottom: 15px;
-    
+    grid-area: e;
+    width: 290px;
+    grid-row: 4 / 5;
+    grid-column: 1 / 3;
   }
 `;
 
@@ -399,29 +413,34 @@ const CustomBookDiv = styled.div`
   padding-bottom: 110px;
   gap: 128px;
 
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     gap: 21px;
     padding-bottom: 98px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
-    gap: 20px;
-    
+  @media (min-width: 320px) and (max-width: 834px) {
+    gap: 0px;
+    display: grid;
+    width: 290px;
+    //justify-content: space-between;
+    grid-template-columns: repeat(2, 1fr);
+    /* grid-template-rows: repeat(2, 1fr);
+    grid-template-areas: 
+    "a b" */
   }
 `;
 
 const Page = styled.div`
   padding: 60px 80px 150px 80px;
   width: 1280px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     width: 804px;
     padding: 100px 15px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     width: 290px;
     padding: 33px 0 0 0;
   }
 `;
-
 
 const CustomRateText = styled(Typography)`
   font-family: Poppins;
@@ -430,23 +449,22 @@ const CustomRateText = styled(Typography)`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #B9BAC3;
-  @media (min-width: 835px) and (max-width: 1279px){
+  color: #b9bac3;
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
   }
-
-`
+`;
 const CustomRating = styled(Rating)`
   //font-size: 2.5rem;
-  color:#BFCC94;
+  color: #bfcc94;
   //border: 2px solid #BFCC94;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     width: 135px;
   }
-`
+`;
 const CustomRate = styled(Typography)`
   font-family: Poppins;
   font-size: 16px;
@@ -454,21 +472,20 @@ const CustomRate = styled(Typography)`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
-  color: #B9BAC3;
-  @media (min-width: 835px) and (max-width: 1279px){
+  color: #b9bac3;
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
   }
-
-`
+`;
 
 const CustomInfoDiv = styled.div`
   display: flex;
   flex-direction: column;
   @media only screen and (min-width: 833px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
-    
+  @media (min-width: 320px) and (max-width: 834px) {
+    display: grid;
   }
 `;
 
@@ -479,6 +496,7 @@ const RatingValueDiv = styled.div`
   @media only screen and (min-width: 321px) and (max-width: 834px) {
   }
   @media only screen and (max-width: 320px) {
+    width: 135px;
   }
 `;
 
@@ -489,26 +507,23 @@ const DescriptionText = styled(Typography)`
   line-height: 24px;
   color: #344966;
 
-
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     font-size: 14px;
     font-weight: 500;
     line-height: 21px;
-
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     font-family: Poppins;
-font-size: 12px;
-font-weight: 500;
-line-height: 18px;
-letter-spacing: 0em;
-text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0em;
+    text-align: left;
     width: 290px;
   }
 `;
 
 const CustomPostButton = styled(ButtonBase)`
-
   padding: 10px 50px;
   border-radius: 16px;
   background: #344966;
@@ -527,8 +542,7 @@ const CustomPostButton = styled(ButtonBase)`
     background: #b9bac3;
   }
 
-  @media (min-width: 835px) and (max-width: 1279px){
-
+  @media (min-width: 835px) and (max-width: 1279px) {
     font-family: Poppins;
     font-size: 20px;
     font-weight: 500;
@@ -539,12 +553,11 @@ const CustomPostButton = styled(ButtonBase)`
     height: 50px;
     padding: 10px 22.5px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
 
 const CustomButton = styled(ButtonBase)`
-
   padding: 10px 50px;
   border-radius: 16px;
   background: #344966;
@@ -563,8 +576,7 @@ const CustomButton = styled(ButtonBase)`
     background: #b9bac3;
   }
 
-  @media (min-width: 835px) and (max-width: 1279px){
-
+  @media (min-width: 835px) and (max-width: 1279px) {
     font-family: Poppins;
     font-size: 20px;
     font-weight: 500;
@@ -575,7 +587,7 @@ const CustomButton = styled(ButtonBase)`
     height: 50px;
     padding: 10px 22.5px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     width: 135px;
     padding: 10px 31px;
     font-family: Poppins;
@@ -585,19 +597,18 @@ const CustomButton = styled(ButtonBase)`
     letter-spacing: 0.75px;
     text-align: center;
     padding: 10px 22.5px;
-
   }
 `;
 const RecomendationsDiv = styled.div`
   display: flex;
   gap: 21px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     row-gap: 21px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
-    display: grid;  
+  @media (min-width: 320px) and (max-width: 834px) {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 2;
     gap: 18px;
@@ -614,21 +625,20 @@ const CustomButtonText = styled(Typography)`
   text-align: left;
   color: #344966;
   padding-bottom: 14px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
     font-family: Poppins;
     font-size: 14px;
     font-weight: 500;
     line-height: 21px;
     letter-spacing: 0em;
     text-align: left;
-
   }
-`
+`;
 
 const TextAreaDiv = styled.div`
   padding-bottom: 108px;
@@ -636,11 +646,11 @@ const TextAreaDiv = styled.div`
   flex-direction: column;
   gap: 30px;
   width: 276px;
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     width: 738px;
     padding-bottom: 88px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
 
@@ -654,13 +664,13 @@ const CustomTextField = styled(TextField)`
   letter-spacing: 0.75px;
   text-align: left;
   border: none;
-  color: #B9BAC3;
+  color: #b9bac3;
 
-  background: #F0F4EF;
+  background: #f0f4ef;
 
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
+  @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
 

@@ -37,7 +37,8 @@ const CustomSearchDiv = styled.div`
     width: 247px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 290px;
+    width: 100%;
+    grid-area: d;
   }
 `;
 
@@ -45,14 +46,14 @@ const CustomInputBase = styled(InputBase)`
   height: 64px;
   background-color: #f0f4ef;
   color: #b9bac3;
-  padding: 0 509px 0 16px;
+  padding: 0 509px 0 0;
   border-bottom-right-radius: 16px;
   border-top-right-radius: 16px;
   @media (min-width: 835px) and (max-width: 1279px){
-    padding: 0 123px 0 14px;
+    padding: 0 123px 0 0x;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    padding: 0 180px 0 64px;
+    padding: 0 180px 0 0;
   }
 `;
 

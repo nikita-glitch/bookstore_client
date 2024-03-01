@@ -11,7 +11,7 @@ import { RootState } from "../store/store";
 const ActionPanel = () => {
   const [route, setRoute] = React.useState<string>("sign-in");
   const user = useSelector((state: RootState) => state.users.user);
-  
+
   const handleLoginButtonClick = (
     ev: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -26,26 +26,26 @@ const ActionPanel = () => {
     <ActionPanelDiv>
       {user?.id ? (
         <ActionsDiv>
-        <Link to={"/cart/" + user.cart.id}>
-          <CustomIcom src={cartLogo} alt=""/>
-        </Link>
-        <Link to={"/favorite/" + user.favorite.id}>
-          <CustomIcom src={favoriteLogo} alt=""/>
-        </Link>
-        <Link to={"/profile"}>
-          <CustomIcom src={profileLogo} alt=""/>
-        </Link>
+          <Link to={"/cart/" + user.cart.id}>
+            <CustomIcom src={cartLogo} alt="" />
+          </Link>
+          <Link to={"/favorite/" + user.favorite.id}>
+            <CustomIcom src={favoriteLogo} alt="" />
+          </Link>
+          <Link to={"/profile"}>
+            <CustomIcom src={profileLogo} alt="" />
+          </Link>
         </ActionsDiv>
       ) : (
-          <Link to={route}>
-            <CustomLoginButton
-              variant="contained"
-              onClick={handleLoginButtonClick}
-            >
-              Log In/ Sign Up
-            </CustomLoginButton>
-          </Link>
-        )} 
+        <Link to={route}>
+          <CustomLoginButton
+            variant="contained"
+            onClick={handleLoginButtonClick}
+          >
+            Log In/ Sign Up
+          </CustomLoginButton>
+        </Link>
+      )}
     </ActionPanelDiv>
   );
 };
@@ -58,15 +58,21 @@ const CustomLoginButton = styled(Button)`
   border-radius: 16px;
   gap: 10px;
   margin-left: 98px;
-  &:hover{
+  &:hover {
     background: #344966;
   }
-  @media (min-width: 834px) and (max-width: 1279px){
+  @media (min-width: 834px) and (max-width: 1279px) {
     margin-left: 51px;
   }
-  @media (min-width: 320px) and (max-width: 833px){
+  @media (min-width: 320px) and (max-width: 833px) {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0.75px;
+    text-align: center;
+    padding: 10px 17px;
     width: 135px;
-    height: 36px;
+    height: 38px;
     margin: 0;
   }
 `;
@@ -76,25 +82,24 @@ const ActionPanelDiv = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 198px;
-  @media (min-width: 834px) and (max-width: 1279px){
-
+  @media (min-width: 834px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 833px){
+  @media (min-width: 320px) and (max-width: 833px) {
     width: 135px;
+    grid-area: c;
   }
 `;
 
 const CustomIcom = styled.img`
   width: 48px;
   height: 48px;
-  @media (min-width: 834px) and (max-width: 1279px){
-
+  @media (min-width: 834px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 833px){
-    width: 32.7px;
-  height: 32.7px;
+  @media (min-width: 320px) and (max-width: 833px) {
+    width: 33px;
+    height: 32px;
   }
-`
+`;
 
 const ActionsDiv = styled.div`
   display: flex;
@@ -103,13 +108,14 @@ const ActionsDiv = styled.div`
   width: 198px;
   gap: 27px;
   padding-left: 127px;
-  @media (min-width: 834px) and (max-width: 1279px){
+  @media (min-width: 834px) and (max-width: 1279px) {
     padding-left: 81px;
   }
-  @media (min-width: 320px) and (max-width: 833px){
+  @media (min-width: 320px) and (max-width: 833px) {
     width: 135px;
+    gap: 0;
     padding: 0;
   }
-`
+`;
 
 export default ActionPanel;

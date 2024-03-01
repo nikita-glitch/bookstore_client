@@ -27,6 +27,7 @@ const BookStoreLogo = styled.img`
     height: 46px;
   }
   @media (min-width: 320px) and (max-width: 834px){
+    grid-area: a;
     width: 62px;
     height: 31px;
   }
@@ -40,10 +41,14 @@ const CustomDivNavbar = styled.div`
     width: 804px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 290px;
     display: grid;
-    grid-auto-flow:  row  dense;
-    grid-template-rows: repeat(2, 47px);
+    grid-template-areas: 
+    "a b c"
+    "d d d"
+    ;
+    row-gap: 19px;
+    margin: 0;
+    /* grid-template-rows: repeat(2, 47px); */
   }
 `;
 
@@ -64,9 +69,17 @@ const CustomCatalogButton = styled(Button)`
 
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 58px;
+    width: 100%;
     height: 21px;
     margin:0 18px;
+    grid-area: b;
+    font-family: Poppins;
+font-size: 14px;
+font-weight: 500;
+line-height: 21px;
+letter-spacing: 0em;
+text-align: left;
+
   }
 `;
 export default NavBar;

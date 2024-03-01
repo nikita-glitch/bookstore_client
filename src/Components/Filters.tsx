@@ -70,7 +70,7 @@ const Filters: FC = () => {
   return (
     <FiltersDiv>
       <CustomDiv>
-        <FormControl>
+        <FormControl sx={{width: '100%'}}>
           <InputLabel id="demo-simple-select-label" sx={{color: '#344966'}}>Genre</InputLabel>
           <CustomSelect
             labelId="demo-simple-select-label"
@@ -100,7 +100,7 @@ const Filters: FC = () => {
         </FormControl>
       </CustomDiv>
       <CustomDiv>
-        <FormControl sx={{margin: 0 }}>
+        <FormControl sx={{width: '100%'}}>
           <InputLabel id="label" sx={{color: '#344966'}}>Price</InputLabel>
           <CustomSelect labelId="label" id="demo-simple-select" label="Price">
             <SliderDiv>
@@ -124,7 +124,7 @@ const Filters: FC = () => {
         </FormControl>
       </CustomDiv>
       <CustomDiv>
-        <FormControl>
+        <FormControl sx={{width: '100%'}}>
           <InputLabel id="demo-simple-select-label" sx={{color: '#344966'}}>Sort by</InputLabel>
           <CustomSelect
             labelId="demo-simple-select-label"
@@ -180,7 +180,7 @@ const FiltersDiv = styled.div`
   @media (min-width: 320px) and (max-width: 834px) {
     flex-direction: column;
     gap: 20px;
-    width: 290px;
+    width: 100%;  
     align-items: start;
   }
 `;
@@ -193,6 +193,7 @@ const CustomDiv = styled.div`
     height: 50px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    width: 100%;
   }
 `;
 const CustomSelect = styled(Select)`
@@ -204,7 +205,7 @@ const CustomSelect = styled(Select)`
     width: 255px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
-    width: 290px;
+    width: 100%;
   }
 `;
 

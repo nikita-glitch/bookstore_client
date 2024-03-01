@@ -179,6 +179,7 @@ const CustomAmount = styled.div`
   @media (min-width: 834px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 833px){
+    width: 135px;
     gap: 24px;
   } 
 `;
