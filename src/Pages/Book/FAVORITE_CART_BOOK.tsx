@@ -179,7 +179,7 @@ const CustomAmount = styled.div`
   @media (min-width: 834px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 833px){
-    width: 135px;
+    width: 100%;
     gap: 24px;
   } 
 `;
@@ -191,6 +191,8 @@ const CartBookDiv = styled.div`
   @media (min-width: 834px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 833px){
+    padding: 30px 0;
+    width: 100%;
   } 
 `;
 

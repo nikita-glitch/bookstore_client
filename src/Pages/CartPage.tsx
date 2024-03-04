@@ -51,14 +51,14 @@ const CartPage = () => {
         <Box component="form" onSubmit={handleSubmit}>
           <EmptyCartDiv>
             <CustomLogo src={logo} alt="" />
-            <div>
+            <CustomDiv>
               <EmptyTitle>Your cart is empty</EmptyTitle>
               <GoToCatalog>
                 Add items to cart to make a purchase. <br></br>Go to the
                 catalogue no.
               </GoToCatalog>
               <FormButton buttonText="Go to catalog" buttonType="submit" />
-            </div>
+            </CustomDiv>
           </EmptyCartDiv>
         </Box>
       )}
@@ -66,7 +66,7 @@ const CartPage = () => {
         {cartBooks?.map((cartBook: CartBooks) => (
           <>
             <FAVORITE_CART_BOOK key={cartBook.id} {...cartBook} />
-            {lastElemCheck(cartBook) && <LineDiv></LineDiv>}
+            {lastElemCheck(cartBook) && <LineDiv key={cartBook.bookId}></LineDiv>}
           </>
         ))}
       {cartBooks?.length !== 0 && (
@@ -115,12 +115,12 @@ const CheckoutButton = styled(Button)`
   }
   @media (min-width: 320px) and (max-width: 833px){
     font-family: Poppins;
-font-size: 12px;
-font-weight: 600;
-line-height: 28px;
-letter-spacing: 0.75px;
-text-align: center;
-width: 290px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: 0.75px;
+    text-align: center;
+    width: 100%;
   }
 `;
 
@@ -134,9 +134,14 @@ const CartPageDiv = styled.div`
     width: 804px;
   }
   @media (min-width: 320px) and (max-width: 833px){
-    width: 290px;
+    width: 100%;
     padding: 35px 0 30px 0;
   }
+
+`
+
+const CustomDiv = styled.div`
+  width: 100%;
 
 `
 
@@ -176,12 +181,12 @@ text-align: center;
   }
   @media (min-width: 320px) and (max-width: 833px){
     font-family: Poppins;
-font-size: 12px;
-font-weight: 600;
-line-height: 28px;
-letter-spacing: 0.75px;
-text-align: center;
-width: 290px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 28px;
+    letter-spacing: 0.75px;
+    text-align: center;
+    width: 100%;
   }
 `;
 
@@ -194,7 +199,7 @@ const LineDiv = styled.div`
     width: 804px;
   }
   @media (min-width: 320px) and (max-width: 833px){
-    width: 290px;
+    width: 100%;
   }
 `;
 
@@ -218,6 +223,13 @@ text-align: left;
 
   }
   @media (min-width: 320px) and (max-width: 833px){
+    font-family: Poppins;
+font-size: 18px;
+font-weight: 700;
+line-height: 27px;
+letter-spacing: 0em;
+text-align: left;
+margin-bottom: 15px;
   }
 `;
 
@@ -243,6 +255,13 @@ const GoToCatalog = styled(Typography)`
 
   }
   @media (min-width: 320px) and (max-width: 833px){
+    font-family: Poppins;
+font-size: 12px;
+font-weight: 500;
+line-height: 18px;
+letter-spacing: 0em;
+text-align: left;
+margin-bottom: 30px;
   }
 `;
 
@@ -255,6 +274,10 @@ const EmptyCartDiv = styled.div`
     gap: 62px;
   }
   @media (min-width: 320px) and (max-width: 833px){
+    padding: 0;
+    flex-direction: column-reverse;
+    padding-top: 15px;
+    gap: 40px;
   }
 `;
 
@@ -277,6 +300,7 @@ const CustomLogo = styled.img`
     height: 212px;
   }
   @media (min-width: 320px) and (max-width: 833px){
+    width: 100%;
   }
 `;
 

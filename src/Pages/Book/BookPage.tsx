@@ -75,7 +75,7 @@ const BookPage = () => {
         bookId: id,
       })
     ).unwrap();
-    notify(response.data.message, "succsess");
+    notify(response.message, "succsess");
     setInput("");
   };
 
@@ -103,7 +103,7 @@ const BookPage = () => {
       return;
     }
     const response = await dispatch(addBookToCart(id)).unwrap();
-    notify(response.data.message, "succsess");
+    notify(response.message, "succsess");
   };
 
   const countBookAmount = () => {
@@ -123,40 +123,42 @@ const BookPage = () => {
           src={"http://localhost:5000/" + currentBook?.photos?.photo!}
           alt=""
         />
-        <CustomInfoDiv>
-          <BookTitle>{currentBook?.title}</BookTitle>
-          <BookAuthor>{currentBook?.author.author_name}</BookAuthor>
-          <CustomRatingDiv>
-            <RatingValueDiv>
-              <CustomLogo src={logo} alt="" />
-              <CustomRate>{rating ?? 0}</CustomRate>
-            </RatingValueDiv>
+        {/* <CustomInfoDiv> */}
+        <div>
+        <BookTitle>{currentBook?.title}</BookTitle>
+        <BookAuthor>{currentBook?.author.author_name}</BookAuthor>
+        <CustomRatingDiv>
+          <RatingValueDiv>
+            <CustomLogo src={logo} alt="" />
+            <CustomRate>{rating ?? 0}</CustomRate>
+          </RatingValueDiv>
 
-            <CustomRating
-              name="simple-controlled"
-              disabled={user ? false : true}
-              value={getUserRate()}
-              onChange={handleRatingChange}
-            />
-            <CustomRateText>Rate this book</CustomRateText>
-          </CustomRatingDiv>
-          <CustomDescriptionDiv>
-            <CustomDescription>Description</CustomDescription>
-            <DescriptionText>{currentBook?.description}</DescriptionText>
-          </CustomDescriptionDiv>
-          <CustomButtonDiv>
-            <div>
-              <CustomButtonText>Paperback</CustomButtonText>
-              <CustomButton disabled>Not available</CustomButton>
-            </div>
-            <div>
-              <CustomButtonText>Hardcover</CustomButtonText>
-              <CustomButton onClick={handleCartAddClick}>
-                ${currentBook?.price} USD
-              </CustomButton>
-            </div>
-          </CustomButtonDiv>
-        </CustomInfoDiv>
+          <CustomRating
+            name="simple-controlled"
+            disabled={user?.id ? false : true}
+            value={getUserRate()}
+            onChange={handleRatingChange}
+          />
+          <CustomRateText>Rate this book</CustomRateText>
+        </CustomRatingDiv>
+        </div>
+        <CustomDescriptionDiv>
+          <CustomDescription>Description</CustomDescription>
+          <DescriptionText>{currentBook?.description}</DescriptionText>
+        </CustomDescriptionDiv>
+        <CustomButtonDiv>
+          <CustomDiv>
+            <CustomButtonText>Paperback</CustomButtonText>
+            <CustomButton disabled>Not available</CustomButton>
+          </CustomDiv>
+          <CustomDiv>
+            <CustomButtonText>Hardcover</CustomButtonText>
+            <CustomButton onClick={handleCartAddClick}>
+              ${currentBook?.price} USD
+            </CustomButton>
+          </CustomDiv>
+        </CustomButtonDiv>
+        {/* </CustomInfoDiv> */}
       </CustomBookDiv>
       <CommentsList>
         <Comment>Comments</Comment>
@@ -192,26 +194,34 @@ const BookPage = () => {
         {books &&
           books?.map(
             (bookItem: Book, index: number) =>
-              index < 4 && (
-                <div key={bookItem.id}>
-                  <BookCard key={bookItem.id} {...bookItem} />
-                </div>
-              )
+              index < 4 && <BookCard key={bookItem.id} {...bookItem} />
           )}
       </RecomendationsDiv>
     </Page>
   );
 };
 
+const CustomDiv = styled.div`
+  width: 100%;
+  
+  
+`;
+
 const CustomButtonDiv = styled.div`
   display: flex;
   justify-content: start;
   gap: 82px;
+  grid-row: 3 / 4;
+  grid-column: 2 / 3;
+  margin-bottom: 121px;
   @media (min-width: 835px) and (max-width: 1279px) {
     gap: 20px;
+    margin: 0;
+    margin-top: 50px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
     gap: 20px;
+    margin: 0;
     grid-row: 5 / 6;
     grid-column: 1 / 3;
   }
@@ -219,10 +229,16 @@ const CustomButtonDiv = styled.div`
 
 const CommentsList = styled.div`
   padding-bottom: 68px;
+  width: 738px;
+  
   @media (min-width: 835px) and (max-width: 1279px) {
     padding-bottom: 60px;
+    padding-right: 137px;
+    width: 667px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    width: 100%;
+    padding-bottom: 20px;
   }
 `;
 
@@ -230,25 +246,32 @@ const CustomLogo = styled.img`
   @media (min-width: 835px) and (max-width: 1279px) {
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    width: 15px;
+    height: 15px;
   }
 `;
 
 const CustomRatingDiv = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  
   width: 504px;
   justify-content: space-between;
+  
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 374px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 30px;
+    gap: 15px 40px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
-    width: 135px;
+    width: 100%;
     flex-direction: column;
     grid-row: 3 / 4;
     grid-column: 2 / 3;
+    align-items: start;
+    margin-bottom: 47px;
   }
 `;
 
@@ -267,16 +290,18 @@ const CustomIcon = styled.img`
 `;
 
 const Bookimg = styled.img`
-  width: 522px;
+  width: 100%;
   height: 779px;
   border-radius: 16px;
-
+  grid-row: 1 / 4;
+  grid-column: 1 / 2;
   @media (min-width: 835px) and (max-width: 1279px) {
-    width: 391px;
+  
     height: 584px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
-    width: 135px;
+    
+    margin-bottom: 20px;
     height: 202px;
     grid-row: 1 / 4;
     grid-column: 1 / 2;
@@ -290,7 +315,7 @@ const BookTitle = styled(Typography)`
   letter-spacing: 0em;
   text-align: left;
   color: #0d1821;
-
+  grid-row: 1 / 2;
   @media (min-width: 835px) and (max-width: 1279px) {
     font-size: 32px;
     line-height: 48px;
@@ -305,6 +330,7 @@ const BookTitle = styled(Typography)`
     width: 100%;
     grid-row: 1 / 2;
     grid-column: 2 / 3;
+    margin-bottom: 14px;
   }
 `;
 
@@ -322,8 +348,10 @@ const CustomDescription = styled(Typography)`
     font-size: 16px;
     font-weight: 500;
     line-height: 24px;
+    padding-bottom: 22px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    width: 100%;
   }
 `;
 
@@ -372,14 +400,17 @@ const BookAuthor = styled(Typography)`
     line-height: 18px;
     letter-spacing: 0em;
     text-align: left;
+     margin-bottom: 20px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
     font-family: Poppins;
+    margin: 0;
     font-size: 12px;
     font-weight: 500;
     line-height: 18px;
     letter-spacing: 0em;
     text-align: left;
+    margin-bottom: 20px;
     grid-row: 2 / 3;
     grid-column: 2 / 3;
     width: 100%;
@@ -387,10 +418,9 @@ const BookAuthor = styled(Typography)`
 `;
 const CustomDescriptionDiv = styled.div`
   width: 640px;
-  padding-bottom: 74px;
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 392px;
-    padding-bottom: 50px;
+   
   }
   @media (min-width: 320px) and (max-width: 834px) {
     font-family: Poppins;
@@ -399,46 +429,45 @@ const CustomDescriptionDiv = styled.div`
     line-height: 21px;
     letter-spacing: 0em;
     text-align: left;
-    padding-bottom: 15px;
-    grid-area: e;
-    width: 290px;
+    padding-bottom: 30px;
+    width: 100%;
     grid-row: 4 / 5;
     grid-column: 1 / 3;
   }
 `;
 
 const CustomBookDiv = styled.div`
-  display: flex;
-  justify-content: center;
+  display: grid;
+  width: 100%;
   padding-bottom: 110px;
-  gap: 128px;
-
+  column-gap: 128px;
+  grid-template-columns: repeat(2, 1fr);
   @media (min-width: 835px) and (max-width: 1279px) {
-    gap: 21px;
+
+    column-gap: 21px ;
     padding-bottom: 98px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
     gap: 0px;
     display: grid;
-    width: 290px;
-    //justify-content: space-between;
+    width: 100%;
+    padding-bottom: 50px;
     grid-template-columns: repeat(2, 1fr);
-    /* grid-template-rows: repeat(2, 1fr);
-    grid-template-areas: 
-    "a b" */
+    column-gap: 20px;
   }
 `;
 
 const Page = styled.div`
   padding: 60px 80px 150px 80px;
-  width: 1280px;
+  width: 100%;
   @media (min-width: 835px) and (max-width: 1279px) {
-    width: 804px;
+   
     padding: 100px 15px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
-    width: 290px;
+    width: 100%;
     padding: 33px 0 0 0;
+    box-sizing: border-box;
   }
 `;
 
@@ -451,18 +480,24 @@ const CustomRateText = styled(Typography)`
   text-align: left;
   color: #b9bac3;
   @media (min-width: 835px) and (max-width: 1279px) {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
   }
   @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
 const CustomRating = styled(Rating)`
-  //font-size: 2.5rem;
+  font-size: 2.5rem;
   color: #bfcc94;
   //border: 2px solid #BFCC94;
   @media (min-width: 835px) and (max-width: 1279px) {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    font-size: 1,5;
   }
   @media (min-width: 320px) and (max-width: 834px) {
     width: 135px;
+    font-size: 1rem;
   }
 `;
 const CustomRate = styled(Typography)`
@@ -476,6 +511,13 @@ const CustomRate = styled(Typography)`
   @media (min-width: 835px) and (max-width: 1279px) {
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    font-family: Poppins;
+font-size: 13px;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: 0em;
+text-align: left;
+
   }
 `;
 
@@ -494,9 +536,12 @@ const RatingValueDiv = styled.div`
   align-items: center;
   gap: 13px;
   @media only screen and (min-width: 321px) and (max-width: 834px) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
   }
   @media only screen and (max-width: 320px) {
-    width: 135px;
+    width: 100%;
+    margin-bottom: 20px;
   }
 `;
 
@@ -519,7 +564,7 @@ const DescriptionText = styled(Typography)`
     line-height: 18px;
     letter-spacing: 0em;
     text-align: left;
-    width: 290px;
+    width: 100%;
   }
 `;
 
@@ -554,6 +599,14 @@ const CustomPostButton = styled(ButtonBase)`
     padding: 10px 22.5px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    padding: 10px 50px;
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0.75px;
+    text-align: center;
+    width: max-content;
   }
 `;
 
@@ -588,7 +641,7 @@ const CustomButton = styled(ButtonBase)`
     padding: 10px 22.5px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
-    width: 135px;
+    width: 100%;
     padding: 10px 31px;
     font-family: Poppins;
     font-size: 12px;
@@ -610,9 +663,9 @@ const RecomendationsDiv = styled.div`
   @media (min-width: 320px) and (max-width: 834px) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 2;
     gap: 18px;
     padding-bottom: 30px;
+    width: 100%;
   }
 `;
 
@@ -651,6 +704,8 @@ const TextAreaDiv = styled.div`
     padding-bottom: 88px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    padding-bottom: 60px;
+    width: 100%;
   }
 `;
 
@@ -671,6 +726,7 @@ const CustomTextField = styled(TextField)`
   @media (min-width: 835px) and (max-width: 1279px) {
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    width: 100%;
   }
 `;
 

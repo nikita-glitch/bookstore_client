@@ -82,6 +82,7 @@ const CustomInputField = styled(Input)`
     line-height: 28px;
     letter-spacing: 0.75px;
     text-align: left;
+    width: 100%;
   }
 `;
 
@@ -112,6 +113,7 @@ const FormDiv = styled.div`
   }
   @media (min-width: 320px) and (max-width: 834px) {
     margin-bottom: 10px;
+    width: 100%;
   }
 `;
 

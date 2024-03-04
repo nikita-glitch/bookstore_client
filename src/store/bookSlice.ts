@@ -40,7 +40,7 @@ export const postComment = createAsyncThunk(
   "comment/post",
   async (data: { commentText: string; bookId?: string }) => {
     const response = await userAPI.addComment(data.commentText, data.bookId);
-    return response;
+    return response.data;
   }
 );
 
@@ -72,10 +72,8 @@ const bookSlice = createSlice({
 
     builder.addCase(postComment.pending, (state, action) => {});
 
-    builder.addCase(postComment.fulfilled, (state, action) => {
-      console.log(action.payload.data.comment);
-      
-      const comment = action.payload.data.comment
+    builder.addCase(postComment.fulfilled, (state, action) => {      
+      const comment = action.payload.comment
       const currentBook = state.book?.find(
         (book) => book.id === comment.bookId
       );    

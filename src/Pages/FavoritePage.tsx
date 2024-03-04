@@ -40,27 +40,30 @@ const FavoritePage = () => {
         <Box component="form" onSubmit={handleSubmit}>
           <EmptyFavoriteDiv>
             <CustomLogo src={logo} alt="" />
-            <div>
+            <CustomDiv>
               <EmptyTitle>Your favorite is empty</EmptyTitle>
               <GoToCatalog>Go to the catalogue no.</GoToCatalog>
               <FormButton buttonText="Go to catalog" buttonType="submit" />
-            </div>
+            </CustomDiv>
           </EmptyFavoriteDiv>
         </Box>
       )}
-      <div>
         {favoriteBooks?.map((favoriteBook: FavoriteBooks) => (
-          <div key={favoriteBook.id}>
-            <FAVORITE_CART_BOOK {...favoriteBook} />
-            {lastElemCheck(favoriteBook) && <LineDiv></LineDiv>}
-          </div>
+          <>
+            <FAVORITE_CART_BOOK {...favoriteBook}  key={favoriteBook.id}/>
+            {lastElemCheck(favoriteBook) && <LineDiv key={favoriteBook.bookId }></LineDiv>}
+          </>
         ))}
-      </div>
     </FavoritePageDiv>
   );
 };
 
 export default FavoritePage;
+
+const CustomDiv = styled.div`
+  width: 100%;
+
+`
 
 const FavoritePageDiv = styled.div`
   width: 1280px;
@@ -70,7 +73,7 @@ const FavoritePageDiv = styled.div`
   padding: 20px 0 64px 0;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 290px;
+    width: 100%;
     padding: 35px 0 30px 0;
   }
 `
@@ -83,7 +86,7 @@ const LineDiv = styled.div`
     width: 804px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 290px;
+    width: 100%;
 
   }
 
@@ -96,7 +99,10 @@ const EmptyFavoriteDiv = styled.div`
    @media (min-width: 835px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 834px){
-    
+        padding: 0;
+    flex-direction: column-reverse;
+    padding-top: 15px;
+    gap: 40px;
   }
 `;
 
@@ -107,7 +113,7 @@ const CustomLogo = styled.img`
     height: 341px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    
+    width: 100%;
   }
 `;
 
@@ -124,7 +130,13 @@ const EmptyTitle = styled(Typography)`
   @media (min-width: 835px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 834px){
-    
+        font-family: Poppins;
+font-size: 18px;
+font-weight: 700;
+line-height: 27px;
+letter-spacing: 0em;
+text-align: left;
+margin-bottom: 15px;
   }
 `;
 
@@ -141,6 +153,12 @@ const GoToCatalog = styled(Typography)`
   @media (min-width: 835px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 834px){
-    
+     font-family: Poppins;
+font-size: 12px;
+font-weight: 500;
+line-height: 18px;
+letter-spacing: 0em;
+text-align: left;
+margin-bottom: 30px;
   }
 `;

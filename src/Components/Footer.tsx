@@ -59,7 +59,7 @@ const CustomMap = styled.img`
     width: 392px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 291px;
+    width: 100%;
     height: 160px;
   }
 `;
@@ -71,8 +71,9 @@ const ContentDiv = styled.div`
     width: 804px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 209px;
+   
     flex-direction: column;
+    width: 100%;
   }
   
 `;
@@ -119,7 +120,7 @@ const CustomText = styled(Typography)`
 
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 290px;
+    width: 100%;
     font-family: Poppins;
     font-size: 16px;
     font-weight: 500;
@@ -144,7 +145,7 @@ const CustomMenu = styled(MenuList)`
     padding: 0 42px 60px 26px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 95px;
+    width: 100%;
     margin: 0;
     margin-bottom: 40px;
   }

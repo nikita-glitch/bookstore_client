@@ -26,16 +26,18 @@ const BookComment = (comment: Comments) => {
     <CommentDiv>
       <CustomUserInfo>
         <CustomUserAvatar src={'http://localhost:5000/' + comment.user.avatar?.avatarName} alt="" />
-      </CustomUserInfo>
-      <CustomDiv>
+        <CustomDiv>
         <CustomUserName>{comment.user?.name}</CustomUserName>
         <CustomTimestapm>
           <>
           {resolveCommentTime()} 
           </>
         </CustomTimestapm>
+        </CustomDiv>
+      </CustomUserInfo>
+      
+       
         <CustomText>{comment.text}</CustomText>
-      </CustomDiv>
     </CommentDiv>
   );
 };
@@ -43,41 +45,53 @@ const BookComment = (comment: Comments) => {
 export default BookComment;
 
 const CustomUserInfo = styled.div`
-
+display: grid;
+    grid-template-columns: min-content;
+    align-items: center;
+    column-gap: 20px;
 @media (min-width: 835px) and (max-width: 1279px){
-  }
+  column-gap: 20px;  
+}
   @media (min-width: 320px) and (max-width: 834px){
+    
+    column-gap: 13px;
+    margin-bottom: 15px;
   }
 `;
 const CommentDiv = styled.div`
-  width: 738px;
+  width: 100%;
   height: auto;
   border-radius: 16px;
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
-  padding: 30px 0 25px 0;
+  padding: 30px 0 25px 30px;
   background-color: #f0f4ef;
   margin-bottom: 10px;
+  box-sizing: border-box;
   @media (min-width: 835px) and (max-width: 1279px){
-    width: 667px;
+    
     padding: 20px 0 0 20px;
-    gap: 20px;
+    column-gap: 20px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 290px;
+    width: 100%;
     padding: 12px 0 10px  10px;
-    gap: 13px ;
+    flex-direction: column;
+    
   }
 `;
 
 const CustomDiv = styled.div`
   padding-top: 5px;
-  width: 598px;
+  width: 100%;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
   @media (min-width: 835px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 834px){
-    padding-top: 10px;
-    width: 290px;
+    width: 100%;
+    
   }
 `;
 
@@ -98,7 +112,7 @@ const CustomUserName = styled(Typography)`
     line-height: 21px;
     letter-spacing: 0.75px;
     text-align: left;
-
+    
   }
 `;
 
@@ -106,11 +120,14 @@ const CustomUserAvatar = styled.img`
   width: 60px;
   height: 60px;
   border-radius: 50%;
+  grid-column: 1 / 2;
+    grid-row: 1 / 3;
   @media (min-width: 835px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 834px){
     width: 35px;
     height: 35px;
+    
   }
 `;
 
@@ -133,6 +150,7 @@ padding: 4px 0 9px 0;
     letter-spacing: 0.75px;
     text-align: left;
 
+    padding: 0;
   }
 `;
 
@@ -144,9 +162,13 @@ const CustomText = styled(Typography)`
   letter-spacing: 0.75px;
   text-align: left;
   color: #344966;
-  width: 598px;
-  height: 72px;
+  width: 100%;
+  
+  order: 1;
+  margin: 0 0 0 80px;
+
   @media (min-width: 835px) and (max-width: 1279px){
+    margin: 0 0 0 80px;
   }
   @media (min-width: 320px) and (max-width: 834px){
     font-family: Poppins;
@@ -155,6 +177,7 @@ const CustomText = styled(Typography)`
     line-height: 18px;
     letter-spacing: 0.75px;
     text-align: left;
-    width: auto;
+    width: 100%;
+    margin: 0;
   }
 `;

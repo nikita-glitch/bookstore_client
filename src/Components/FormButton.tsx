@@ -18,6 +18,9 @@ const Custombutton = styled(Button)`
   border-radius: 16px;
   color: #fff;
   margin-bottom: 10px;
+  &.MuiButton-root {
+    text-transform: none;
+  }
   &.MuiButton-root:hover {
     background-color: #344966;
   }
@@ -25,6 +28,13 @@ const Custombutton = styled(Button)`
     margin: 45px 0 0 0;
   }
   @media (min-width: 320px) and (max-width: 834px){
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0.75px;
+    text-align: center;
+    width: 100%;
   }
 `;
 export default FormButton;

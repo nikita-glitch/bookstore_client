@@ -14,7 +14,7 @@ export const signIn = createAsyncThunk(
   "user/sign-in",
   async (values: { email: string; password: string }) => {
     const response = await authAPI.signIn(values);
-    return response;
+    return response.data;
   }
 );
 
@@ -26,7 +26,7 @@ export const signUp = createAsyncThunk(
     passwordToCompare: string;
   }) => {
     const response = await authAPI.signUp(values);
-    return response;
+    return response.data;
   }
 );
 
@@ -42,7 +42,7 @@ export const addUserAvatar = createAsyncThunk(
   "avatar/get",
   async (file: FormData) => {
     const response = await uploadAvatar(file);
-    return response;
+    return response.data;
   }
 );
 
@@ -57,7 +57,7 @@ export const setBookRating = createAsyncThunk(
 export const setAmount = createAsyncThunk(
   "cart/patch",
   async (data: { bookId: string; isIncrement: boolean }, thunkApi) => {
-    const response = await changeAmount(data.bookId, data.isIncrement);
+    const response = (await changeAmount(data.bookId, data.isIncrement)).data;
     return { response, data };
   }
 );
@@ -66,7 +66,7 @@ export const getFavoriteBook = createAsyncThunk(
   "favorite/get",
   async (favoriteId: string) => {
     const response = await getFavoriteBooks(favoriteId);
-    return response;
+    return response.data;
   }
 );
 
@@ -74,7 +74,7 @@ export const getCartBook = createAsyncThunk(
   "cart/get",
   async (cartId: string) => {
     const response = await getCartBooks(cartId);
-    return response;
+    return response.data;
   }
 );
 
@@ -82,14 +82,14 @@ export const addBookToCart = createAsyncThunk(
   "cart/post",
   async (bookId?: string) => {
     const response = await userAPI.addToCart(bookId);
-    return response;
+    return response.data;
   }
 );
 
 export const removeBookFromCart = createAsyncThunk(
   "cart/delete",
   async (bookId: string) => {
-    const response = await userAPI.removeFromCart(bookId);
+    const response = (await userAPI.removeFromCart(bookId)).data;
     return { response, bookId };
   }
 );
@@ -97,7 +97,7 @@ export const removeBookFromCart = createAsyncThunk(
 export const removeBookFromFavorite = createAsyncThunk(
   "favorite/delete",
   async (bookId: string) => {
-    const response = await userAPI.removeFromFavorite(bookId);
+    const response = (await userAPI.removeFromFavorite(bookId)).data;
     return { response, bookId };
   }
 );
@@ -106,7 +106,7 @@ export const addBookToFavorite = createAsyncThunk(
   "favorite/post",
   async (bookId: string, { dispatch, getState }) => {
     const response = await userAPI.addToFavorite(bookId);
-    return response;
+    return response.data;
   }
 );
 
@@ -152,7 +152,7 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(addBookToCart.fulfilled, (state, action) => {
-      state.user!.cart.cartBooks.push(action.payload.data.cartBook);
+      state.user!.cart.cartBooks.push(action.payload.cartBook);
       state.isLoading = false;
     });
 
@@ -163,7 +163,7 @@ export const userSlice = createSlice({
     builder.addCase(addBookToFavorite.fulfilled, (state, action) => {
       console.log(action.payload);
 
-      state.user!.favorite.favoriteBooks.push(action.payload.data.favoriteBook);
+      state.user!.favorite.favoriteBooks.push(action.payload.favoriteBook);
       state.isLoading = false;
     });
 
@@ -189,7 +189,7 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(signIn.fulfilled, (state, action: any) => {
-      const { token, user } = action.payload.data;
+      const { token, user } = action.payload;
       localStorage.setItem("token", token);
       state.user = user;
       state.isLoading = false;
@@ -204,7 +204,7 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(signUp.fulfilled, (state, action) => {
-      state.user = action.payload?.data;
+      state.user = action.payload;
       state.isLoading = false;
     });
 
@@ -230,7 +230,7 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(addUserAvatar.fulfilled, (state, action) => {
-      state.user!.avatar = action.payload.data.avatar;
+      state.user!.avatar = action.payload.avatar;
       state.isLoading = false;
     });
 
@@ -250,7 +250,7 @@ export const userSlice = createSlice({
     builder.addCase(getCartBook.pending, (state, action) => {});
 
     builder.addCase(getCartBook.fulfilled, (state, action) => {
-      state.user!.cart = action.payload.data;
+      state.user!.cart = action.payload;
     });
 
     builder.addCase(getCartBook.rejected, (state, action) => {});
@@ -258,7 +258,7 @@ export const userSlice = createSlice({
     builder.addCase(getFavoriteBook.pending, (state, action) => {});
 
     builder.addCase(getFavoriteBook.fulfilled, (state, action) => {
-      state.user!.favorite = action.payload.data;
+      state.user!.favorite = action.payload;
     });
 
     builder.addCase(getFavoriteBook.rejected, (state, action) => {});

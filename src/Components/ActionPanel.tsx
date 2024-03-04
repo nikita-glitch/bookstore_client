@@ -37,14 +37,14 @@ const ActionPanel = () => {
           </Link>
         </ActionsDiv>
       ) : (
-        <Link to={route}>
-          <CustomLoginButton
+        <CustomLoginButton
             variant="contained"
             onClick={handleLoginButtonClick}
           >
+        <Link to={route}>
             Log In/ Sign Up
-          </CustomLoginButton>
         </Link>
+          </CustomLoginButton>
       )}
     </ActionPanelDiv>
   );
@@ -61,6 +61,12 @@ const CustomLoginButton = styled(Button)`
   &:hover {
     background: #344966;
   }
+  :visited{
+    color: #f0f4ef;
+  }
+  &.MuiButton-root {
+  text-transform: none;
+}
   @media (min-width: 834px) and (max-width: 1279px) {
     margin-left: 51px;
   }
@@ -69,9 +75,8 @@ const CustomLoginButton = styled(Button)`
     font-weight: 500;
     line-height: 18px;
     letter-spacing: 0.75px;
-    text-align: center;
     padding: 10px 17px;
-    width: 135px;
+    width: 100%;
     height: 38px;
     margin: 0;
   }
@@ -81,11 +86,10 @@ const ActionPanelDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 198px;
   @media (min-width: 834px) and (max-width: 1279px) {
   }
   @media (min-width: 320px) and (max-width: 833px) {
-    width: 135px;
+    width: 100%;
     grid-area: c;
   }
 `;

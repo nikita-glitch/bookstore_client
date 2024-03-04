@@ -50,10 +50,11 @@ const CustomInputBase = styled(InputBase)`
   border-bottom-right-radius: 16px;
   border-top-right-radius: 16px;
   @media (min-width: 835px) and (max-width: 1279px){
-    padding: 0 123px 0 0x;
+    padding: 0 ;
   }
   @media (min-width: 320px) and (max-width: 834px){
     padding: 0 180px 0 0;
+    width: 100%;
   }
 `;
 

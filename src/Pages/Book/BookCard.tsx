@@ -46,12 +46,12 @@ const BookCard: FC<Book> = (book: Book) => {
       const { response } = await dispatch(
         removeBookFromFavorite(book.id)
       ).unwrap();
-      notify(response.data.message, "succsess");
+      notify(response.message, "succsess");
       return;
     }
 
     const response = await dispatch(addBookToFavorite(book.id)).unwrap();
-    notify(response.data.message, "succsess");
+    notify(response.message, "succsess");
   };
 
   const checkIsInFavorite = () => {
@@ -215,6 +215,10 @@ const CustomButton = styled(Button)`
   letter-spacing: 0.75px;
   text-align: center;
   width: 305px;
+
+  &.MuiButton-root {
+    text-transform: none;
+  }
   &:hover {
     background: #344966;
   }

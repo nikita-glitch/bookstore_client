@@ -240,6 +240,7 @@ const CustomLabel = styled.label`
   }
   @media (min-width: 320px) and (max-width: 834px){
     height: 30px;
+    width: 100%;
   }
 `;
 
@@ -262,7 +263,7 @@ const CustomProfileDiv = styled.div`
   }
   @media (min-width: 320px) and (max-width: 834px){
     flex-direction: column;
-    width: 290px;
+    width: 100%;
     padding: 35px 0 30px 0;
   }
 `;
@@ -275,7 +276,7 @@ const CustomInputDiv = styled.div`
     width: 529px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 290px;
+    width: 100%;
   }
 `;
 
@@ -287,7 +288,7 @@ const CustomTextDiv = styled.div`
     width: 529px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 290px;
+    width: 100%;
     gap: 10px;
     flex-wrap: wrap;
   }
