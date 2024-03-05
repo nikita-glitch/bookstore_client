@@ -86,11 +86,11 @@ const SignInPage = () => {
 
 const CustomGrid = styled(Grid)`
   width: 413px;
-   @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px){
     width: 392px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 290px;
+    width: 100%;
   }
 `
 
@@ -98,7 +98,7 @@ const CustomPageDiv = styled.div`
  
     display: flex;
     flex-direction: row-reverse;
-    padding: 10px 80px 80px 80px;
+    padding: 10px 0 80px 0;
     gap: 255px;
     justify-content: center;
   
@@ -127,6 +127,7 @@ const CustomFormDiv = styled.div`
     margin: 0;
   }
   @media (min-width: 320px) and (max-width: 834px){
+    width: 100%;
     margin: 0;
     padding-top: 20px;
   }
@@ -176,7 +177,7 @@ const CustomImg = styled.img`
   }
   @media (min-width: 320px) and (max-width: 834px){
     margin: 0;
-    width: 290px;
+    width: 100%;
     height: 247px;
   }
 `;

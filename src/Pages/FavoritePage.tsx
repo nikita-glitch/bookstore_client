@@ -66,10 +66,10 @@ const CustomDiv = styled.div`
 `
 
 const FavoritePageDiv = styled.div`
-  width: 1280px;
+  width: 100%;
   padding: 20px 0 114px 0;
-   @media (min-width: 835px) and (max-width: 1279px){
-    width: 804px;
+  @media (min-width: 835px) and (max-width: 1279px){
+    width: 100%;
   padding: 20px 0 64px 0;
   }
   @media (min-width: 320px) and (max-width: 834px){
@@ -79,11 +79,11 @@ const FavoritePageDiv = styled.div`
 `
 
 const LineDiv = styled.div`
-  width: 1280px;
+  width: 100%;
   border: 1px solid #d6d8e7;
   box-sizing: border-box;
    @media (min-width: 835px) and (max-width: 1279px){
-    width: 804px;
+   width: 100%;
   }
   @media (min-width: 320px) and (max-width: 834px){
     width: 100%;

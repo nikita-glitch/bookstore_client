@@ -276,11 +276,11 @@ const CustomRatingDiv = styled.div`
 `;
 
 const CustomIcon = styled.img`
-  width: 1280px;
+  width: 100%;
   padding-bottom: 110px;
   @media (min-width: 835px) and (max-width: 1279px) {
-    width: 804px;
-    height: 400px;
+    width: 100%;
+   
     padding-bottom: 90px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
@@ -291,10 +291,12 @@ const CustomIcon = styled.img`
 
 const Bookimg = styled.img`
   width: 100%;
-  height: 779px;
+  height: auto;
   border-radius: 16px;
   grid-row: 1 / 4;
   grid-column: 1 / 2;
+  object-fit: contain;
+  background: #BFCC94;
   @media (min-width: 835px) and (max-width: 1279px) {
   
     height: 584px;
@@ -458,11 +460,11 @@ const CustomBookDiv = styled.div`
 `;
 
 const Page = styled.div`
-  padding: 60px 80px 150px 80px;
+  padding: 60px 0 150px 0;
   width: 100%;
   @media (min-width: 835px) and (max-width: 1279px) {
    
-    padding: 100px 15px;
+    padding: 100px 0;
   }
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
@@ -482,6 +484,13 @@ const CustomRateText = styled(Typography)`
   @media (min-width: 835px) and (max-width: 1279px) {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
+    font-family: Poppins;
+font-size: 12px;
+font-weight: 500;
+line-height: 18px;
+letter-spacing: 0em;
+text-align: left;
+
   }
   @media (min-width: 320px) and (max-width: 834px) {
   }
@@ -493,11 +502,11 @@ const CustomRating = styled(Rating)`
   @media (min-width: 835px) and (max-width: 1279px) {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
-    font-size: 1,5;
+    font-size: 2rem;
   }
   @media (min-width: 320px) and (max-width: 834px) {
     width: 135px;
-    font-size: 1rem;
+    font-size: 28px;
   }
 `;
 const CustomRate = styled(Typography)`
@@ -509,6 +518,7 @@ const CustomRate = styled(Typography)`
   text-align: left;
   color: #b9bac3;
   @media (min-width: 835px) and (max-width: 1279px) {
+
   }
   @media (min-width: 320px) and (max-width: 834px) {
     font-family: Poppins;
@@ -535,11 +545,11 @@ const RatingValueDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 13px;
-  @media only screen and (min-width: 321px) and (max-width: 834px) {
+  @media only screen and (min-width: 833px) and (max-width: 1279px) {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
   }
-  @media only screen and (max-width: 320px) {
+  @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
     margin-bottom: 20px;
   }
@@ -653,8 +663,9 @@ const CustomButton = styled(ButtonBase)`
   }
 `;
 const RecomendationsDiv = styled.div`
-  display: flex;
-  gap: 21px;
+  display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 21px;
   @media (min-width: 835px) and (max-width: 1279px) {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

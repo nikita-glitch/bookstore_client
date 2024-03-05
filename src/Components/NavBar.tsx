@@ -9,12 +9,9 @@ const NavBar = () => {
   return (
     <CustomDivNavbar>
       <BookStoreLogo src={logo} alt="logo" />
-        <CustomCatalogButton>
-      <Link to={"/books"}>
-          Catalog
-      </Link>
-
-        </CustomCatalogButton>
+      <CustomCatalogButton>
+        <Link to={"/books"}>Catalog</Link>
+      </CustomCatalogButton>
       <SearchBar />
       <ActionPanel />
     </CustomDivNavbar>
@@ -22,6 +19,8 @@ const NavBar = () => {
 };
 
 const BookStoreLogo = styled.img`
+  width: 88.43px;
+  height: 46px;
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 88.43px;
     height: 46px;
@@ -36,9 +35,10 @@ const BookStoreLogo = styled.img`
 const CustomDivNavbar = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 125px;
+
+  //margin-right: 125px;
   @media (min-width: 835px) and (max-width: 1279px) {
-    width: 804px;
+   width: 100%;
   }
   @media (min-width: 320px) and (max-width: 834px) {
     display: grid;
@@ -58,17 +58,17 @@ const CustomCatalogButton = styled(Button)`
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
+
   background-color: #fff;
   color: #000;
   width: 66px;
   height: 24px;
-  margin: 18px 43px 22px 128px;
+  margin: 0 43px 0 128px;
 
-
-&.MuiButton-root {
-  text-transform: none;
-}
-  :visited{
+  &.MuiButton-root {
+    text-transform: none;
+  }
+  :visited {
     color: #000;
   }
   @media (min-width: 835px) and (max-width: 1279px) {
@@ -88,6 +88,5 @@ const CustomCatalogButton = styled(Button)`
     padding: 0;
     min-width: auto;
   }
-  
 `;
 export default NavBar;

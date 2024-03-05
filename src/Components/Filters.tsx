@@ -67,6 +67,7 @@ const Filters: FC = () => {
     return res;
   };
 
+
   return (
     <FiltersDiv>
       <CustomDiv>
@@ -105,10 +106,10 @@ const Filters: FC = () => {
           <CustomSelect labelId="label" id="demo-simple-select" label="Price">
             <SliderDiv>
               <CustomSlider
-                
                 getAriaLabel={() => "Price"}
                 value={value}
                 onChange={handlePriceChange}
+                valueLabelDisplay="auto"
               />
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography variant="body2" sx={{ cursor: "pointer" }}>
@@ -170,14 +171,18 @@ const CustomMenuItem = styled(MenuItem)`
 
 const FiltersDiv = styled.div`
   display: flex;
-  width: 630px;
-  align-items: center;
+  width: 100%;
+  /* align-items: center; */
+  justify-content: flex-end;
+  gap: 20px;
   @media (min-width: 835px) and (max-width: 1279px) {
-    width: 804px;
+    justify-content: unset;
+    width: 100%;  
     padding-bottom: 26px;
-    justify-content: space-between;
+    gap: 20px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
+    justify-content: unset;
     flex-direction: column;
     gap: 20px;
     width: 100%;  
@@ -187,9 +192,9 @@ const FiltersDiv = styled.div`
 
 const CustomDiv = styled.div`
   width: 196px;
-  margin-right: 20px;
+  /* margin-right: 20px; */
   @media (min-width: 835px) and (max-width: 1279px) {
-    width: 255px;
+    width: 100%;
     height: 50px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
@@ -202,7 +207,7 @@ const CustomSelect = styled(Select)`
   border: none;
   border-radius: 16px;
   @media (min-width: 835px) and (max-width: 1279px) {
-    width: 255px;
+    width: 100%;
   }
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;

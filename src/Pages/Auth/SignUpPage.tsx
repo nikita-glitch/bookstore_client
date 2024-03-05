@@ -98,7 +98,7 @@ const CustomGrid = styled(Grid)`
 const CustomPageDiv = styled.div`
   display: flex;
   flex-direction: row-reverse;
-  padding: 10px 80px 80px 80px;
+  padding: 10px 0 80px 0;
   gap: 255px;
   justify-content: center;
 

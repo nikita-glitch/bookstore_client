@@ -84,7 +84,9 @@ const BookCard: FC<Book> = (book: Book) => {
       </CustomCardContent>
       <CardActions disableSpacing={true} sx={{ padding: 0, display: "block" }}>
         <Link to={"/books/" + book.id}>
-          <CustomButton>${book.price} USD</CustomButton>
+          <CustomButton>
+            ${book.price} USD
+            </CustomButton>
         </Link>
       </CardActions>
     </CustomCard>
@@ -214,16 +216,19 @@ const CustomButton = styled(Button)`
   line-height: 28px;
   letter-spacing: 0.75px;
   text-align: center;
-  width: 305px;
+  width: 100%;
 
   &.MuiButton-root {
     text-transform: none;
+  }
+  :visited{
+    color: #f0f4ef;
   }
   &:hover {
     background: #344966;
   }
   @media (min-width: 834px) and (max-width: 1279px) {
-    width: 254px;
+    width: 100%;
   }
   @media (min-width: 320px) and (max-width: 833px) {
     width: 100%;
@@ -239,12 +244,13 @@ const CustomButton = styled(Button)`
 `;
 
 const BookImg = styled.img`
-  width: 305px;
+  width: 100%;
   height: 448px;
-
+  object-fit: contain;
+  background: #BFCC94;
   border-radius: 16px;
   @media (min-width: 834px) and (max-width: 1279px) {
-    width: 254px;
+    width: 100%;
     height: 372px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
@@ -270,12 +276,12 @@ const CustomCard = styled(Card)`
   display: flex;
   flex-direction: column;
   box-shadow: none;
-  width: 305px;
+  width: 100%;
   @media (min-width: 834px) and (max-width: 1279px) {
-    width: 254px;
+    
   }
   @media (min-width: 320px) and (max-width: 833px) {
-    width: 100%;
+   
   }
 `;
 export default BookCard;

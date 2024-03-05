@@ -10,7 +10,7 @@ const Footer = () => {
 const user = useSelector((state: RootState) => state.users.user)
   return (
     <CustomFooterDiv>
-      <ContentDiv>
+      {/* <ContentDiv> */}
       <CustomContactsDiv>
         <CustomCompanyLogo src={logo} alt="logo" />
         <div>
@@ -36,7 +36,7 @@ const user = useSelector((state: RootState) => state.users.user)
         <CustomText>6391 Elgin St. Celina, Delaware 10299</CustomText>
         <CustomMap src={map} alt="logo" />
       </div>
-      </ContentDiv>
+      {/* </ContentDiv> */}
     </CustomFooterDiv>
   );
 };
@@ -59,27 +59,31 @@ const CustomMap = styled.img`
     width: 392px;
   }
   @media (min-width: 320px) and (max-width: 834px){
-    width: 100%;
+    width: 291px;
     height: 160px;
   }
 `;
 
 const ContentDiv = styled.div`
-  width: 1280px;
+  width: 100%;
   display: flex;
+  padding: 73px 80px;
+  justify-content: space-evenly;
   @media (min-width: 835px) and (max-width: 1279px){
-    width: 804px;
+    padding: 0;
+    width: auto;
+    justify-content: space-between;
   }
   @media (min-width: 320px) and (max-width: 834px){
-   
     flex-direction: column;
+    padding: 0;
     width: 100%;
   }
   
 `;
 
 const CustomFooterDiv = styled.div`
-  padding: 70px 80px;
+  padding: 73px 80px;
   background-color: #0d1821;
   display: flex;
   justify-content: center;
@@ -132,12 +136,11 @@ const CustomText = styled(Typography)`
 `;
 
 const CustomMenu = styled(MenuList)`
-  padding: 0;
-  margin: 0 290px 63px 166px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  padding: 0 315px 60px 166px;
+  width: 119px;
+  height: 135px;
+
+
   @media (min-width: 835px) and (max-width: 1279px){
     width: 95px;
     height: 129px;
@@ -146,7 +149,9 @@ const CustomMenu = styled(MenuList)`
   }
   @media (min-width: 320px) and (max-width: 834px){
     width: 100%;
+    height: auto;
     margin: 0;
+    padding: 0;
     margin-bottom: 40px;
   }
 `;
@@ -158,6 +163,9 @@ const CustomMenuItem = styled(MenuItem)`
   font-weight: 400;
   line-height: 30px;
   letter-spacing: 0em;
+  text-align: left;
+  padding: 0;
+  padding-bottom: 5px;
   @media (min-width: 835px) and (max-width: 1279px){
     font-family: Poppins;
     font-size: 16px;
@@ -165,7 +173,7 @@ const CustomMenuItem = styled(MenuItem)`
     line-height: 24px;
     letter-spacing: 0em;
     text-align: left;
-
+    padding-bottom: 11px;
   }
   @media (min-width: 320px) and (max-width: 834px){
     font-family: Poppins;
@@ -177,6 +185,7 @@ const CustomMenuItem = styled(MenuItem)`
     width: 94px;
     height: 24px;
     padding: 0;
+    padding-bottom: 11px;
   }
 `;
 export default Footer;

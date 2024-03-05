@@ -107,28 +107,27 @@ const CatalogPage = () => {
   );
 };
 const CustomIcon = styled.img`
-  width: 1280px;
+  width: 100%;
   height: 400px;
   padding-top: 40px;
 
   @media (min-width: 834px) and (max-width: 1279px){
-    width: 804px;
-    height: 365px;
+    width: 100%;
+    height: auto;
     padding-top: 40px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
     width: 100%;
-    height: 524px;
+    height: auto;
     padding-top: 0px;
   }
 `;
 
 const CustomSignInIcon = styled.img`
-  width: 1280px;
+  width: 100%;
   height: 462px;
-  margin-bottom: 154px;
   @media (min-width: 834px) and (max-width: 1279px) {
-    width: 803px;
+    margin-bottom: 0;
     height: 400px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
@@ -142,23 +141,24 @@ const CustomSignInIcon = styled.img`
 const CustomCatalogDiv = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  
   padding-bottom: 150px;
   @media (min-width: 834px) and (max-width: 1279px){
     padding-bottom: 100px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
+    width: 100%;
     padding-bottom: 0px;
   }
 `;
 
 const CustomFilterDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   width: 100%;
   margin: 110px 0 38px 0;
   @media (min-width: 834px) and (max-width: 1279px) {
-    width: 804px;
+    
 
     display: flex;
     flex-direction: column;
@@ -202,13 +202,11 @@ const CustomCardsDiv = styled.div`
   row-gap: 60px;
   column-gap: 20px;
   @media (min-width: 834px) and (max-width: 1279px){
-    display: grid;
     grid-template-columns: repeat(3, 1fr) ;
     row-gap: 31px;
     column-gap: 21px;
   }
   @media (min-width: 320px) and (max-width: 833px){
-    display: grid;
     grid-template-columns: repeat(2, 1fr) ;
     row-gap: 30px;
     column-gap: 20px;

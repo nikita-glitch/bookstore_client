@@ -127,11 +127,11 @@ const CheckoutButton = styled(Button)`
 const CartPageDiv = styled.div`
   display: flex;
   flex-direction: column;
-  width: 1280px;
+  width: 100%;
   padding: 20px 0 114px 0;
   @media (min-width: 834px) and (max-width: 1279px){
-    padding: 20px 15px 104px 15px;
-    width: 804px;
+    padding: 20px 0 104px 0;
+    width: 100%;
   }
   @media (min-width: 320px) and (max-width: 833px){
     width: 100%;
@@ -192,11 +192,11 @@ text-align: center;
 
 
 const LineDiv = styled.div`
-  width: 1280px;
+  width: 100%;
   border: 1px solid #d6d8e7;
   box-sizing: border-box;
   @media (min-width: 834px) and (max-width: 1279px){
-    width: 804px;
+    width: 100%;
   }
   @media (min-width: 320px) and (max-width: 833px){
     width: 100%;
@@ -287,7 +287,7 @@ const TotalDiv = styled.div`
     padding-top: 30px;
   }
   @media (min-width: 320px) and (max-width: 833px){
-    padding-top: 30px;
+    padding-top: 40px;
 
   }
 `;

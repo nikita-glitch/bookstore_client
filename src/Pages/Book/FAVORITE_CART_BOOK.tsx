@@ -118,7 +118,7 @@ const ButtonContainer = styled.div`
   @media (min-width: 834px) and (max-width: 1279px){
   }
   @media (min-width: 320px) and (max-width: 833px){
-
+    width: 96px;
   }
 `;
 
@@ -159,12 +159,14 @@ const AmountButton = styled(Button)`
 const CustomBookPhoto = styled.img`
   width: 197px;
   height: 289px;
+  object-fit: contain;
+  background: #BFCC94;
   @media (min-width: 834px) and (max-width: 1279px){
     width: 255px;
     height: 375px;
   }
   @media (min-width: 320px) and (max-width: 833px){
-     width: 135px;
+    width: 100%;
     height: 202px;
   } 
 `;
@@ -181,6 +183,7 @@ const CustomAmount = styled.div`
   @media (min-width: 320px) and (max-width: 833px){
     width: 100%;
     gap: 24px;
+    padding-top: 0;
   } 
 `;
 
@@ -204,6 +207,7 @@ const CustomDeleteLogo = styled.img`
   @media (min-width: 320px) and (max-width: 833px){
     width: 18px;
   height: 18px;
+  
   } 
 `;
 
@@ -223,6 +227,7 @@ const CustomTitle = styled(Typography)`
     line-height: 48px;
     letter-spacing: 0em;
     text-align: left;
+;
   }
   @media (min-width: 320px) and (max-width: 833px){
     font-family: Poppins;
@@ -231,7 +236,7 @@ font-weight: 700;
 line-height: 20px;
 letter-spacing: 0em;
 text-align: left;
-
+margin-bottom: 14px;
   } 
 `;
 
@@ -287,6 +292,6 @@ font-weight: 500;
 line-height: 18px;
 letter-spacing: 0em;
 text-align: left;
-
+padding-bottom: 30px;
   } 
 `;

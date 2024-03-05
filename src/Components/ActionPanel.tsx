@@ -83,9 +83,7 @@ const CustomLoginButton = styled(Button)`
 `;
 
 const ActionPanelDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  
   @media (min-width: 834px) and (max-width: 1279px) {
   }
   @media (min-width: 320px) and (max-width: 833px) {
@@ -109,16 +107,16 @@ const ActionsDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 198px;
+  
   gap: 27px;
-  padding-left: 127px;
+  margin-left: 127px;
   @media (min-width: 834px) and (max-width: 1279px) {
-    padding-left: 81px;
+    margin-left: 81px;
   }
   @media (min-width: 320px) and (max-width: 833px) {
     width: 135px;
     gap: 0;
-    padding: 0;
+    margin: 0;
   }
 `;
 

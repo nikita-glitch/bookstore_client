@@ -79,18 +79,24 @@ export default App;
 const CustomNavDiv = styled.div`
   flex-shrink: 0;
   display: flex;
-  max-width: 1280px;
-  padding: 24px 80px;
+  padding-top: 24px;
+  /* padding: 24px 80px; */
   padding-bottom: 0;
+  max-width: 1280px;
+  box-sizing: border-box;
+
   @media (min-width: 834px) and (max-width: 1279px){
-    max-width: 804px;
     padding: 24px 15px;
     padding-bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
   }
   @media (min-width: 320px) and (max-width: 833px){
     padding: 20px 15px;
     padding-bottom: 0;
-    justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    display: block;
   }
 `
 
@@ -100,13 +106,19 @@ const CustomMainDiv = styled.div`
   justify-content: center;
   flex-grow: 1;
   max-width: 1280px;
-  padding: 0 80px;
+  /* padding: 0 80px; */
+  box-sizing: border-box;
+  width: 100%;
   @media (min-width: 834px) and (max-width: 1279px){
-   
-    padding: 0 ;
+    padding: 0 16px;
+    width: 100%;  
+    box-sizing: border-box;
   }
   @media (min-width: 320px) and (max-width: 833px){
     padding: 0 15px 70px 15px;
+    width: 100%;  
+    box-sizing: border-box;
+    
   }
 `
 
