@@ -1,7 +1,7 @@
 import * as React from "react";
 import userPhoto from "../Logos/User photo.png";
 import photoLogo from "../Logos/button_photo.svg";
-import { Box, Link, TextField, Typography } from "@mui/material";
+import { Box, Link, Typography } from "@mui/material";
 import FormButton from "../Components/FormButton";
 import styled from "styled-components";
 import { useFormik } from "formik";
@@ -92,6 +92,7 @@ const ProfilePage = () => {
       }
     },
   });
+
   return (
     <CustomProfileDiv>
       <>
@@ -199,41 +200,50 @@ const ProfilePage = () => {
   );
 };
 
+export default ProfilePage;
+
 const PersonInfoBox = styled(Box)`
-  padding: 30px 0 40px 0;
+  padding: 30px 0 0 0;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     padding-top: 20px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
 
 const PassBox = styled(Box)`
   padding-top: 20px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
 
 const CustomText = styled(Typography)`
-  font-family: Poppins;
   font-size: 20px;
   font-weight: 400;
   line-height: 30px;
   letter-spacing: 0em;
   text-align: left;
+
   @media (min-width: 835px) and (max-width: 1279px) {
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
 
 const CustomLabel = styled.label`
   width: 128px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 20px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     height: 30px;
     width: 100%;
@@ -242,8 +252,10 @@ const CustomLabel = styled.label`
 
 const VisuallyHiddenInput = styled.input`
   visibility: hidden;
+
   @media (min-width: 835px) and (max-width: 1279px) {
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
@@ -251,12 +263,14 @@ const VisuallyHiddenInput = styled.input`
 const CustomProfileDiv = styled.div`
   display: flex;
   width: 1280px;
-  padding: 60px 0 110px 0;
+  padding: 60px 0 83px 0;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 804px;
-    padding: 59px 0 100px 0;
+    padding: 59px 0 105px 0;
     gap: 0;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     flex-direction: column;
     width: 100%;
@@ -268,9 +282,11 @@ const CustomInputDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 522px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 529px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     margin-bottom: 40px;
     width: 100%;
@@ -281,9 +297,11 @@ const CustomTextDiv = styled.div`
   width: 522px;
   display: flex;
   justify-content: space-between;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 529px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
     gap: 10px;
@@ -295,10 +313,12 @@ const CustomAvatar = styled.img`
   width: 305px;
   height: 305px;
   border-radius: 16px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 255px;
     height: 255px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 290px;
     height: 290px;
@@ -310,28 +330,28 @@ const CustomLogo = styled.img`
   position: relative;
   top: 240px;
   right: 65px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     top: 200px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     top: -70px;
     left: 230px;
   }
 `;
 
-const CustomTextField = styled(TextField)`
-  border: none;
-  border-bottom-right-radius: 16px;
-  border-top-right-radius: 16px;
-  background-color: #f0f4ef;
-  text-decoration-color: #344966;
-  & .MuiTextField-root {
-    color: #344966;
-  }
-  @media (min-width: 835px) and (max-width: 1279px) {
-  }
-  @media (min-width: 320px) and (max-width: 834px) {
-  }
-`;
-
-export default ProfilePage;
+// const CustomTextField = styled(TextField)`
+//   border: none;
+//   border-bottom-right-radius: 16px;
+//   border-top-right-radius: 16px;
+//   background-color: #f0f4ef;
+//   text-decoration-color: #344966;
+//   & .MuiTextField-root {
+//     color: #344966;
+//   }
+//   @media (min-width: 835px) and (max-width: 1279px) {
+//   }
+//   @media (min-width: 320px) and (max-width: 834px) {
+//   }
+// `;

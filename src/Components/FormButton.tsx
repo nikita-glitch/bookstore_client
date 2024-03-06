@@ -1,34 +1,41 @@
 import { Button } from "@mui/material";
-import { click } from "@testing-library/user-event/dist/click";
 import * as React from "react";
 import styled from "styled-components";
 
 const FormButton = (props: {
   buttonText?: string;
   buttonType: "submit" | "button";
-  click?: (ev: React.MouseEvent<any>) => Promise<void>
+  click?: (ev: React.MouseEvent<any>) => Promise<void>;
 }) => {
   return (
-    <Custombutton type={props.buttonType} onClick={props.click}>{props.buttonText}</Custombutton>
+    <Custombutton type={props.buttonType} onClick={props.click}>
+      {props.buttonText}
+    </Custombutton>
   );
 };
+
+export default FormButton;
+
 const Custombutton = styled(Button)`
   padding: 10px 50px;
   background-color: #344966;
   border-radius: 16px;
   color: #fff;
   margin-bottom: 10px;
+
   &.MuiButton-root {
     text-transform: none;
   }
+
   &.MuiButton-root:hover {
     background-color: #344966;
   }
-  @media (min-width: 835px) and (max-width: 1279px){
-    margin: 45px 0 0 0;
+
+  @media (min-width: 835px) and (max-width: 1279px) {
+    margin: 30px 0 0 0;
   }
-  @media (min-width: 320px) and (max-width: 834px){
-    font-family: Poppins;
+
+  @media (min-width: 320px) and (max-width: 834px) {
     font-size: 12px;
     font-weight: 500;
     line-height: 18px;
@@ -37,4 +44,3 @@ const Custombutton = styled(Button)`
     width: 100%;
   }
 `;
-export default FormButton;

@@ -1,10 +1,4 @@
-import {
-  Button,
-  ButtonBase,
-  Rating,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { ButtonBase, Rating, TextField, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
@@ -21,8 +15,6 @@ import { useDispatch } from "react-redux";
 import { addBookToCart, setBookRating } from "../../store/userSlice";
 import { notify } from "../../Notify";
 import { getBook, postComment } from "../../store/bookSlice";
-import FormButton from "../../Components/FormButton";
-import { ArrowBack } from "@mui/icons-material";
 
 const BookPage = () => {
   const [input, setInput] = useState<string>("");
@@ -33,8 +25,8 @@ const BookPage = () => {
   const currentBook = useSelector((state: RootState) =>
     state.books.book?.find((elem) => elem.id === id)
   );
-  const dispatch = useDispatch<AppDispatch>();
 
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,6 +46,7 @@ const BookPage = () => {
     if (!user) {
       return 0;
     }
+
     const rate = user?.rating?.find(
       (rate) => rate.userId === user!.id && rate.bookId === id
     );
@@ -86,6 +79,7 @@ const BookPage = () => {
     if (!newValue) {
       return;
     }
+
     const { res } = await dispatch(
       setBookRating({
         ratingValue: newValue,
@@ -106,16 +100,6 @@ const BookPage = () => {
     notify(response.message, "succsess");
   };
 
-  const countBookAmount = () => {
-    if (window.innerWidth > 834 && window.innerWidth < 1279) {
-      return 3;
-    }
-    if (window.innerWidth < 833) {
-      return 2;
-    }
-    return 4;
-  };
-
   return (
     <Page>
       <CustomBookDiv>
@@ -125,22 +109,20 @@ const BookPage = () => {
         />
         {/* <CustomInfoDiv> */}
         <div>
-        <BookTitle>{currentBook?.title}</BookTitle>
-        <BookAuthor>{currentBook?.author.author_name}</BookAuthor>
-        <CustomRatingDiv>
-          <RatingValueDiv>
-            <CustomLogo src={logo} alt="" />
-            <CustomRate>{rating ?? 0}</CustomRate>
-          </RatingValueDiv>
-
-          <CustomRating
-            name="simple-controlled"
-            disabled={user?.id ? false : true}
-            value={getUserRate()}
-            onChange={handleRatingChange}
-          />
-          <CustomRateText>Rate this book</CustomRateText>
-        </CustomRatingDiv>
+          <BookTitle>{currentBook?.title}</BookTitle>
+          <BookAuthor>{currentBook?.author.author_name}</BookAuthor>
+          <CustomRatingDiv>
+            <RatingValueDiv>
+              <CustomLogo src={logo} alt="" />
+              <CustomRate>{rating ?? 0}</CustomRate>
+            </RatingValueDiv>
+            <CustomRating
+              disabled={user?.id ? false : true}
+              value={getUserRate()}
+              onChange={handleRatingChange}
+            />
+            <CustomRateText>Rate this book</CustomRateText>
+          </CustomRatingDiv>
         </div>
         <CustomDescriptionDiv>
           <CustomDescription>Description</CustomDescription>
@@ -170,7 +152,6 @@ const BookPage = () => {
       {user?.id ? (
         <TextAreaDiv>
           <CustomTextField
-            id="outlined-multiline-static"
             label="Share a comment"
             multiline
             value={input}
@@ -182,7 +163,7 @@ const BookPage = () => {
           </CustomPostButton>
         </TextAreaDiv>
       ) : (
-        <Link to={"/sign-in"}>
+        <Link to={"/sign-in"} reloadDocument>
           <CustomIcon
             src={window.innerWidth < 833 ? signInBannerSmall : signInBanner}
             alt=""
@@ -201,10 +182,10 @@ const BookPage = () => {
   );
 };
 
+export default BookPage;
+
 const CustomDiv = styled.div`
   width: 100%;
-  
-  
 `;
 
 const CustomButtonDiv = styled.div`
@@ -214,11 +195,13 @@ const CustomButtonDiv = styled.div`
   grid-row: 3 / 4;
   grid-column: 2 / 3;
   margin-bottom: 121px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     gap: 20px;
     margin: 0;
     margin-top: 50px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     gap: 20px;
     margin: 0;
@@ -228,14 +211,15 @@ const CustomButtonDiv = styled.div`
 `;
 
 const CommentsList = styled.div`
-  padding-bottom: 68px;
+  padding-bottom: 60px;
   width: 738px;
-  
+
   @media (min-width: 835px) and (max-width: 1279px) {
     padding-bottom: 60px;
     padding-right: 137px;
     width: 667px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
     padding-bottom: 20px;
@@ -245,6 +229,7 @@ const CommentsList = styled.div`
 const CustomLogo = styled.img`
   @media (min-width: 835px) and (max-width: 1279px) {
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 15px;
     height: 15px;
@@ -254,10 +239,9 @@ const CustomLogo = styled.img`
 const CustomRatingDiv = styled.div`
   display: flex;
   align-items: center;
-  
   width: 504px;
   justify-content: space-between;
-  
+
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 374px;
     display: grid;
@@ -265,6 +249,7 @@ const CustomRatingDiv = styled.div`
     margin-bottom: 30px;
     gap: 15px 40px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
     flex-direction: column;
@@ -278,11 +263,12 @@ const CustomRatingDiv = styled.div`
 const CustomIcon = styled.img`
   width: 100%;
   padding-bottom: 110px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 100%;
-   
     padding-bottom: 90px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
     padding-bottom: 60px;
@@ -296,34 +282,34 @@ const Bookimg = styled.img`
   grid-row: 1 / 4;
   grid-column: 1 / 2;
   object-fit: contain;
-  background: #BFCC94;
+  background: #bfcc94;
+
   @media (min-width: 835px) and (max-width: 1279px) {
-  
     height: 584px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
-    
     margin-bottom: 20px;
     height: 202px;
     grid-row: 1 / 4;
     grid-column: 1 / 2;
   }
 `;
+
 const BookTitle = styled(Typography)`
-  font-family: Poppins;
   font-size: 40px;
   font-weight: 700;
   line-height: 60px;
   letter-spacing: 0em;
-  text-align: left;
   color: #0d1821;
   grid-row: 1 / 2;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     font-size: 32px;
     line-height: 48px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
-    font-family: Poppins;
     font-size: 14px;
     font-weight: 600;
     line-height: 21px;
@@ -337,7 +323,6 @@ const BookTitle = styled(Typography)`
 `;
 
 const CustomDescription = styled(Typography)`
-  font-family: Poppins;
   font-size: 24px;
   font-weight: 400;
   line-height: 36px;
@@ -352,23 +337,23 @@ const CustomDescription = styled(Typography)`
     line-height: 24px;
     padding-bottom: 22px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
   }
 `;
 
 const Recomendations = styled(Typography)`
-  font-family: Poppins;
   font-size: 40px;
   font-weight: 700;
   line-height: 60px;
   padding-bottom: 50px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
-    font-family: Poppins;
     font-size: 18px;
-    font-weight: 700;
     line-height: 27px;
     letter-spacing: 0em;
     text-align: left;
@@ -377,35 +362,35 @@ const Recomendations = styled(Typography)`
 `;
 
 const Comment = styled(Typography)`
-  font-family: Poppins;
   font-size: 40px;
   font-weight: 700;
   line-height: 60px;
   padding-bottom: 50px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     display: none;
   }
 `;
 
 const BookAuthor = styled(Typography)`
-  font-family: Poppins;
   font-size: 24px;
   font-weight: 400;
   line-height: 36px;
   margin-bottom: 30px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
-    font-family: Poppins;
     font-size: 12px;
     font-weight: 500;
     line-height: 18px;
     letter-spacing: 0em;
     text-align: left;
-     margin-bottom: 20px;
+    margin-bottom: 20px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
-    font-family: Poppins;
     margin: 0;
     font-size: 12px;
     font-weight: 500;
@@ -418,14 +403,15 @@ const BookAuthor = styled(Typography)`
     width: 100%;
   }
 `;
+
 const CustomDescriptionDiv = styled.div`
   width: 640px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 392px;
-   
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
-    font-family: Poppins;
     font-size: 14px;
     font-weight: 500;
     line-height: 21px;
@@ -444,17 +430,15 @@ const CustomBookDiv = styled.div`
   padding-bottom: 110px;
   column-gap: 128px;
   grid-template-columns: repeat(2, 1fr);
-  @media (min-width: 835px) and (max-width: 1279px) {
 
-    column-gap: 21px ;
+  @media (min-width: 835px) and (max-width: 1279px) {
+    column-gap: 21px;
     padding-bottom: 98px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     gap: 0px;
-    display: grid;
-    width: 100%;
     padding-bottom: 50px;
-    grid-template-columns: repeat(2, 1fr);
     column-gap: 20px;
   }
 `;
@@ -462,36 +446,33 @@ const CustomBookDiv = styled.div`
 const Page = styled.div`
   padding: 60px 0 150px 0;
   width: 100%;
+
   @media (min-width: 835px) and (max-width: 1279px) {
-   
     padding: 100px 0;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
-    width: 100%;
     padding: 33px 0 0 0;
     box-sizing: border-box;
   }
 `;
 
 const CustomRateText = styled(Typography)`
-  font-family: Poppins;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
   color: #b9bac3;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
-    font-family: Poppins;
-font-size: 12px;
-font-weight: 500;
-line-height: 18px;
-letter-spacing: 0em;
-text-align: left;
-
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
   }
 `;
@@ -499,56 +480,58 @@ const CustomRating = styled(Rating)`
   font-size: 2.5rem;
   color: #bfcc94;
   //border: 2px solid #BFCC94;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
     font-size: 2rem;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 135px;
     font-size: 28px;
   }
 `;
 const CustomRate = styled(Typography)`
-  font-family: Poppins;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
   color: #b9bac3;
+
   @media (min-width: 835px) and (max-width: 1279px) {
-
   }
-  @media (min-width: 320px) and (max-width: 834px) {
-    font-family: Poppins;
-font-size: 13px;
-font-weight: 500;
-line-height: 20px;
-letter-spacing: 0em;
-text-align: left;
 
+  @media (min-width: 320px) and (max-width: 834px) {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 20px;
   }
 `;
 
-const CustomInfoDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  @media only screen and (min-width: 833px) and (max-width: 1279px) {
-  }
-  @media (min-width: 320px) and (max-width: 834px) {
-    display: grid;
-  }
-`;
+// const CustomInfoDiv = styled.div`
+//   display: flex;
+//   flex-direction: column;
+
+//   @media only screen and (min-width: 833px) and (max-width: 1279px) {
+//   }
+
+//   @media (min-width: 320px) and (max-width: 834px) {
+//     display: grid;
+//   }
+// `;
 
 const RatingValueDiv = styled.div`
   display: flex;
   align-items: center;
   gap: 13px;
+
   @media only screen and (min-width: 833px) and (max-width: 1279px) {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
     margin-bottom: 20px;
@@ -556,7 +539,6 @@ const RatingValueDiv = styled.div`
 `;
 
 const DescriptionText = styled(Typography)`
-  font-family: Poppins;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -567,8 +549,8 @@ const DescriptionText = styled(Typography)`
     font-weight: 500;
     line-height: 21px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
-    font-family: Poppins;
     font-size: 12px;
     font-weight: 500;
     line-height: 18px;
@@ -579,11 +561,10 @@ const DescriptionText = styled(Typography)`
 `;
 
 const CustomPostButton = styled(ButtonBase)`
-  padding: 10px 50px;
+  padding: 10px 49px;
   border-radius: 16px;
   background: #344966;
   color: #f0f4ef;
-  font-family: Poppins;
   font-size: 20px;
   font-weight: 500;
   line-height: 30px;
@@ -593,29 +574,21 @@ const CustomPostButton = styled(ButtonBase)`
   &.MuiButton-root:hover {
     background-color: #344966;
   }
+
   &.Mui-disabled {
     background: #b9bac3;
   }
 
   @media (min-width: 835px) and (max-width: 1279px) {
-    font-family: Poppins;
     font-size: 20px;
-    font-weight: 500;
-    line-height: 30px;
-    letter-spacing: 0.75px;
-    text-align: center;
     width: 276px;
     height: 50px;
     padding: 10px 22.5px;
   }
   @media (min-width: 320px) and (max-width: 834px) {
     padding: 10px 50px;
-    font-family: Poppins;
     font-size: 12px;
-    font-weight: 500;
     line-height: 18px;
-    letter-spacing: 0.75px;
-    text-align: center;
     width: max-content;
   }
 `;
@@ -625,7 +598,6 @@ const CustomButton = styled(ButtonBase)`
   border-radius: 16px;
   background: #344966;
   color: #f0f4ef;
-  font-family: Poppins;
   font-size: 20px;
   font-weight: 500;
   line-height: 30px;
@@ -635,44 +607,37 @@ const CustomButton = styled(ButtonBase)`
   &.MuiButton-root:hover {
     background-color: #344966;
   }
+
   &.Mui-disabled {
     background: #b9bac3;
   }
 
   @media (min-width: 835px) and (max-width: 1279px) {
-    font-family: Poppins;
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 30px;
-    letter-spacing: 0.75px;
-    text-align: center;
     width: 188px;
     height: 50px;
     padding: 10px 22.5px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
     padding: 10px 31px;
-    font-family: Poppins;
     font-size: 12px;
-    font-weight: 500;
     line-height: 18px;
-    letter-spacing: 0.75px;
-    text-align: center;
     padding: 10px 22.5px;
   }
 `;
+
 const RecomendationsDiv = styled.div`
   display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    column-gap: 21px;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 21px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
-    display: grid;
     grid-template-columns: repeat(3, 1fr);
     row-gap: 21px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
-    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 18px;
     padding-bottom: 30px;
@@ -681,7 +646,6 @@ const RecomendationsDiv = styled.div`
 `;
 
 const CustomButtonText = styled(Typography)`
-  font-family: Poppins;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -689,18 +653,14 @@ const CustomButtonText = styled(Typography)`
   text-align: left;
   color: #344966;
   padding-bottom: 14px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
-    font-family: Poppins;
     font-size: 14px;
     font-weight: 500;
     line-height: 21px;
-    letter-spacing: 0em;
-    text-align: left;
   }
 `;
 
@@ -710,10 +670,12 @@ const TextAreaDiv = styled.div`
   flex-direction: column;
   gap: 30px;
   width: 276px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 738px;
     padding-bottom: 88px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     padding-bottom: 60px;
     width: 100%;
@@ -723,7 +685,6 @@ const TextAreaDiv = styled.div`
 const CustomTextField = styled(TextField)`
   width: 738px;
   border-radius: 16px;
-  font-family: Poppins;
   font-size: 16px;
   font-weight: 400;
   line-height: 28px;
@@ -731,14 +692,12 @@ const CustomTextField = styled(TextField)`
   text-align: left;
   border: none;
   color: #b9bac3;
-
   background: #f0f4ef;
 
   @media (min-width: 835px) and (max-width: 1279px) {
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
   }
 `;
-
-export default BookPage;

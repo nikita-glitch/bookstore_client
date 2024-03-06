@@ -21,7 +21,10 @@ const MIN = 0;
 const Filters: FC = () => {
   const [value, setValue] = useState<number[]>([0, 100]);
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams({
+    sort: "",
+    genreId: [],
+  });
 
   React.useEffect(() => {
     getAllGenres()
@@ -67,25 +70,32 @@ const Filters: FC = () => {
     return res;
   };
 
-
   return (
     <FiltersDiv>
       <CustomDiv>
-        <FormControl sx={{width: '100%'}}>
-          <InputLabel id="demo-simple-select-label" sx={{color: '#344966'}}>Genre</InputLabel>
+        <FormControl sx={{ width: "100%" }}>
+          <CustomInputLabel
+            id="demo-simple-select-label"
+            sx={{ color: "#344966" }}
+          >
+            Genre
+          </CustomInputLabel>
           <CustomSelect
             labelId="demo-simple-select-label"
-            id="demo-simple-select"
             multiple
-            value={searchParams.getAll("genreId")}
+            value={searchParams.getAll("genreId") || ""}
             label="Genre"
             onChange={handleGenreChange}
           >
-            <MenuItem value="" sx={{color: '#344966'}}>
+            <MenuItem value="" sx={{ color: "#344966" }}>
               <em>None</em>
             </MenuItem>
             {genres?.map((genre: Genre) => (
-              <MenuItem key={genre.id} value={genre.id} sx={{color: '#344966'}}>
+              <MenuItem
+                key={genre.id}
+                value={genre.id}
+                sx={{ color: "#344966" }}
+              >
                 <Checkbox
                   checked={handleChecked(genre.id)}
                   sx={{
@@ -101,9 +111,11 @@ const Filters: FC = () => {
         </FormControl>
       </CustomDiv>
       <CustomDiv>
-        <FormControl sx={{width: '100%'}}>
-          <InputLabel id="label" sx={{color: '#344966'}}>Price</InputLabel>
-          <CustomSelect labelId="label" id="demo-simple-select" label="Price">
+        <FormControl sx={{ width: "100%" }}>
+          <CustomInputLabel id="label" sx={{ color: "#344966" }}>
+            Price
+          </CustomInputLabel>
+          <CustomSelect labelId="label" label="Price">
             <SliderDiv>
               <CustomSlider
                 getAriaLabel={() => "Price"}
@@ -112,26 +124,28 @@ const Filters: FC = () => {
                 valueLabelDisplay="auto"
               />
               <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography variant="body2" sx={{ cursor: "pointer" }}>
-                $ {MIN},00 
-              </Typography>
-              <Typography variant="body2" sx={{ cursor: "pointer" }}>
-                $ {MAX},00
-              </Typography>
-            </Box>
+                <Typography variant="body2" sx={{ cursor: "pointer" }}>
+                  $ {MIN},00
+                </Typography>
+                <Typography variant="body2" sx={{ cursor: "pointer" }}>
+                  $ {MAX},00
+                </Typography>
+              </Box>
             </SliderDiv>
-            
           </CustomSelect>
         </FormControl>
       </CustomDiv>
       <CustomDiv>
-        <FormControl sx={{width: '100%'}}>
-          <InputLabel id="demo-simple-select-label" sx={{color: '#344966'}}>Sort by</InputLabel>
+        <FormControl sx={{ width: "100%" }}>
+          <CustomInputLabel
+            id="demo-simple-select-label"
+            sx={{ color: "#344966" }}
+          >
+            Sort by
+          </CustomInputLabel>
           <CustomSelect
             labelId="demo-simple-select-label"
-            id="demo-simple-select"
             value={searchParams.get("sort")}
-            label="Age"
             onChange={handleSortByChange}
           >
             <CustomMenuItem value="">
@@ -139,7 +153,9 @@ const Filters: FC = () => {
             </CustomMenuItem>
             <CustomMenuItem value="price">Price</CustomMenuItem>
             <CustomMenuItem value="title">Name</CustomMenuItem>
-            <CustomMenuItem value="author.author_name">Author name</CustomMenuItem>
+            <CustomMenuItem value="author.author_name">
+              Author name
+            </CustomMenuItem>
             <CustomMenuItem value="bookRating">Rating</CustomMenuItem>
           </CustomSelect>
         </FormControl>
@@ -148,26 +164,32 @@ const Filters: FC = () => {
   );
 };
 
+const CustomInputLabel = styled(InputLabel)`
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.75px;
+  text-align: center;
+`;
+
 const CustomMenuItem = styled(MenuItem)`
-  color: #B9BAC3;
-  &.Mui-selected{
-  color: #344966;
+  color: #b9bac3;
+  &.Mui-selected {
+    color: #344966;
   }
-  background: #F0F4EF;
+  background: #f0f4ef;
 
   @media (min-width: 835px) and (max-width: 1279px) {
-    
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
-    font-family: Poppins;
     font-size: 14px;
     font-weight: 500;
     line-height: 28px;
     letter-spacing: 0.75px;
     text-align: left;
-
   }
-`
+`;
 
 const FiltersDiv = styled.div`
   display: flex;
@@ -175,17 +197,19 @@ const FiltersDiv = styled.div`
   /* align-items: center; */
   justify-content: flex-end;
   gap: 20px;
+  padding: 12px 0;
   @media (min-width: 835px) and (max-width: 1279px) {
     justify-content: unset;
-    width: 100%;  
+    width: 100%;
     padding-bottom: 26px;
     gap: 20px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     justify-content: unset;
     flex-direction: column;
     gap: 20px;
-    width: 100%;  
+    width: 100%;
     align-items: start;
   }
 `;
@@ -193,22 +217,27 @@ const FiltersDiv = styled.div`
 const CustomDiv = styled.div`
   width: 196px;
   /* margin-right: 20px; */
+
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 100%;
     height: 50px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
   }
 `;
+
 const CustomSelect = styled(Select)`
   width: 196px;
-  background: #F0F4EF;
+  background: #f0f4ef;
   border: none;
   border-radius: 16px;
+
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 100%;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
   }
@@ -217,30 +246,35 @@ const CustomSelect = styled(Select)`
 const CustomSlider = styled(Slider)`
   width: 379px;
   height: 11px;
-  color: #BFCC94;
+  color: #bfcc94;
   border-radius: 16px;
 
-
   @media (min-width: 835px) and (max-width: 1279px) {
-     width: 260px;
+    width: 100%;
+    box-sizing: border-box;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
-    width: 260px;
+    width: 100%;
+    box-sizing: border-box;
   }
 `;
 
 const SliderDiv = styled.div`
   width: 379px;
   padding: 32px 16px;
-  background: #F0F4EF;
+  background: #f0f4ef;
 
   @media (min-width: 835px) and (max-width: 1279px) {
-    width: 260px;
-  padding: 27px 15px 37px 15px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 27px 15px 37px 15px;
   }
+
   @media (min-width: 320px) and (max-width: 834px) {
     padding: 40px 15px;
-    width: 260px;
+    width: 100%;
+    box-sizing: border-box;
   }
 `;
 

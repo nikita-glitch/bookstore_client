@@ -50,7 +50,7 @@ export const setBookRating = createAsyncThunk(
   "rating/post",
   async (data: { ratingValue: number | null; bookId?: string }) => {
     const response = await userAPI.setRating(data.ratingValue, data.bookId);
-    return {res: response?.data, bookId: data.bookId};
+    return { res: response?.data, bookId: data.bookId };
   }
 );
 
@@ -161,8 +161,6 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(addBookToFavorite.fulfilled, (state, action) => {
-      console.log(action.payload);
-
       state.user!.favorite.favoriteBooks.push(action.payload.favoriteBook);
       state.isLoading = false;
     });
@@ -241,7 +239,9 @@ export const userSlice = createSlice({
     builder.addCase(setBookRating.pending, (state, action) => {});
 
     builder.addCase(setBookRating.fulfilled, (state, action) => {
-      state.user!.rating! = state.user!.rating!.filter((rate) => rate.bookId !== action.payload.bookId)
+      state.user!.rating! = state.user!.rating!.filter(
+        (rate) => rate.bookId !== action.payload.bookId
+      );
       state.user!.rating!.push(action.payload.res.userRatingOfBook);
     });
 

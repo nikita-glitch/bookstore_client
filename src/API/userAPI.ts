@@ -25,20 +25,22 @@ export const uploadAvatar = async (file: FormData) => {
 };
 
 
-export const addComment = async (commentText: string, bookId?: string) => {
+const addComment = async (commentText: string, bookId?: string) => {
   const response = await privateRoute.post("/users/comment", { commentText, bookId });
   return response;
 };
 
-export const addToFavorite = async (bookId?: string) => {
+const addToFavorite = async (bookId?: string) => {
   const response = privateRoute.post("/users/favorite", { bookId });
   return response;
 };
-export const addToCart = async (bookId?: string) => {
+
+const addToCart = async (bookId?: string) => {
   const response = await privateRoute.post("/users/cart", { bookId });
   return response;
 };
-export const removeFromFavorite = async (bookId?: string) => {
+
+const removeFromFavorite = async (bookId?: string) => {
   const response = privateRoute.delete("/users/favorite", {
     data: {
       bookId,
@@ -46,7 +48,8 @@ export const removeFromFavorite = async (bookId?: string) => {
   });
   return response;
 };
-export const removeFromCart = async (bookId?: string) => {
+
+const removeFromCart = async (bookId?: string) => {
   const response = privateRoute.delete("/users/cart", {
     data: {
       bookId,
@@ -55,7 +58,7 @@ export const removeFromCart = async (bookId?: string) => {
   return response;
 };
 
-export const setRating = async (
+const setRating = async (
   ratingValue: number | null,
   bookId?: string
 ) => {

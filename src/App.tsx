@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import NavBar from "./Components/NavBar";
 import Footer from "./Components/Footer";
@@ -12,7 +12,6 @@ import { useDispatch } from "react-redux";
 import { getUser } from "./store/userSlice";
 import CatalogPage from "./Pages/CatalogPage";
 import ProtectedRoute from "./ProtectedRoute";
-import { Skeleton } from "@mui/material";
 import CartPage from "./Pages/CartPage";
 import FavoritePage from "./Pages/FavoritePage";
 import BookPage from "./Pages/Book/BookPage";
@@ -68,7 +67,7 @@ const App = () => {
         </Routes>
       </CustomMainDiv>
       <CustomFooterDiv>
-      <Footer />
+        <Footer />
       </CustomFooterDiv>
     </div>
   );
@@ -85,20 +84,19 @@ const CustomNavDiv = styled.div`
   max-width: 1280px;
   box-sizing: border-box;
 
-  @media (min-width: 834px) and (max-width: 1279px){
+  @media (min-width: 834px) and (max-width: 1279px) {
     padding: 24px 15px;
     padding-bottom: 0;
     width: 100%;
-    box-sizing: border-box;
   }
-  @media (min-width: 320px) and (max-width: 833px){
+
+  @media (min-width: 320px) and (max-width: 833px) {
     padding: 20px 15px;
     padding-bottom: 0;
     width: 100%;
-    box-sizing: border-box;
     display: block;
   }
-`
+`;
 
 const CustomMainDiv = styled.div`
   height: 100%;
@@ -109,26 +107,24 @@ const CustomMainDiv = styled.div`
   /* padding: 0 80px; */
   box-sizing: border-box;
   width: 100%;
-  @media (min-width: 834px) and (max-width: 1279px){
+
+  @media (min-width: 834px) and (max-width: 1279px) {
     padding: 0 16px;
-    width: 100%;  
-    box-sizing: border-box;
   }
-  @media (min-width: 320px) and (max-width: 833px){
+
+  @media (min-width: 320px) and (max-width: 833px) {
     padding: 0 15px 70px 15px;
-    width: 100%;  
-    box-sizing: border-box;
-    
   }
-`
+`;
 
 const CustomFooterDiv = styled.div`
   flex-shrink: 0;
   width: 100%;
-  @media (min-width: 835px) and (max-width: 1279px){
+
+  @media (min-width: 835px) and (max-width: 1279px) {
     height: auto;
   }
-  @media (min-width: 320px) and (max-width: 834px){
-    
+
+  @media (min-width: 320px) and (max-width: 834px) {
   }
-`
+`;

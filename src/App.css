@@ -9,3 +9,10 @@ a {
   text-decoration: none;
 }
 
+p.MuiTypography-root {
+  font-family: "Poppins", sans-serif;
+}
+
+button.MuiButton-root {
+  font-family: "Poppins", sans-serif;
+}

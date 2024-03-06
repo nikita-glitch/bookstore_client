@@ -1,14 +1,13 @@
-import * as React from "react";
 import { Comments } from "../../../interfaces/interfaces";
 import { Typography } from "@mui/material";
 import styled from "styled-components";
 
 const BookComment = (comment: Comments) => {
   const resolveCommentTime = () => {
-    const time = new Date(comment?.createdAt)
-    const dateDiff = Date.now() - time.valueOf()
+    const time = new Date(comment?.createdAt);
+    const dateDiff = Date.now() - time.valueOf();
     const day = Math.floor(dateDiff / (24 * 3600000));
-    
+
     if (day < 1) {
       return `Left a comment today`;
     } else if (day === 1) {
@@ -25,19 +24,18 @@ const BookComment = (comment: Comments) => {
   return (
     <CommentDiv>
       <CustomUserInfo>
-        <CustomUserAvatar src={'http://localhost:5000/' + comment.user.avatar?.avatarName} alt="" />
+        <CustomUserAvatar
+          src={"http://localhost:5000/" + comment.user.avatar?.avatarName}
+          alt=""
+        />
         <CustomDiv>
-        <CustomUserName>{comment.user?.name}</CustomUserName>
-        <CustomTimestapm>
-          <>
-          {resolveCommentTime()} 
-          </>
-        </CustomTimestapm>
+          <CustomUserName>{comment.user?.name}</CustomUserName>
+          <CustomTimestapm>
+            <>{resolveCommentTime()}</>
+          </CustomTimestapm>
         </CustomDiv>
       </CustomUserInfo>
-      
-       
-        <CustomText>{comment.text}</CustomText>
+      <CustomText>{comment.text}</CustomText>
     </CommentDiv>
   );
 };
@@ -45,15 +43,15 @@ const BookComment = (comment: Comments) => {
 export default BookComment;
 
 const CustomUserInfo = styled.div`
-display: grid;
-    grid-template-columns: min-content;
-    align-items: center;
-    column-gap: 20px;
-@media (min-width: 835px) and (max-width: 1279px){
-  column-gap: 20px;  
-}
-  @media (min-width: 320px) and (max-width: 834px){
-    
+  display: grid;
+  grid-template-columns: min-content;
+  align-items: center;
+  column-gap: 20px;
+
+  @media (min-width: 835px) and (max-width: 1279px) {
+  }
+
+  @media (min-width: 320px) and (max-width: 834px) {
     column-gap: 13px;
     margin-bottom: 15px;
   }
@@ -69,50 +67,46 @@ const CommentDiv = styled.div`
   background-color: #f0f4ef;
   margin-bottom: 10px;
   box-sizing: border-box;
-  @media (min-width: 835px) and (max-width: 1279px){
-    
+
+  @media (min-width: 835px) and (max-width: 1279px) {
     padding: 20px 0 0 20px;
     column-gap: 20px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
+
+  @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
-    padding: 12px 0 10px  10px;
-    flex-direction: column;
-    
+    padding: 12px 0 10px 10px;
   }
 `;
 
 const CustomDiv = styled.div`
   padding-top: 5px;
   width: 100%;
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
-  @media (min-width: 835px) and (max-width: 1279px){
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
+
+  @media (min-width: 320px) and (max-width: 834px) {
     width: 100%;
-    
   }
 `;
 
 const CustomUserName = styled(Typography)`
-  font-family: Poppins;
   font-size: 16px;
   font-weight: 600;
   line-height: 24px;
   letter-spacing: 0.75px;
   text-align: left;
   color: #0d1821;
-  @media (min-width: 835px) and (max-width: 1279px){
+
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
-    font-family: Poppins;
+
+  @media (min-width: 320px) and (max-width: 834px) {
     font-size: 14px;
     font-weight: 600;
     line-height: 21px;
-    letter-spacing: 0.75px;
-    text-align: left;
-    
   }
 `;
 
@@ -121,41 +115,39 @@ const CustomUserAvatar = styled.img`
   height: 60px;
   border-radius: 50%;
   grid-column: 1 / 2;
-    grid-row: 1 / 3;
-  @media (min-width: 835px) and (max-width: 1279px){
+  grid-row: 1 / 3;
+
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
+
+  @media (min-width: 320px) and (max-width: 834px) {
     width: 35px;
     height: 35px;
-    
   }
 `;
 
 const CustomTimestapm = styled(Typography)`
-padding: 4px 0 9px 0;
-  font-family: Poppins;
+  padding: 4px 0 9px 0;
   font-size: 12px;
   font-weight: 400;
   line-height: 18px;
   letter-spacing: 0.75px;
   text-align: left;
   color: #b9bac3;
-  @media (min-width: 835px) and (max-width: 1279px){
+
+  @media (min-width: 835px) and (max-width: 1279px) {
   }
-  @media (min-width: 320px) and (max-width: 834px){
-    font-family: Poppins;
+
+  @media (min-width: 320px) and (max-width: 834px) {
     font-size: 10px;
     font-weight: 500;
     line-height: 15px;
     letter-spacing: 0.75px;
-    text-align: left;
-
     padding: 0;
   }
 `;
 
 const CustomText = styled(Typography)`
-  font-family: Poppins;
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
@@ -163,20 +155,17 @@ const CustomText = styled(Typography)`
   text-align: left;
   color: #344966;
   width: 100%;
-  
   order: 1;
   margin: 0 0 0 80px;
 
-  @media (min-width: 835px) and (max-width: 1279px){
+  @media (min-width: 835px) and (max-width: 1279px) {
     margin: 0 0 0 80px;
   }
-  @media (min-width: 320px) and (max-width: 834px){
-    font-family: Poppins;
+
+  @media (min-width: 320px) and (max-width: 834px) {
     font-size: 12px;
     font-weight: 500;
     line-height: 18px;
-    letter-spacing: 0.75px;
-    text-align: left;
     width: 100%;
     margin: 0;
   }
