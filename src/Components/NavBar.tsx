@@ -10,7 +10,9 @@ const NavBar = () => {
     <CustomDivNavbar>
       <BookStoreLogo src={logo} alt="logo" />
       <CustomCatalogButton>
-        <Link to={"/books"} reloadDocument>Catalog</Link>
+        <Link to={"/books"} >
+          Catalog
+          </Link>
       </CustomCatalogButton>
       <SearchBar />
       <ActionPanel />
@@ -62,9 +64,9 @@ const CustomCatalogButton = styled(Button)`
   text-align: left;
   background-color: #fff;
   color: #000;
-  width: 66px;
-  height: 24px;
-  margin: 0 43px 0 128px;
+  padding: 10px 0;
+  /* padding: 10px 30px; */
+  margin: 0 33px 0 118px;
 
   &.MuiButton-root {
     text-transform: none;

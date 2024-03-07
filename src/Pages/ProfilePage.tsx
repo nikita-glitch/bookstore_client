@@ -16,6 +16,7 @@ import { addUserAvatar, changeUserName } from "../store/userSlice";
 import { changePassword } from "../API/userAPI";
 import { notify } from "../Notify";
 import FormInput from "../Components/FormInput";
+import { BASE_URL } from "../utils/constants";
 
 const ProfilePage = () => {
   const [changePass, setChangePass] = React.useState<boolean>(false);
@@ -123,8 +124,10 @@ const ProfilePage = () => {
                 changeHandler={nameChange.handleChange}
                 blurHandler={nameChange.handleBlur}
                 fieldValue={nameChange.values.userName}
-                {...nameChange.getFieldProps("userName")}
                 errorMessage={nameChange.errors.userName}
+                errors={nameChange.errors.userName}
+                touched={nameChange.touched.userName}
+                {...nameChange.getFieldProps("userName")}
               />
               <FormInput
                 labelText="Your email"
@@ -159,8 +162,10 @@ const ProfilePage = () => {
                 changeHandler={passwordChange.handleChange}
                 blurHandler={passwordChange.handleBlur}
                 fieldValue={passwordChange.values.oldPassword}
-                {...passwordChange.getFieldProps("oldPassword")}
                 errorMessage={passwordChange.errors.oldPassword}
+                errors={passwordChange.errors.newPassword}
+                touched={passwordChange.touched.newPassword}
+                {...passwordChange.getFieldProps("oldPassword")}
               />
               {changePass && (
                 <>
@@ -174,8 +179,10 @@ const ProfilePage = () => {
                       changeHandler={passwordChange.handleChange}
                       blurHandler={passwordChange.handleBlur}
                       fieldValue={passwordChange.values.newPassword}
-                      {...passwordChange.getFieldProps("newPassword")}
                       errorMessage={passwordChange.errors.newPassword}
+                      errors={passwordChange.errors.newPassword}
+                      touched={passwordChange.touched.newPassword}
+                      {...passwordChange.getFieldProps("newPassword")}
                     />
                     <FormInput
                       labelText="Password replay"
@@ -185,8 +192,10 @@ const ProfilePage = () => {
                       changeHandler={passwordChange.handleChange}
                       blurHandler={passwordChange.handleBlur}
                       fieldValue={passwordChange.values.passwordToCompare}
-                      {...passwordChange.getFieldProps("passwordToCompare")}
                       errorMessage={passwordChange.errors.passwordToCompare}
+                      errors={passwordChange.errors.passwordToCompare}
+                      touched={passwordChange.touched.passwordToCompare}
+                      {...passwordChange.getFieldProps("passwordToCompare")}
                     />
                   </CustomInputDiv>
                   <FormButton buttonText="Confirm" buttonType="submit" />
@@ -330,7 +339,7 @@ const CustomLogo = styled.img`
   position: relative;
   top: 240px;
   right: 65px;
-
+  cursor: pointer;
   @media (min-width: 835px) and (max-width: 1279px) {
     top: 200px;
   }

@@ -13,6 +13,10 @@ p.MuiTypography-root {
   font-family: "Poppins", sans-serif;
 }
 
+span.MuiTypography-root {
+  font-family: "Poppins", sans-serif;
+}
+
 button.MuiButton-root {
   font-family: "Poppins", sans-serif;
 }

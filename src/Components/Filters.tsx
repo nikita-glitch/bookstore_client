@@ -95,7 +95,7 @@ const Filters: FC = () => {
                 key={genre.id}
                 value={genre.id}
                 sx={{ color: "#344966" }}
-              >
+                >
                 <Checkbox
                   checked={handleChecked(genre.id)}
                   sx={{
@@ -147,6 +147,7 @@ const Filters: FC = () => {
             labelId="demo-simple-select-label"
             value={searchParams.get("sort")}
             onChange={handleSortByChange}
+            sx={{ border: 'none' }}
           >
             <CustomMenuItem value="">
               <em>None</em>
@@ -165,6 +166,7 @@ const Filters: FC = () => {
 };
 
 const CustomInputLabel = styled(InputLabel)`
+  font-family:  "Poppins";
   font-size: 18px;
   font-weight: 500;
   line-height: 28px;

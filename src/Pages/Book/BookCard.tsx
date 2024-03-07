@@ -16,6 +16,7 @@ import {
   removeBookFromFavorite,
 } from "../../store/userSlice";
 import { notify } from "../../Notify";
+import { BASE_URL } from "../../utils/constants";
 
 const BookCard: FC<Book> = (book: Book) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -60,7 +61,9 @@ const BookCard: FC<Book> = (book: Book) => {
   return (
     <CustomCard>
       <CustomCardMedia>
-        <BookImg src={"http://localhost:5000/" + book.photos?.photo} alt="" />
+        <Link to={"/books/" + book.id}>
+          <BookImg src={"http://localhost:5000/" + book.photos?.photo} alt="" />
+        </Link>
         <CustomIcon
           src={checkIsInFavorite() ? favIcoClicked : favIco}
           alt=""
@@ -264,7 +267,7 @@ const BookImg = styled.img`
   object-fit: contain;
   background: #bfcc94;
   border-radius: 16px;
-
+  cursor: pointer;
   @media (min-width: 834px) and (max-width: 1279px) {
     height: 372px;
   }
@@ -277,7 +280,11 @@ const BookImg = styled.img`
 const CustomIcon = styled.img`
   position: relative;
   transform: translate(20px, -430px);
-
+  cursor: pointer;
+  &:hover{
+    background: #344966;
+    border-radius: 50%;
+  }
   @media (min-width: 834px) and (max-width: 1279px) {
     transform: translate(20px, -370px);
   }

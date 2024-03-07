@@ -12,6 +12,7 @@ import {
 } from "../../store/userSlice";
 import deleteLogo from "../../Logos/Delete.svg";
 import { notify } from "../../Notify";
+import { BASE_URL } from "../../utils/constants";
 
 const FAVORITE_CART_BOOK: FC<CartBooks> = (
   currentBook: CartBooks | FavoriteBooks
@@ -59,7 +60,7 @@ const FAVORITE_CART_BOOK: FC<CartBooks> = (
   return (
     <CartBookDiv>
       <CustomBookPhoto
-        src={"http://localhost:5000/" + currentBook.book.photos?.photo}
+        src={BASE_URL! + currentBook.book.photos?.photo}
         alt=""
       />
       <CustomDiv>

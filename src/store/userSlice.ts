@@ -1,32 +1,42 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userAPI, { uploadAvatar } from "../API/userAPI";
-import authAPI from "../API/authAPI";
 import { changeAmount, getCartBooks } from "../API/cartApi";
 import { UserStateInterface } from "../interfaces/interfaces";
 import { getFavoriteBooks } from "../API/favoriteApi";
+import { signIn, signUp } from "../API/authAPI";
 
 export const getUser = createAsyncThunk("user/get", async () => {
   const response = await userAPI.getUser();
   return response.data;
 });
 
-export const signIn = createAsyncThunk(
+export const signInThunk = createAsyncThunk(
   "user/sign-in",
-  async (values: { email: string; password: string }) => {
-    const response = await authAPI.signIn(values);
-    return response.data;
+  async (values: { email: string; password: string }, {rejectWithValue}) => {
+try {
+  const response = await signIn(values);
+  return response.data;
+
+} catch(err) {
+return rejectWithValue(err)
+}
   }
 );
 
-export const signUp = createAsyncThunk(
+export const signUpThunk = createAsyncThunk(
   "user/sign-up",
   async (values: {
     email: string;
     password: string;
     passwordToCompare: string;
-  }) => {
-    const response = await authAPI.signUp(values);
-    return response.data;
+  },  {rejectWithValue}) => {
+    try {
+      const response = await signUp(values);
+      console.log("thunk>", response);
+      return response.data;
+    }  catch(err) {
+      return rejectWithValue(err)
+      }
   }
 );
 
@@ -182,32 +192,33 @@ export const userSlice = createSlice({
       state.isLoading = false;
     });
 
-    builder.addCase(signIn.pending, (state) => {
+    builder.addCase(signInThunk.pending, (state) => {
       state.isLoading = true;
     });
 
-    builder.addCase(signIn.fulfilled, (state, action: any) => {
+    builder.addCase(signInThunk.fulfilled, (state, action: any) => {
       const { token, user } = action.payload;
       localStorage.setItem("token", token);
       state.user = user;
       state.isLoading = false;
     });
 
-    builder.addCase(signIn.rejected, (state, action: any) => {
+    builder.addCase(signInThunk.rejected, (state, action: any) => {
       state.isLoading = false;
     });
 
-    builder.addCase(signUp.pending, (state) => {
+    builder.addCase(signUpThunk.pending, (state) => {
       state.isLoading = true;
     });
 
-    builder.addCase(signUp.fulfilled, (state, action) => {
-      state.user = action.payload;
+    builder.addCase(signUpThunk.fulfilled, (state, action) => {
+      state.user = action.payload.user;
       state.isLoading = false;
     });
 
-    builder.addCase(signUp.rejected, (state, action: any) => {
+    builder.addCase(signUpThunk.rejected, (state, action) => {
       state.isLoading = false;
+      console.log("thunk>", action.payload);
     });
 
     builder.addCase(changeUserName.pending, (state) => {

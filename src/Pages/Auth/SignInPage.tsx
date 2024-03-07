@@ -7,7 +7,7 @@ import FormButton from "../../Components/FormButton";
 import { signInSchema } from "../../validationSchemas/authSchemas";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { signIn } from "../../store/userSlice";
+import { signInThunk } from "../../store/userSlice";
 import { AppDispatch } from "../../store/store";
 import { notify } from "../../Notify";
 
@@ -23,7 +23,7 @@ const SignInPage = () => {
     validationSchema: signInSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        await dispatch(signIn(values)).unwrap();
+        await dispatch(signInThunk(values)).unwrap();
         navigate("/profile");
       } catch (err: any) {
         if (err.code === "ERR_BAD_REQUEST") {
@@ -52,8 +52,10 @@ const SignInPage = () => {
                   changeHandler={signInForm.handleChange}
                   blurHandler={signInForm.handleBlur}
                   fieldValue={signInForm.values.email}
-                  {...signInForm.getFieldProps("email")}
                   errorMessage={signInForm.errors.email}
+                  errors={signInForm.errors.email}
+                  touched={signInForm.touched.email}
+                  {...signInForm.getFieldProps("email")}
                 />
                 <FormInput
                   labelText="Password"
@@ -63,8 +65,10 @@ const SignInPage = () => {
                   changeHandler={signInForm.handleChange}
                   blurHandler={signInForm.handleBlur}
                   fieldValue={signInForm.values.password}
-                  {...signInForm.getFieldProps("password")}
                   errorMessage={signInForm.errors.password}
+                  errors={signInForm.errors.password}
+                  touched={signInForm.touched.password}
+                  {...signInForm.getFieldProps("password")}
                 />
                 <FormButton buttonType="submit" buttonText="Log In" />
               </Box>

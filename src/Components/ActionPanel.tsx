@@ -1,8 +1,8 @@
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import * as React from "react";
-import profileLogo from "../Logos/button_user profile.svg";
-import cartLogo from "../Logos/button_cart.svg";
-import favoriteLogo from "../Logos//favorite.svg";
+import profileLogo from "../Logos/User profile button.svg";
+import cartLogo from "../Logos/Cart.svg";
+import favoriteLogo from "../Logos//Heart.svg";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -22,28 +22,106 @@ const ActionPanel = () => {
     }
   };
 
+  const resolveCartBookAmount = () => {
+    return user?.cart.cartBooks.reduce(
+      (accum, cartBook) => (accum += cartBook.amount),
+      0
+    );
+  };
+
+  const resolveFavoriteBookAmount = () => {
+    return user?.favorite.favoriteBooks.length;
+  };
+
   return (
     <ActionPanelDiv>
       {user?.id ? (
         <ActionsDiv>
-          <Link to={"/cart/" + user.cart.id} >
-            <CustomIcom src={cartLogo} alt="" />
+          <Link to={"/cart/" + user.cart.id}>
+            {user?.cart.cartBooks.length ? (
+              <CustomAmountDiv>
+                <AmountText>{resolveCartBookAmount()}</AmountText>
+              </CustomAmountDiv>
+            ) : null}
+            <CustomCartDiv>
+              <CustomIcom src={cartLogo} alt="" />
+            </CustomCartDiv>
           </Link>
-          <Link to={"/favorite/" + user.favorite.id} >
-            <CustomIcom src={favoriteLogo} alt="" />
+          <Link to={"/favorite/" + user.favorite.id}>
+            {user?.favorite.favoriteBooks.length ? (
+              <CustomAmountDiv>
+                <AmountText>{resolveFavoriteBookAmount()}</AmountText>
+              </CustomAmountDiv>
+            ) : null}
+            <CustomCartDiv>
+              <CustomIcom src={favoriteLogo} alt="" />
+            </CustomCartDiv>
           </Link>
-          <Link to={"/profile"} >
-            <CustomIcom src={profileLogo} alt="" />
+          <Link to={"/profile"}>
+            <CustomCartDiv>
+              <CustomIcom src={profileLogo} alt="" />
+            </CustomCartDiv>
           </Link>
         </ActionsDiv>
       ) : (
-        <CustomLoginButton variant="contained" onClick={handleLoginButtonClick}>
-          <Link to={route}>Log In/ Sign Up</Link>
-        </CustomLoginButton>
+        <Link to={route}>
+          <CustomLoginButton
+            variant="contained"
+            onClick={handleLoginButtonClick}
+          >
+            Log In/ Sign Up
+          </CustomLoginButton>
+        </Link>
       )}
     </ActionPanelDiv>
   );
 };
+
+const AmountText = styled(Typography)`
+  color: #344966;
+  transform: translate(35%, 20%);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: 0em;
+  text-align: left;
+
+  @media (min-width: 834px) and (max-width: 1279px) {
+  }
+  @media (min-width: 320px) and (max-width: 833px) {
+    font-size: 10px;
+    line-height: 11px;
+  }
+`;
+
+const CustomCartDiv = styled.div`
+  background-color: #344966;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  @media (min-width: 834px) and (max-width: 1279px) {
+  }
+  @media (min-width: 320px) and (max-width: 833px) {
+    width: 32.73px;
+    height: 32.73px;
+  }
+`;
+
+const CustomAmountDiv = styled.div`
+  background-color: #bfcc94;
+  border-radius: 50%;
+  width: 23px;
+  height: 23px;
+  z-index: 9999;
+  position: absolute;
+  transform: translate(30px, -5px);
+  @media (min-width: 834px) and (max-width: 1279px) {
+  }
+  @media (min-width: 320px) and (max-width: 833px) {
+    width: 15.81px;
+    height: 15.33px;
+  }
+`;
 
 const CustomLoginButton = styled(Button)`
   background: #344966;
@@ -78,7 +156,8 @@ const CustomLoginButton = styled(Button)`
 `;
 
 const ActionPanelDiv = styled.div`
-  @media (min-width: 834px) and (max-width: 1279px) {}
+  @media (min-width: 834px) and (max-width: 1279px) {
+  }
 
   @media (min-width: 320px) and (max-width: 833px) {
     width: 100%;
@@ -87,14 +166,15 @@ const ActionPanelDiv = styled.div`
 `;
 
 const CustomIcom = styled.img`
-  width: 48px;
-  height: 48px;
-
-  @media (min-width: 834px) and (max-width: 1279px) {}
+  width: 24px;
+  height: 24px;
+  transform: translate(50%, 50%);
+  @media (min-width: 834px) and (max-width: 1279px) {
+  }
 
   @media (min-width: 320px) and (max-width: 833px) {
-    width: 33px;
-    height: 32px;
+    width: 17.7px;
+    height: 17.7px;
   }
 `;
 
@@ -108,7 +188,7 @@ const ActionsDiv = styled.div`
   @media (min-width: 834px) and (max-width: 1279px) {
     margin-left: 81px;
   }
-  
+
   @media (min-width: 320px) and (max-width: 833px) {
     width: 135px;
     gap: 0;

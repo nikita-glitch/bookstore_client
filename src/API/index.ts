@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const privateRoute = axios.create({
-  // baseURL: process.env.BASE_URL,
+  // baseURL: process.env.API_URL,
   baseURL: 'http://localhost:5000/api/v1'
 
 })

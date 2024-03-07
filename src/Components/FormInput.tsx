@@ -16,6 +16,8 @@ const FormInput = (props: {
   blurHandler?: (e: React.ChangeEvent<any>) => void;
   fieldValue?: string;
   errorMessage?: string;
+  errors?: any,
+  touched?: any, 
   width?: string;
 }) => {
   const [hiddenPass, setHiddenPass] = React.useState<boolean>(true);
@@ -62,7 +64,7 @@ const FormInput = (props: {
         />
       </CustomDiv>
       <CustomInputLabel>{props.helperText}</CustomInputLabel>
-      {props.errorMessage && <CustomError>{props.errorMessage}</CustomError>}
+      {props.errors && props.touched ? <CustomError>{props.errorMessage}</CustomError> : null}
     </FormDiv>
   );
 };

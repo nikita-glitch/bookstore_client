@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { signUpSchema } from "../../validationSchemas/authSchemas";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import { signUp } from "../../store/userSlice";
+import { signUpThunk } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import { notify } from "../../Notify";
 
@@ -24,11 +24,13 @@ const SignUpPage = () => {
     validationSchema: signUpSchema,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        const response = await dispatch(signUp(values)).unwrap();
+        const response = await dispatch(signUpThunk(values)).unwrap();
         notify(response.data.message, "succsess");
-        navigate("/profile");
-      } catch (err) {
-        // notify(err);
+        navigate("/profile");        
+      } catch (err: any) {
+        console.log('>>>ERR', err);
+        
+        notify(err.message, "error");
       } finally {
         setSubmitting(false);
       }
@@ -50,8 +52,10 @@ const SignUpPage = () => {
               changeHandler={signUpForm.handleChange}
               fieldValue={signUpForm.values.email}
               blurHandler={signUpForm.handleBlur}
-              {...signUpForm.getFieldProps("email")}
+              errors={signUpForm.errors.email}
+              touched={signUpForm.touched.email}
               errorMessage={signUpForm.errors.email}
+              {...signUpForm.getFieldProps("email")}
             />
             <FormInput
               labelText="Password"
@@ -61,6 +65,8 @@ const SignUpPage = () => {
               changeHandler={signUpForm.handleChange}
               blurHandler={signUpForm.handleBlur}
               fieldValue={signUpForm.values.password}
+              errors={signUpForm.errors.password}
+              touched={signUpForm.touched.password}
               {...signUpForm.getFieldProps("password")}
               errorMessage={signUpForm.errors.password}
             />
@@ -72,6 +78,8 @@ const SignUpPage = () => {
               changeHandler={signUpForm.handleChange}
               blurHandler={signUpForm.handleBlur}
               fieldValue={signUpForm.values.passwordToCompare}
+              errors={signUpForm.errors.passwordToCompare}
+              touched={signUpForm.touched.passwordToCompare}
               {...signUpForm.getFieldProps("passwordToCompare")}
               errorMessage={signUpForm.errors.passwordToCompare}
             />

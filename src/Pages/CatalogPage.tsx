@@ -86,7 +86,7 @@ const CatalogPage = () => {
           <BookCard key={bookItem.id} {...bookItem} />
         ))}
       </CustomCardsDiv>
-      <CustomPagination
+      {total ? <CustomPagination
         count={Math.ceil(total / 12)}
         boundaryCount={3}
         onChange={handlePaginationClick}
@@ -96,7 +96,7 @@ const CatalogPage = () => {
             {...item}
           />
         )}
-      />
+      />: null}
       {!user && (
         <Link to={"/sign-in"} reloadDocument>
           <CustomSignInIcon
@@ -146,7 +146,7 @@ const CustomSignInIcon = styled.img`
 const CustomCatalogDiv = styled.div`
   display: flex;
   flex-direction: column;
-  padding-bottom: 110px;
+  padding-bottom: 140px;
 
   @media (min-width: 834px) and (max-width: 1279px) {
     padding-bottom: 100px;
@@ -207,7 +207,7 @@ const CustomPagination = styled(Pagination)`
 const CustomCardsDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  row-gap: 80px;
+  row-gap: 60px;
   column-gap: 20px;
 
   @media (min-width: 834px) and (max-width: 1279px) {

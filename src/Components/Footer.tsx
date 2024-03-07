@@ -8,6 +8,7 @@ import { RootState } from "../store/store";
 
 const Footer = () => {
   const user = useSelector((state: RootState) => state.users.user);
+  
   return (
     <CustomFooterDiv>
       {/* <ContentDiv> */}
