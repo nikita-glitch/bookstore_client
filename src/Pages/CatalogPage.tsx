@@ -4,7 +4,7 @@ import signInBanner from "../Logos/sign_in_banner.svg";
 import BookBannerSmall from "../Logos/banner.svg";
 import signInBannerSmall from "../Logos/sing in banner.png";
 import { Link, useSearchParams } from "react-router-dom";
-import bookBanner from "../Logos/banner.png";
+import bookBanner from "../Logos/bigbanner.png";
 import { Pagination, PaginationItem, Typography } from "@mui/material";
 import Filters from "../Components/Filters";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,12 +53,7 @@ const CatalogPage = () => {
     ev: React.ChangeEvent<unknown>,
     page: number
   ) => {
-    catalog.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-      inline: "nearest",
-    });
-
+    catalog.current?.scrollIntoView();
     SetOffset(page);
   };
 
@@ -77,11 +72,11 @@ const CatalogPage = () => {
         alt=""
         onClick={handleBookBannerClick}
       />
-      <CustomFilterDiv>
+      <CustomFilterDiv ref={catalog}>
         <CustomText>Catalog</CustomText>
         <Filters />
       </CustomFilterDiv>
-      <CustomCardsDiv ref={catalog}>
+      <CustomCardsDiv >
         {book?.map((bookItem) => (
           <BookCard key={bookItem.id} {...bookItem} />
         ))}
@@ -90,12 +85,6 @@ const CatalogPage = () => {
         count={Math.ceil(total / 12)}
         boundaryCount={3}
         onChange={handlePaginationClick}
-        renderItem={(item) => (
-          <PaginationItem
-            // slots={{ previous: }}
-            {...item}
-          />
-        )}
       />: null}
       {!user && (
         <Link to={"/sign-in"} reloadDocument>
@@ -115,7 +104,7 @@ const CustomIcon = styled.img`
   width: 100%;
   height: 400px;
   padding-top: 40px;
-
+  cursor: pointer;
   @media (min-width: 834px) and (max-width: 1279px) {
     height: auto;
     padding-top: 40px;

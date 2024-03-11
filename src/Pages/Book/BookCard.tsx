@@ -58,11 +58,15 @@ const BookCard: FC<Book> = (book: Book) => {
     return favoriteBooks?.some((favBook) => favBook.book?.id === book.id);
   };
 
+  const handleLinkClick = () => {
+    window.scrollTo(0, 0)
+  }
+
   return (
     <CustomCard>
       <CustomCardMedia>
         <Link to={"/books/" + book.id}>
-          <BookImg src={"http://localhost:5000/" + book.photos?.photo} alt="" />
+          <BookImg onClick={handleLinkClick} src={"http://localhost:5000/" + book.photos?.photo} alt="" />
         </Link>
         <CustomIcon
           src={checkIsInFavorite() ? favIcoClicked : favIco}
@@ -86,7 +90,7 @@ const BookCard: FC<Book> = (book: Book) => {
       </CustomCardContent>
       <CardActions disableSpacing={true} sx={{ padding: 0 }}>
         <Link to={"/books/" + book.id}>
-          <CustomButton>${book.price} USD</CustomButton>
+          <CustomButton onClick={handleLinkClick}>${book.price} USD</CustomButton>
         </Link>
       </CardActions>
     </CustomCard>

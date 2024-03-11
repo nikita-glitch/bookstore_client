@@ -67,7 +67,7 @@ const CustomDiv = styled.div`
 
 const FavoritePageDiv = styled.div`
   width: 100%;
-  padding: 20px 0 114px 0;
+  padding: 20px 0 114px 118px;
 
   @media (min-width: 835px) and (max-width: 1279px) {
     padding: 20px 0 64px 0;
@@ -94,7 +94,7 @@ const EmptyFavoriteDiv = styled.div`
   display: flex;
   justify-content: space-around;
   padding: 118px 0 158px 0;
-
+  gap: 109px;
   @media (min-width: 835px) and (max-width: 1279px) {
   }
 

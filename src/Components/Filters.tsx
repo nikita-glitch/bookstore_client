@@ -7,6 +7,7 @@ import {
   Typography,
   Checkbox,
   ListItemText,
+  Chip,
 } from "@mui/material";
 import React, { FC, useState } from "react";
 import styled from "styled-components";
@@ -17,6 +18,16 @@ import { Genre } from "../interfaces/interfaces";
 
 const MAX = 100;
 const MIN = 0;
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const Filters: FC = () => {
   const [value, setValue] = useState<number[]>([0, 100]);
@@ -27,11 +38,9 @@ const Filters: FC = () => {
   });
 
   React.useEffect(() => {
-    getAllGenres()
-      .then((response) => {
-        setGenres(response?.data);
-      })
-      .catch((error) => console.log(error));
+    getAllGenres().then((response) => {
+      setGenres(response?.data);
+    });
   }, []);
 
   const handleSortByChange = (event: SelectChangeEvent<any>) => {
@@ -77,15 +86,19 @@ const Filters: FC = () => {
           <CustomInputLabel
             id="demo-simple-select-label"
             sx={{ color: "#344966" }}
+            disableAnimation={true}
+            shrink={false}
           >
             Genre
           </CustomInputLabel>
           <CustomSelect
+            MenuProps={MenuProps}
             labelId="demo-simple-select-label"
             multiple
             value={searchParams.getAll("genreId") || ""}
             label="Genre"
             onChange={handleGenreChange}
+            renderValue={(selected) => <></>}
           >
             <MenuItem value="" sx={{ color: "#344966" }}>
               <em>None</em>
@@ -95,7 +108,7 @@ const Filters: FC = () => {
                 key={genre.id}
                 value={genre.id}
                 sx={{ color: "#344966" }}
-                >
+              >
                 <Checkbox
                   checked={handleChecked(genre.id)}
                   sx={{
@@ -112,7 +125,12 @@ const Filters: FC = () => {
       </CustomDiv>
       <CustomDiv>
         <FormControl sx={{ width: "100%" }}>
-          <CustomInputLabel id="label" sx={{ color: "#344966" }}>
+          <CustomInputLabel
+            id="label"
+            sx={{ color: "#344966" }}
+            disableAnimation={true}
+            shrink={false}
+          >
             Price
           </CustomInputLabel>
           <CustomSelect labelId="label" label="Price">
@@ -140,6 +158,8 @@ const Filters: FC = () => {
           <CustomInputLabel
             id="demo-simple-select-label"
             sx={{ color: "#344966" }}
+            disableAnimation={true}
+            shrink={false}
           >
             Sort by
           </CustomInputLabel>
@@ -147,7 +167,12 @@ const Filters: FC = () => {
             labelId="demo-simple-select-label"
             value={searchParams.get("sort")}
             onChange={handleSortByChange}
-            sx={{ border: 'none' }}
+            sx={{
+              "&.MuiInputBase-root": {
+                background: "#fff",
+              },
+            }}
+            renderValue={(selected) => <></>}
           >
             <CustomMenuItem value="">
               <em>None</em>
@@ -166,12 +191,15 @@ const Filters: FC = () => {
 };
 
 const CustomInputLabel = styled(InputLabel)`
-  font-family:  "Poppins";
+  font-family: "Poppins";
   font-size: 18px;
   font-weight: 500;
   line-height: 28px;
   letter-spacing: 0.75px;
   text-align: center;
+  &.Mui-focused {
+    color: #344966;
+  }
 `;
 
 const CustomMenuItem = styled(MenuItem)`
@@ -235,7 +263,9 @@ const CustomSelect = styled(Select)`
   background: #f0f4ef;
   border: none;
   border-radius: 16px;
-
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
   @media (min-width: 835px) and (max-width: 1279px) {
     width: 100%;
   }

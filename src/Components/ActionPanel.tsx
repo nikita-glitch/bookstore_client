@@ -38,7 +38,7 @@ const ActionPanel = () => {
       {user?.id ? (
         <ActionsDiv>
           <Link to={"/cart/" + user.cart.id}>
-            {user?.cart.cartBooks.length ? (
+            {user?.cart.cartBooks?.length ? (
               <CustomAmountDiv>
                 <AmountText>{resolveCartBookAmount()}</AmountText>
               </CustomAmountDiv>
@@ -48,7 +48,7 @@ const ActionPanel = () => {
             </CustomCartDiv>
           </Link>
           <Link to={"/favorite/" + user.favorite.id}>
-            {user?.favorite.favoriteBooks.length ? (
+            {user?.favorite.favoriteBooks?.length ? (
               <CustomAmountDiv>
                 <AmountText>{resolveFavoriteBookAmount()}</AmountText>
               </CustomAmountDiv>

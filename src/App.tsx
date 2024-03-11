@@ -18,6 +18,7 @@ import BookPage from "./Pages/Book/BookPage";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import styled from "styled-components";
+import { Skeleton } from "@mui/material";
 
 const App = () => {
   const [init, setInit] = useState<boolean>(false);
@@ -35,21 +36,42 @@ const App = () => {
 
   return (
     <div className="App">
-      <CustomNavDiv>
-        <ToastContainer
-          position="top-center"
-          autoClose={2000}
-          hideProgressBar
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-        <NavBar />
-      </CustomNavDiv>
+      {isLoading ? (
+        <Skeleton>
+          <CustomNavDiv>
+            <ToastContainer
+              position="top-center"
+              autoClose={2000}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+            <NavBar />
+          </CustomNavDiv>
+        </Skeleton>
+      ) : (
+        <CustomNavDiv>
+          <ToastContainer
+            position="top-center"
+            autoClose={2000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          <NavBar />
+        </CustomNavDiv>
+      )}
+
       <CustomMainDiv>
         <Routes>
           <Route path="/books" element={<CatalogPage />} />

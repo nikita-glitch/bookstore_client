@@ -9,6 +9,9 @@ import { RootState } from "../store/store";
 const Footer = () => {
   const user = useSelector((state: RootState) => state.users.user);
   
+  const handleMenuClick = () => {
+    window.scrollTo(0, 0)
+  }
   return (
     <CustomFooterDiv>
       {/* <ContentDiv> */}
@@ -21,16 +24,16 @@ const Footer = () => {
       </CustomContactsDiv>
       <CustomMenu>
         <Link to={"/"}>
-          <CustomMenuItem>Home page</CustomMenuItem>
+          <CustomMenuItem onClick={handleMenuClick}>Home page</CustomMenuItem>
         </Link>
         <Link to={"/books"}>
-          <CustomMenuItem>Catalog</CustomMenuItem>
+          <CustomMenuItem onClick={handleMenuClick}>Catalog</CustomMenuItem>
         </Link>
         <Link to={"/profile"}>
-          <CustomMenuItem>My account</CustomMenuItem>
+          <CustomMenuItem onClick={handleMenuClick}>My account</CustomMenuItem>
         </Link>
         <Link to={"/cart/" + user?.cart.id}>
-          <CustomMenuItem>Cart</CustomMenuItem>
+          <CustomMenuItem onClick={handleMenuClick}>Cart</CustomMenuItem>
         </Link>
       </CustomMenu>
       <div>

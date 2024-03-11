@@ -32,6 +32,7 @@ const ProfilePage = () => {
       const file = new FormData();
       file.append("file", ev.target.files[0]);
       const response = await dispatch(addUserAvatar(file)).unwrap();
+      
       notify(response.message, "succsess");
     } catch (err: any) {
       notify(err.data.message, "error");

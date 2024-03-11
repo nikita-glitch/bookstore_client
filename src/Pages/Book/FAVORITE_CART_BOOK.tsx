@@ -60,7 +60,7 @@ const FAVORITE_CART_BOOK: FC<CartBooks> = (
   return (
     <CartBookDiv>
       <CustomBookPhoto
-        src={BASE_URL! + currentBook.book.photos?.photo}
+        src={"http://localhost:5000/" + currentBook.book.photos?.photo}
         alt=""
       />
       <CustomDiv>

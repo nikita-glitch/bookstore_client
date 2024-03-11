@@ -25,11 +25,9 @@ const SignUpPage = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const response = await dispatch(signUpThunk(values)).unwrap();
-        notify(response.data.message, "succsess");
+        notify(response.message, "succsess");
         navigate("/profile");        
-      } catch (err: any) {
-        console.log('>>>ERR', err);
-        
+      } catch (err: any) {        
         notify(err.message, "error");
       } finally {
         setSubmitting(false);

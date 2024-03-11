@@ -17,8 +17,8 @@ try {
   const response = await signIn(values);
   return response.data;
 
-} catch(err) {
-return rejectWithValue(err)
+} catch(err: any) {
+return rejectWithValue(err.response.data)
 }
   }
 );
@@ -32,10 +32,9 @@ export const signUpThunk = createAsyncThunk(
   },  {rejectWithValue}) => {
     try {
       const response = await signUp(values);
-      console.log("thunk>", response);
       return response.data;
-    }  catch(err) {
-      return rejectWithValue(err)
+    }  catch(err: any) {
+      return rejectWithValue(err.response.data)
       }
   }
 );
@@ -197,7 +196,7 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(signInThunk.fulfilled, (state, action: any) => {
-      const { token, user } = action.payload;
+      const { token, user } = action.payload;      
       localStorage.setItem("token", token);
       state.user = user;
       state.isLoading = false;
@@ -212,7 +211,9 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(signUpThunk.fulfilled, (state, action) => {
-      state.user = action.payload.user;
+      const { token, user } = action.payload.tokenData;            
+      localStorage.setItem("token", token);
+      state.user = user;
       state.isLoading = false;
     });
 

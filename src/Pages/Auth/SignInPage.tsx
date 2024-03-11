@@ -25,10 +25,8 @@ const SignInPage = () => {
       try {
         await dispatch(signInThunk(values)).unwrap();
         navigate("/profile");
-      } catch (err: any) {
-        if (err.code === "ERR_BAD_REQUEST") {
-          notify("Wrong email or password", "error");
-        }
+      } catch (err: any) {        
+        notify(err.message, "error");
       } finally {
         setSubmitting(false);
       }

@@ -20,3 +20,6 @@ span.MuiTypography-root {
 button.MuiButton-root {
   font-family: "Poppins", sans-serif;
 }
+div.MuiPaper-root {
+  transition: none !important;
+}

@@ -6,7 +6,7 @@ import { AppDispatch, RootState } from "../store/store";
 import { useSelector } from "react-redux";
 import { Box, Button, Typography } from "@mui/material";
 import FormButton from "../Components/FormButton";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { CartBooks } from "../interfaces/interfaces";
 import { useEffect } from "react";
 import FAVORITE_CART_BOOK from "./Book/FAVORITE_CART_BOOK";
@@ -75,7 +75,11 @@ const CartPage = () => {
             <StyledSum>{countTotal()}</StyledSum>
           </CustomTotal>
           <ButtonsGroup>
-            <ShoppingButton>Continue shopping</ShoppingButton>
+            <ShoppingButton>
+              <Link to='/books'>
+                Continue shopping
+              </Link>
+              </ShoppingButton>
             <CheckoutButton>Checkout</CheckoutButton>
           </ButtonsGroup>
         </TotalDiv>
@@ -119,7 +123,7 @@ const CartPageDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 20px 0 114px 0;
+  padding: 20px 0 114px 118px;
 
   @media (min-width: 834px) and (max-width: 1279px) {
     padding: 20px 0 104px 0;
@@ -150,7 +154,6 @@ const ButtonsGroup = styled.div`
 const ShoppingButton = styled(Button)`
   width: 268px;
   height: 48px;
-  padding: 10px, 50px, 10px, 50px;
   border-radius: 16px;
   border: 1px solid #0d1821;
   gap: 10px;
@@ -160,6 +163,9 @@ const ShoppingButton = styled(Button)`
   line-height: 28px;
   letter-spacing: 0.75px;
   text-align: center;
+  :visited {
+      color: #0d1821;
+  }
 
   @media (min-width: 834px) and (max-width: 1279px) {
   }
@@ -230,7 +236,7 @@ const EmptyCartDiv = styled.div`
   display: flex;
   justify-content: space-around;
   padding: 118px 0 158px 0;
-
+  gap: 109px;
   @media (min-width: 834px) and (max-width: 1279px) {
     padding: 105px 15px 104px 15px;
     gap: 62px;
